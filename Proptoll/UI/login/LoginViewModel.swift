@@ -8,7 +8,7 @@ enum APIError: Error {
 }
 
 class LoginViewModel {
-    private let baseURL = "https://api.qa.proptoll.com/api/" // Replace with your actual API base URL
+    private let baseURL = "https://api.staging.proptoll.com/api" 
     
     func login(phoneNumber: String) async throws -> LoginResponse {
         guard let url = URL(string: "\(baseURL)/consumer/login") else {
@@ -40,8 +40,4 @@ class LoginViewModel {
             throw APIError.networkError(error)
         }
     }
-}
-
-struct LoginResponse: Codable {
-    let message: String
 }

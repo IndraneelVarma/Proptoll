@@ -4,7 +4,7 @@ import Foundation
 struct LoginView: View {
     @State private var phoneNumber: String = ""
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-    @State private var token: String = ""
+    @State private var key: String = ""
     @State private var errorMessage: String?
     @State private var isLoading = false
     @State private var showOtpScreen = false
@@ -55,15 +55,14 @@ struct LoginView: View {
                                     do {
                                         isLoading = true
                                         let response = try await viewModel.login(phoneNumber: phoneNumber)
-                                        token = response.message
+                                        key = response.message
                                         showOtpScreen = true
                                         errorMessage = nil
                                     } catch {
                                         errorMessage = error.localizedDescription
-                                        token = ""
+                                        key = ""
                                     }
                                     isLoading = false
-                                    print(token)
                                 }
                             }
                         } label: {
@@ -75,7 +74,7 @@ struct LoginView: View {
                                 .padding()
                         }
                         .navigationDestination(isPresented: $showOtpScreen, destination: {
-                            OTPView(phoneNumber: phoneNumber, message: token)
+                            OTPView(phoneNumber: phoneNumber, message: key)
                         })
                         .disabled(isLoading)
                         
@@ -97,7 +96,7 @@ struct LoginView: View {
                             }
                         }
                         
-                        if !token.isEmpty {
+                        if !key.isEmpty {
                             Text("success")
                                 .foregroundColor(.green)
                                 .padding()

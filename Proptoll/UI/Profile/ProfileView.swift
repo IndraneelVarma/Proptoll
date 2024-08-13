@@ -44,79 +44,12 @@ struct ProfileView: View {
                         RoundedRectangle(cornerRadius: 10)
                     }
                     .frame(maxWidth: .infinity, maxHeight: 2)
-                    HStack{
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 30)
-                            .padding()
-                            .foregroundStyle(.orange)
-                        VStack(alignment: .leading){
-                            Text("Profile")
-                                .font(.title)
-                                .bold()
-                                .foregroundStyle(.white)
-                            Text("Account details")
-                                .font(.system(size: 13))
-                                .foregroundStyle(.white)
-                            HStack{
-                                RoundedRectangle(cornerRadius: 10)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: 2)
-                        }
-                        Spacer()
-                    }
-                    .background(.gray)
                     
+                    ProfileCardView(image: "person.fill", mainText: "Profile", subText: "Account details")
                     
-                    HStack{
-                        Image(systemName: "person.2.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 30)
-                            .padding()
-                            .foregroundStyle(.orange)
-                        VStack(alignment: .leading){
-                            Text("User Guide")
-                                .font(.title)
-                                .bold()
-                                .foregroundStyle(.white)
-                            Text("View app features")
-                                .font(.system(size: 13))
-                                .foregroundStyle(.white)
-                            HStack{
-                                RoundedRectangle(cornerRadius: 10)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: 2)
-                        }
-                        Spacer()
-                    }
-                    .background(.gray)
+                    ProfileCardView(image: "person.2.circle.fill", mainText: "User Guide", subText: "View app features")
                     
-                    
-                    HStack{
-                        Image(systemName: "person.2.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 30)
-                            .padding()
-                            .foregroundStyle(.orange)
-                        VStack(alignment: .leading){
-                            Text("What's new")
-                                .font(.title)
-                                .bold()
-                                .foregroundStyle(.white)
-                            Text("View the changes added in current version")
-                                .font(.system(size: 13))
-                                .foregroundStyle(.white)
-                            HStack{
-                                RoundedRectangle(cornerRadius: 10)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: 2)
-                        }
-                        Spacer()
-                    }
-                    .background(.gray)
+                    ProfileCardView(image: "person.2.circle.fill", mainText: "What's New", subText: "View the changes added in the current verison")
                     
                     
                 }
@@ -275,3 +208,4 @@ struct ProfileView: View {
 #Preview {
     ProfileView()
 }
+

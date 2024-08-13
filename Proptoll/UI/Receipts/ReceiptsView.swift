@@ -74,7 +74,7 @@ struct ReceiptsView: View {
                         RoundedRectangle(cornerRadius: 10)
                         
                     }
-                    .frame(width: .infinity, height: 2)
+                    .frame(maxWidth: .infinity, maxHeight: 2)
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     
                     HStack{
