@@ -10,6 +10,7 @@ import Foundation
 struct OTPResponse: Codable {
     let message: String
     let name: String
+    let token: String
 }
 struct ResendResponse: Codable
 {

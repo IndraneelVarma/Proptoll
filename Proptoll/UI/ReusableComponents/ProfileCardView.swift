@@ -39,5 +39,5 @@ struct ProfileCardView: View {
 }
 
 #Preview {
-    ProfileView()
+    SettingsView()
 }

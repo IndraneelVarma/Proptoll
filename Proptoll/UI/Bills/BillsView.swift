@@ -26,13 +26,15 @@ struct BillsView: View {
                                 .resizable()
                                 .frame(width: 25, height: 25)
                                 .padding()
+                                .foregroundColor(.white)
                             
                             Text("Bills")
+                                .foregroundColor(.white)
                             
                             Spacer()
                             
                             
-                            NavigationLink(destination: ProfileView()) {
+                            NavigationLink(destination: SettingsView()) {
                                 Image(systemName: "person.crop.circle.fill")
                                     .resizable()
                                     .frame(width: 25, height: 25)
@@ -44,20 +46,7 @@ struct BillsView: View {
                         
                     }.background(Color.gray)
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.purple)
-                        .frame(width: 370, height: 30)
-                        .overlay(
-                            HStack{
-                                Image(systemName: "chevron.down")
-                                Text("Dummy Plot Dummy Data")
-                            }
-                                .frame(width:330, alignment: .leading)
-                        )
-                        .padding(EdgeInsets(top: 15, leading: 10, bottom: 10, trailing: 10))
-                        .onTapGesture {
-                            showSheet.toggle()
-                        }
+                    TopBarView(showSheet: $showSheet)
                     
                     HStack{
                         Text("Total Due")

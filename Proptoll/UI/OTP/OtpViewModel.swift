@@ -1,18 +1,10 @@
 import Foundation
 
-enum OtpAPIError: Error {
-    case invalidURL
-    case networkError(Error)
-    case invalidResponse
-    case decodingError
-}
-
 class OtpViewModel {
-    private let baseURL = "https://api.staging.proptoll.com/api" 
+    private let baseURL = baseApiUrl
     
     func verify(otp: String, phoneNumber: String, verificationKey: String) async throws -> OTPResponse {
         guard let url = URL(string: "\(baseURL)/consumer/verifyotp") else {
-            print("scam2")
             throw APIError.invalidURL
         }
         

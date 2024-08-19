@@ -1,9 +1,4 @@
-//
-//  OTPView.swift
-//  Proptoll
-//
-//  Created by Indraneel Varma on 12/08/24.
-//
+//line 1
 
 import SwiftUI
 
@@ -11,8 +6,6 @@ struct OTPView: View {
     @State var phoneNumber: String
     @State var message: String
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-    @State private var key: String = ""
-    @State private var name = ""
     @State private var errorMessage: String?
     @State private var isLoading = false
     @State private var showHomePage = false
@@ -37,34 +30,41 @@ struct OTPView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                OtpFieldView(otp: $otp, numberOfFields: 6)
+                OtpTextField(otp: $otp)
                     .padding()
                 
                 Button {
-                    Task {
-                        do {
-                            isLoading = true
-                            let response = try await viewModel.verify(otp: otp, phoneNumber: phoneNumber, verificationKey: message)
-                            key = response.message
-                            name = response.name
-                            errorMessage = nil
-                            showHomePage = true
-                        } catch {
-                            errorMessage = error.localizedDescription
-                            key = ""
+                    if(otp.count == 26)
+                    {
+                        Task {
+                            do {
+                                isLoading = true
+                                let response = try await viewModel.verify(otp: otp, phoneNumber: phoneNumber, verificationKey: message)
+                                jwtToken = response.token
+                                mainName = response.name
+                                errorMessage = nil
+                                showHomePage = true
+                            } catch {
+                                errorMessage = error.localizedDescription
+                                jwtToken = ""
+                            }
+                            isLoading = false
                         }
-                        isLoading = false
+                    }
+                    else
+                    {
+                        errorMessage = "Please enter 6 digits"
                     }
                 } label: {
                     Text("Verify OTP")
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                         .padding(EdgeInsets(top: 10, leading: 50, bottom: 10, trailing: 50))
                         .background(Color.purple)
                         .cornerRadius(20)
                         .padding()
                 }
                 .navigationDestination(isPresented: $showHomePage, destination: {
-                    WelcomeView(name: name)
+                    WelcomeView()
                 })
                 .disabled(isLoading)
                 
@@ -74,19 +74,19 @@ struct OTPView: View {
                             isLoading = true
                             let response = try await viewModel.resend(phoneNumber: phoneNumber, message: message)
                             print(response.message)
-                            key = response.message
+                            jwtToken = response.message
                             errorMessage = nil
                             resendButtonDisabled = true
                             timeRemaining = 90
                         } catch {
                             errorMessage = error.localizedDescription
-                            key = ""
+                            jwtToken = ""
                         }
                         isLoading = false
                     }
                 } label: {
                     Text(resendButtonDisabled ? "Resend (\(timeRemaining)s)" : "Resend OTP")
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                         .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
                         .background(resendButtonDisabled ? .gray : .purple)
                         .cornerRadius(20)
@@ -100,7 +100,7 @@ struct OTPView: View {
                 }
                 
                 
-                if key == "OTP Matched" {
+                if jwtToken.count > 1 {
                     Text("success")
                         .foregroundColor(.green)
                         .padding()

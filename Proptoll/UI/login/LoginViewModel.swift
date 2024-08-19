@@ -8,7 +8,7 @@ enum APIError: Error {
 }
 
 class LoginViewModel {
-    private let baseURL = "https://api.staging.proptoll.com/api" 
+    private let baseURL = baseApiUrl
     
     func login(phoneNumber: String) async throws -> LoginResponse {
         guard let url = URL(string: "\(baseURL)/consumer/login") else {

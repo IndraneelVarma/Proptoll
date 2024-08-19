@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct SettingsView: View {
     @State private var changeTheme = false
     @State private var isNotificationOn = false
     @Environment(\.colorScheme) private var scheme
@@ -22,7 +22,7 @@ struct ProfileView: View {
                         .frame(height: 30)
                         .padding()
                         .foregroundStyle(.white)
-                    Text("Dummy Name")
+                    Text(mainName)
                         .font(.title)
                         .bold()
                         .foregroundStyle(.white)
@@ -45,7 +45,10 @@ struct ProfileView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: 2)
                     
-                    ProfileCardView(image: "person.fill", mainText: "Profile", subText: "Account details")
+                    NavigationLink(destination: ProfileView()){
+                        ProfileCardView(image: "person.fill", mainText: "Profile", subText: "Account details")
+                    }
+                    .foregroundStyle(.white)
                     
                     ProfileCardView(image: "person.2.circle.fill", mainText: "User Guide", subText: "View app features")
                     
@@ -128,7 +131,7 @@ struct ProfileView: View {
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.primary))
+                            .fill(Color.white))
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 21))
                     
@@ -155,7 +158,7 @@ struct ProfileView: View {
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.primary))
+                            .fill(Color.white))
                     }
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                     
@@ -206,6 +209,6 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    SettingsView()
 }
 

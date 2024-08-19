@@ -65,7 +65,7 @@ struct ThemeChangeView: View {
                 }
             }
             .padding(3)
-            .background(.primary.opacity(0.6), in: .capsule)
+            .background(.white.opacity(0.6), in: .capsule)
             .padding(.top, 20)
             
         }
@@ -85,7 +85,7 @@ struct ThemeChangeView: View {
 }
 
 #Preview {
-   ProfileView()
+   SettingsView()
 }
 
 enum Theme: String, CaseIterable{

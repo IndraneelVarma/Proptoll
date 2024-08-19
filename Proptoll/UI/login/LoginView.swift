@@ -56,6 +56,7 @@ struct LoginView: View {
                                         isLoading = true
                                         let response = try await viewModel.login(phoneNumber: phoneNumber)
                                         key = response.message
+                                        mainPhoneNumber = phoneNumber
                                         showOtpScreen = true
                                         errorMessage = nil
                                     } catch {
@@ -67,7 +68,7 @@ struct LoginView: View {
                             }
                         } label: {
                             Text("Login")
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                                 .padding(EdgeInsets(top: 10, leading: 120, bottom: 10, trailing: 120))
                                 .background(Color.purple)
                                 .cornerRadius(20)

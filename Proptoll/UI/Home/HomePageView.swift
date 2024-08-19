@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomePageView: View{
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
+    @StateObject var viewModel = ProfileViewModel()
     var body: some View {
         TabView {
             NoticeBoardView()
@@ -28,6 +29,9 @@ struct HomePageView: View{
                     Image(systemName: "newspaper")
                     Text("Receipts")
                 }
+        }
+        .onAppear(){
+                viewModel.fetchProfile(authToken: jwtToken)
         }
         .preferredColorScheme(userTheme.colorScheme)
         .navigationBarBackButtonHidden(true)

@@ -8,21 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		F72A31772C6A052700B0328D /* ProfileCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72A31762C6A052700B0328D /* ProfileCardView.swift */; };
-		F739723A2C65E74C00F3454A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73972392C65E74C00F3454A /* ProfileView.swift */; };
+		F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73972392C65E74C00F3454A /* SettingsView.swift */; };
 		F7519A122C6A0D8300B02D92 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A112C6A0D8300B02D92 /* WelcomeView.swift */; };
 		F7519A142C6A262700B02D92 /* OtpResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A132C6A262700B02D92 /* OtpResponseModel.swift */; };
 		F7519A162C6A265100B02D92 /* LoginResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A152C6A265100B02D92 /* LoginResponseModel.swift */; };
+		F7519A182C6B319400B02D92 /* OtpTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A172C6B319400B02D92 /* OtpTextField.swift */; };
+		F7519A1C2C6B52DD00B02D92 /* NoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */; };
+		F7519A202C6B5F5B00B02D92 /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A1F2C6B5F5B00B02D92 /* NoticeViewModel.swift */; };
+		F7519A272C6B89F500B02D92 /* HtmlToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A262C6B89F500B02D92 /* HtmlToString.swift */; };
 		F751C1662C63969C00F6B5CE /* BillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751C1652C63969C00F6B5CE /* BillsView.swift */; };
 		F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751C1792C64BA2500F6B5CE /* HomePageView.swift */; };
 		F751C17D2C64C85D00F6B5CE /* BillsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */; };
 		F753700F2C64D230007BFE92 /* ReceiptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753700E2C64D230007BFE92 /* ReceiptsView.swift */; };
 		F75370112C64D27D007BFE92 /* ReceiptsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370102C64D27D007BFE92 /* ReceiptsCardView.swift */; };
 		F75370162C64D6D4007BFE92 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370152C64D6D4007BFE92 /* SheetView.swift */; };
-		F753701C2C65CB95007BFE92 /* NoticeBoardCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753701B2C65CB95007BFE92 /* NoticeBoardCardViewModel.swift */; };
-		F753701E2C65CBE3007BFE92 /* ArticleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753701D2C65CBE3007BFE92 /* ArticleData.swift */; };
 		F75370202C65CC09007BFE92 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753701F2C65CC09007BFE92 /* NewsView.swift */; };
 		F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */; };
-		F7C6DACF2C69EAC600980E6A /* OtpFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C6DACE2C69EAC600980E6A /* OtpFieldView.swift */; };
+		F78053AF2C6F5A7100242BF8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053AE2C6F5A7100242BF8 /* ProfileView.swift */; };
+		F78053B12C6F5BBD00242BF8 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B02C6F5BBD00242BF8 /* TopBarView.swift */; };
+		F78053B52C73059400242BF8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B42C73059400242BF8 /* ProfileViewModel.swift */; };
+		F78053B72C73065200242BF8 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B62C73065200242BF8 /* ProfileModel.swift */; };
+		F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */; };
+		F7C12AA62C733983003F4AF4 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA52C733983003F4AF4 /* CustomColors.swift */; };
+		F7C12AA82C7344C0003F4AF4 /* NoticeSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */; };
+		F7C12AAA2C7362AC003F4AF4 /* jsonToUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */; };
 		F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C6DAD02C69EEE400980E6A /* OtpViewModel.swift */; };
 		F7E4D7952C66154D00405CFE /* ThemeChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E4D7942C66154D00405CFE /* ThemeChangeView.swift */; };
 		F7E4D7A42C69D9F400405CFE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E4D7A32C69D9F400405CFE /* LoginViewModel.swift */; };
@@ -38,21 +47,30 @@
 
 /* Begin PBXFileReference section */
 		F72A31762C6A052700B0328D /* ProfileCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardView.swift; sourceTree = "<group>"; };
-		F73972392C65E74C00F3454A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F73972392C65E74C00F3454A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F7519A112C6A0D8300B02D92 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F7519A132C6A262700B02D92 /* OtpResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpResponseModel.swift; sourceTree = "<group>"; };
 		F7519A152C6A265100B02D92 /* LoginResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseModel.swift; sourceTree = "<group>"; };
+		F7519A172C6B319400B02D92 /* OtpTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpTextField.swift; sourceTree = "<group>"; };
+		F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeModel.swift; sourceTree = "<group>"; };
+		F7519A1F2C6B5F5B00B02D92 /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		F7519A262C6B89F500B02D92 /* HtmlToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlToString.swift; sourceTree = "<group>"; };
 		F751C1652C63969C00F6B5CE /* BillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsView.swift; sourceTree = "<group>"; };
 		F751C1792C64BA2500F6B5CE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsCardView.swift; sourceTree = "<group>"; };
 		F753700E2C64D230007BFE92 /* ReceiptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsView.swift; sourceTree = "<group>"; };
 		F75370102C64D27D007BFE92 /* ReceiptsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsCardView.swift; sourceTree = "<group>"; };
 		F75370152C64D6D4007BFE92 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
-		F753701B2C65CB95007BFE92 /* NoticeBoardCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardCardViewModel.swift; sourceTree = "<group>"; };
-		F753701D2C65CBE3007BFE92 /* ArticleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleData.swift; sourceTree = "<group>"; };
 		F753701F2C65CC09007BFE92 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardcardView.swift; sourceTree = "<group>"; };
-		F7C6DACE2C69EAC600980E6A /* OtpFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpFieldView.swift; sourceTree = "<group>"; };
+		F78053AE2C6F5A7100242BF8 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F78053B02C6F5BBD00242BF8 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		F78053B42C73059400242BF8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		F78053B62C73065200242BF8 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		F7C12AA52C733983003F4AF4 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
+		F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSearchBar.swift; sourceTree = "<group>"; };
+		F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonToUrl.swift; sourceTree = "<group>"; };
 		F7C6DAD02C69EEE400980E6A /* OtpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpViewModel.swift; sourceTree = "<group>"; };
 		F7E4D7942C66154D00405CFE /* ThemeChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChangeView.swift; sourceTree = "<group>"; };
 		F7E4D7A32C69D9F400405CFE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -82,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				F75370152C64D6D4007BFE92 /* SheetView.swift */,
-				F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */,
 				F72A31762C6A052700B0328D /* ProfileCardView.swift */,
+				F78053B02C6F5BBD00242BF8 /* TopBarView.swift */,
 			);
 			path = ReusableComponents;
 			sourceTree = "<group>";
@@ -96,6 +114,16 @@
 			path = Welcome;
 			sourceTree = "<group>";
 		};
+		F78053B82C731E7600242BF8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				F78053AE2C6F5A7100242BF8 /* ProfileView.swift */,
+				F78053B42C73059400242BF8 /* ProfileViewModel.swift */,
+				F78053B62C73065200242BF8 /* ProfileModel.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		F7C6DAD22C69FDB100980E6A /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +132,7 @@
 				F7C6DADC2C69FF0C00980E6A /* Receipts */,
 				F7C6DADB2C69FEA800980E6A /* Bills */,
 				F7C6DADA2C69FE8700980E6A /* Noticeboard */,
-				F7C6DAD72C69FE3F00980E6A /* Profile */,
+				F7C6DAD72C69FE3F00980E6A /* Settings */,
 				F7C6DAD62C69FE2500980E6A /* Home */,
 				F7C6DAD52C69FDE800980E6A /* OTP */,
 				F7C6DAD32C69FDBA00980E6A /* login */,
@@ -126,9 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				F7E4D7A52C69E6A100405CFE /* OtpView.swift */,
-				F7C6DACE2C69EAC600980E6A /* OtpFieldView.swift */,
 				F7C6DAD02C69EEE400980E6A /* OtpViewModel.swift */,
 				F7519A132C6A262700B02D92 /* OtpResponseModel.swift */,
+				F7519A172C6B319400B02D92 /* OtpTextField.swift */,
 			);
 			path = OTP;
 			sourceTree = "<group>";
@@ -141,21 +169,24 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		F7C6DAD72C69FE3F00980E6A /* Profile */ = {
+		F7C6DAD72C69FE3F00980E6A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				F73972392C65E74C00F3454A /* ProfileView.swift */,
+				F73972392C65E74C00F3454A /* SettingsView.swift */,
+				F78053B82C731E7600242BF8 /* Profile */,
 			);
-			path = Profile;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		F7C6DADA2C69FE8700980E6A /* Noticeboard */ = {
 			isa = PBXGroup;
 			children = (
 				F7FE62F92C634E12004049A1 /* NoticeBoardView.swift */,
-				F753701B2C65CB95007BFE92 /* NoticeBoardCardViewModel.swift */,
+				F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */,
+				F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */,
 				F753701F2C65CC09007BFE92 /* NewsView.swift */,
-				F753701D2C65CBE3007BFE92 /* ArticleData.swift */,
+				F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */,
+				F7519A1F2C6B5F5B00B02D92 /* NoticeViewModel.swift */,
 			);
 			path = Noticeboard;
 			sourceTree = "<group>";
@@ -198,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				F7FE62E62C633793004049A1 /* ProptollApp.swift */,
+				F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */,
 				F7FE62E82C633793004049A1 /* ContentView.swift */,
 				F7C6DAD22C69FDB100980E6A /* UI */,
 				F7FE62FF2C636C70004049A1 /* Utilities */,
@@ -220,6 +252,9 @@
 			children = (
 				F7E4D7942C66154D00405CFE /* ThemeChangeView.swift */,
 				F7FE62FD2C636C47004049A1 /* HTMLReader.swift */,
+				F7519A262C6B89F500B02D92 /* HtmlToString.swift */,
+				F7C12AA52C733983003F4AF4 /* CustomColors.swift */,
+				F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -240,6 +275,8 @@
 			dependencies = (
 			);
 			name = Proptoll;
+			packageProductDependencies = (
+			);
 			productName = Proptoll;
 			productReference = F7FE62E32C633793004049A1 /* Proptoll.app */;
 			productType = "com.apple.product-type.application";
@@ -268,6 +305,8 @@
 				Base,
 			);
 			mainGroup = F7FE62DA2C633793004049A1;
+			packageReferences = (
+			);
 			productRefGroup = F7FE62E42C633793004049A1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -298,20 +337,28 @@
 				F7E4D7A62C69E6A100405CFE /* OtpView.swift in Sources */,
 				F72A31772C6A052700B0328D /* ProfileCardView.swift in Sources */,
 				F7E4D7952C66154D00405CFE /* ThemeChangeView.swift in Sources */,
-				F753701E2C65CBE3007BFE92 /* ArticleData.swift in Sources */,
+				F7519A1C2C6B52DD00B02D92 /* NoticeModel.swift in Sources */,
 				F7519A142C6A262700B02D92 /* OtpResponseModel.swift in Sources */,
-				F753701C2C65CB95007BFE92 /* NoticeBoardCardViewModel.swift in Sources */,
 				F7FE62E92C633793004049A1 /* ContentView.swift in Sources */,
+				F78053B12C6F5BBD00242BF8 /* TopBarView.swift in Sources */,
 				F75370202C65CC09007BFE92 /* NewsView.swift in Sources */,
+				F7519A272C6B89F500B02D92 /* HtmlToString.swift in Sources */,
 				F7FE62FE2C636C47004049A1 /* HTMLReader.swift in Sources */,
+				F7C12AA82C7344C0003F4AF4 /* NoticeSearchBar.swift in Sources */,
 				F7FE62F82C634476004049A1 /* LoginView.swift in Sources */,
+				F78053B52C73059400242BF8 /* ProfileViewModel.swift in Sources */,
+				F78053AF2C6F5A7100242BF8 /* ProfileView.swift in Sources */,
 				F75370162C64D6D4007BFE92 /* SheetView.swift in Sources */,
+				F78053B72C73065200242BF8 /* ProfileModel.swift in Sources */,
+				F7C12AA62C733983003F4AF4 /* CustomColors.swift in Sources */,
 				F7519A122C6A0D8300B02D92 /* WelcomeView.swift in Sources */,
-				F7C6DACF2C69EAC600980E6A /* OtpFieldView.swift in Sources */,
 				F7FE62E72C633793004049A1 /* ProptollApp.swift in Sources */,
 				F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */,
-				F739723A2C65E74C00F3454A /* ProfileView.swift in Sources */,
+				F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */,
 				F75370112C64D27D007BFE92 /* ReceiptsCardView.swift in Sources */,
+				F7519A202C6B5F5B00B02D92 /* NoticeViewModel.swift in Sources */,
+				F7C12AAA2C7362AC003F4AF4 /* jsonToUrl.swift in Sources */,
+				F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */,
 				F751C1662C63969C00F6B5CE /* BillsView.swift in Sources */,
 				F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */,
 				F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */,
@@ -319,6 +366,7 @@
 				F751C17D2C64C85D00F6B5CE /* BillsCardView.swift in Sources */,
 				F753700F2C64D230007BFE92 /* ReceiptsView.swift in Sources */,
 				F7E4D7A42C69D9F400405CFE /* LoginViewModel.swift in Sources */,
+				F7519A182C6B319400B02D92 /* OtpTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
