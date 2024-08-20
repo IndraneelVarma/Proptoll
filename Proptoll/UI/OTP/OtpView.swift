@@ -41,6 +41,7 @@ struct OTPView: View {
                                 isLoading = true
                                 let response = try await viewModel.verify(otp: otp, phoneNumber: phoneNumber, verificationKey: message)
                                 jwtToken = response.token
+                                UserDefaults.standard.set(jwtToken, forKey: "jwtToken")
                                 mainName = response.name
                                 errorMessage = nil
                                 showHomePage = true
@@ -100,7 +101,7 @@ struct OTPView: View {
                 }
                 
                 
-                if jwtToken.count > 1 {
+                if showHomePage {
                     Text("success")
                         .foregroundColor(.green)
                         .padding()

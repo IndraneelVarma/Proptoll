@@ -31,6 +31,7 @@ struct HomePageView: View{
                 }
         }
         .onAppear(){
+            jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""
                 viewModel.fetchProfile(authToken: jwtToken)
         }
         .preferredColorScheme(userTheme.colorScheme)

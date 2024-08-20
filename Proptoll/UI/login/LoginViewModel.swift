@@ -1,6 +1,6 @@
 import Foundation
 
-enum APIError: Error {
+enum LoginError: Error {
     case invalidURL
     case networkError(Error)
     case invalidResponse
@@ -12,21 +12,22 @@ class LoginViewModel {
     
     func login(phoneNumber: String) async throws -> LoginResponse {
         guard let url = URL(string: "\(baseURL)/consumer/login") else {
-            throw APIError.invalidURL
+            throw LoginError.invalidURL
         }
         
-        let body: [String: Any] = ["mobile_number": phoneNumber]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        let parameters: [String: Any] = ["mobile_number": phoneNumber]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                throw APIError.invalidResponse
+                throw LoginError.invalidResponse
             }
             
             let decoder = JSONDecoder()
@@ -34,10 +35,12 @@ class LoginViewModel {
                 let loginResponse = try decoder.decode(LoginResponse.self, from: data)
                 return loginResponse
             } catch {
-                throw APIError.decodingError
+                throw LoginError.decodingError
             }
+        } catch let error as LoginError {
+            throw error
         } catch {
-            throw APIError.networkError(error)
+            throw LoginError.networkError(error)
         }
     }
 }

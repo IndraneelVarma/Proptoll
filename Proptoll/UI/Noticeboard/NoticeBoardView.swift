@@ -5,6 +5,7 @@ struct NoticeBoardView: View {
     @State private var cardCategoryId: [Int] = [1,2,3,4,5]
     @State private var searchText = ""
     @State private var isSearching = false
+    @State private var showingSettings = false
     
     var filteredNotices: [Notice] {
         if searchText.isEmpty {
@@ -59,7 +60,9 @@ struct NoticeBoardView: View {
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
                             }
                             
-                            NavigationLink(destination: SettingsView()) {
+                            Button(action: {
+                                showingSettings = true
+                            }) {
                                 Image(systemName: "person.crop.circle.fill")
                                     .resizable()
                                     .frame(width: 25, height: 25)
@@ -72,19 +75,16 @@ struct NoticeBoardView: View {
                     .background(Color.gray)
                     .animation(.easeInOut(duration: 0.3), value: isSearching)
                     
-                    if !isSearching {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                categoryButton(title: "All", ids: [1, 2, 3, 4, 5])
-                                categoryButton(title: "General", id: 1)
-                                categoryButton(title: "Information", id: 2)
-                                categoryButton(title: "Alert", id: 3)
-                                categoryButton(title: "Emergency", id: 4)
-                                categoryButton(title: "Event", id: 5)
-                            }
-                            .padding()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20) {
+                            categoryButton(title: "All", ids: [1, 2, 3, 4, 5])
+                            categoryButton(title: "General", id: 1)
+                            categoryButton(title: "Information", id: 2)
+                            categoryButton(title: "Alert", id: 3)
+                            categoryButton(title: "Emergency", id: 4)
+                            categoryButton(title: "Event", id: 5)
                         }
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding()
                     }
                     
                     ScrollView(showsIndicators: false) {
@@ -107,8 +107,21 @@ struct NoticeBoardView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $showingSettings) {
+            NavigationStack {
+                SettingsView()
+                    .navigationBarItems(leading: Button("Back") {
+                        showingSettings = false
+                    })
+                    .navigationBarTitle("Settings", displayMode: .inline)
+            }
+        }
         .onAppear {
-            viewModel.fetchNotices(authToken: jwtToken, limit: 20, orderItem: "updatedAt", order: "DESC")
+            viewModel.fetchNotices(jsonQuery: [
+                "filter[order]": "updatedAt DESC",
+                "filter[limit]": 20,
+                "filter[offset]": 0
+            ])
         }
     }
     
@@ -138,8 +151,6 @@ struct NoticeBoardView: View {
         return false
     }
 }
-
-
 
 #Preview {
     NoticeBoardView()

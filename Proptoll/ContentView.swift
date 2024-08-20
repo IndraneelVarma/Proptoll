@@ -9,7 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        LoginView()
+        let token = UserDefaults.standard.string(forKey: "jwtToken")
+        if(token == nil)
+        {
+            LoginView()
+        }
+        else
+        {
+            HomePageView()
+        }
     }
 }
 
