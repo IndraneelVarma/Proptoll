@@ -70,30 +70,7 @@ class MainApiCall {
                     return .networkError(error)
                 }
             }
-            .handleEvents(receiveSubscription: { [weak self] _ in
-                self?.printDebugInfo(url: url, method: "GET", parameters: jsonQuery, headers: ["Authorization": "Bearer \(jwtToken)"])
-            })
             .eraseToAnyPublisher()
     }
     
-    private func printDebugInfo(url: URL, method: String, parameters: [String: Any], headers: [String: String]) {
-        print("Debug: Full API URL - \(url.absoluteString)")
-        print("Debug: HTTP Method - \(method)")
-        print("Debug: Parameters - \(parameters)")
-        print("Debug: Headers - \(headers)")
-    }
 }
-
-// Example usage:
-// let apiCall = MainApiCall()
-// let cancellable = apiCall.getData<YourResponseType>(endpoint: "your/endpoint", jsonQuery: ["key": "value"])
-//     .sink(receiveCompletion: { completion in
-//         switch completion {
-//         case .finished:
-//             print("Request completed successfully")
-//         case .failure(let error):
-//             print("Request failed with error: \(error.localizedDescription)")
-//         }
-//     }, receiveValue: { response in
-//         print("Received response: \(response)")
-//     })

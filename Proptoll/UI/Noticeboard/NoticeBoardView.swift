@@ -7,18 +7,6 @@ struct NoticeBoardView: View {
     @State private var isSearching = false
     @State private var showingSettings = false
     
-    var filteredNotices: [Notice] {
-        if searchText.isEmpty {
-            return viewModel.notices
-        } else {
-            return viewModel.notices.filter { notice in
-                notice.title.lowercased().contains(searchText.lowercased()) ||
-                notice.subTitle.lowercased().contains(searchText.lowercased()) ||
-                String(notice.postNumber).contains(searchText)
-            }
-        }
-    }
-    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -27,7 +15,6 @@ struct NoticeBoardView: View {
                         Color.gray
                             .frame(height: geometry.safeAreaInsets.top)
                             .ignoresSafeArea(.all)
-                        
                         HStack {
                             Image(systemName: "house")
                                 .resizable()
@@ -38,6 +25,16 @@ struct NoticeBoardView: View {
                             if isSearching {
                                 SearchBar(text: $searchText, isSearching: $isSearching)
                                     .transition(.move(edge: .trailing).combined(with: .opacity))
+                                    .onDisappear()
+                                {
+                                    Task{
+                                        await viewModel.fetchNotices(jsonQuery: [
+                                            "filter[order]": "updatedAt DESC",
+                                            "filter[limit]": 1000,
+                                            "filter[offset]": 0
+                                        ])
+                                    }
+                                }
                             } else {
                                 Text("Noticeboard")
                                     .foregroundStyle(.white)
@@ -88,12 +85,12 @@ struct NoticeBoardView: View {
                     }
                     
                     ScrollView(showsIndicators: false) {
-                        VStack(spacing: 16) {
-                            if filteredNotices.isEmpty {
+                        LazyVStack(spacing: 16) {
+                            if viewModel.notices.isEmpty {
                                 Text("No results found")
                             } else {
-                                ForEach(filteredNotices, id: \.self) { notice in
-                                    if cardCategoryId.contains(notice.noticeCategoryId) {
+                                ForEach(viewModel.notices, id: \.self) { notice in
+                                    if cardCategoryId.contains(notice.noticeCategoryId){
                                         NoticeBoardcardView(notice: notice)
                                             .padding(.horizontal)
                                     }
@@ -116,12 +113,19 @@ struct NoticeBoardView: View {
                     .navigationBarTitle("Settings", displayMode: .inline)
             }
         }
+        .onChange(of: searchText, { oldValue, newValue in
+            Task{
+                await viewModel.filteredNotices(searchText: searchText)
+            }
+        })
         .onAppear {
-            viewModel.fetchNotices(jsonQuery: [
-                "filter[order]": "updatedAt DESC",
-                "filter[limit]": 20,
-                "filter[offset]": 0
-            ])
+                Task{
+                    await viewModel.fetchNotices(jsonQuery: [
+                        "filter[order]": "updatedAt DESC",
+                        "filter[limit]": 1000,
+                        "filter[offset]": 0
+                    ])
+                }
         }
     }
     

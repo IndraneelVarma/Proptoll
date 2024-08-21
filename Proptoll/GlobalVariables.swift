@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
     let baseApiUrl = "https://api.staging.proptoll.com/api"
     var mainName = "Dummy Name"
