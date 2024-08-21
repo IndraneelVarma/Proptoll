@@ -40,9 +40,8 @@ struct OTPView: View {
                             do {
                                 isLoading = true
                                 let response = try await viewModel.verify(otp: otp, phoneNumber: phoneNumber, verificationKey: message)
-                                jwtToken = response.token
-                                UserDefaults.standard.set(jwtToken, forKey: "jwtToken")
-                                mainName = response.name
+                                UserDefaults.standard.set(response.token, forKey: "jwtToken")
+                                UserDefaults.standard.set(response.name, forKey: "mainName")
                                 errorMessage = nil
                                 showHomePage = true
                             } catch {
@@ -74,8 +73,7 @@ struct OTPView: View {
                         do {
                             isLoading = true
                             let response = try await viewModel.resend(phoneNumber: phoneNumber, message: message)
-                            print(response.message)
-                            jwtToken = response.message
+                            UserDefaults.standard.set(response.message, forKey: "jwtToken")
                             errorMessage = nil
                             resendButtonDisabled = true
                             timeRemaining = 90

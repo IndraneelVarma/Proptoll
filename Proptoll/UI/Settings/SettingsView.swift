@@ -160,9 +160,11 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 25)
                             .fill(Color.white))
                     }
-                    .onTapGesture {
-                        UserDefaults.standard.set(nil, forKey: "jwtToken")
-                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
+                            UserDefaults.standard.removeObject(forKey: key)
+                        }
+                    })
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                     
                    Spacer()

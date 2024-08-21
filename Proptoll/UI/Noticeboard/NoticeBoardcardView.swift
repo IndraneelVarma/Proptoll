@@ -2,7 +2,6 @@ import SwiftUI
 
 struct NoticeBoardcardView: View {
     let notice: Notice?
-    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
@@ -67,7 +66,11 @@ struct NoticeBoardcardView: View {
                         .lineLimit(2)
                         .foregroundColor(.secondary)
                     
-                    NavigationLink("More details", destination: NewsView(title: notice.title, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? ""))
+                    NavigationLink(destination: NewsView(title: notice.title, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
+                        Text("view full")
+                            .italic()
+                            .font(.system(size: 12.5))
+                    }
                         .padding(.top, 5)
                 } else {
                     Text("No notice available")
@@ -108,5 +111,5 @@ struct NoticeBoardcardView: View {
     }
 }
 #Preview {
-    NoticeBoardcardView(notice: Notice(title: "Title", content: "Content", subTitle: "subTitle", noticeCategoryId: 0, createdAt: "Now", postNumber: 0, attachments: [Attachment(s3ResourceUrl: "https://cdn.proptoll.com/OIP.jpg")]))
+    NoticeBoardcardView(notice: Notice(title: "Title", content: "Content", subTitle: "subTitle", noticeCategoryId: 0, createdAt: "Now", postNumber: 0,  attachments: [Attachment(s3ResourceUrl: "https://cdn.proptoll.com/OIP.jpg")]))
 }

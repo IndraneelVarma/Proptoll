@@ -24,7 +24,7 @@ class NoticeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (notices: [Notice]) in
                 self?.notices = notices
-                print(notices.count)
+                
             }
             .store(in: &cancellables)
     }
@@ -50,7 +50,7 @@ class NoticeViewModel: ObservableObject {
             }
             self.notices.removeAll()
             await fetchNotices(jsonQuery: jsonQuery)
-            print(notices.count)
+           
         }
     }
 }

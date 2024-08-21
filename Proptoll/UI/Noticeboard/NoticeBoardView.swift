@@ -2,10 +2,11 @@ import SwiftUI
 
 struct NoticeBoardView: View {
     @StateObject var viewModel = NoticeViewModel()
-    @State private var cardCategoryId: [Int] = [1,2,3,4,5]
+    @State private var cardCategoryId: [Int] = []
     @State private var searchText = ""
     @State private var isSearching = false
     @State private var showingSettings = false
+    @State private var offset = 0
     
     var body: some View {
         NavigationStack {
@@ -28,10 +29,11 @@ struct NoticeBoardView: View {
                                     .onDisappear()
                                 {
                                     Task{
+                                        offset = 0
                                         await viewModel.fetchNotices(jsonQuery: [
                                             "filter[order]": "updatedAt DESC",
-                                            "filter[limit]": 1000,
-                                            "filter[offset]": 0
+                                            "filter[limit]": 100,
+                                            "filter[offset]": offset
                                         ])
                                     }
                                 }
@@ -74,7 +76,7 @@ struct NoticeBoardView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20) {
-                            categoryButton(title: "All", ids: [1, 2, 3, 4, 5])
+                            categoryButton(title: "All")
                             categoryButton(title: "General", id: 1)
                             categoryButton(title: "Information", id: 2)
                             categoryButton(title: "Alert", id: 3)
@@ -85,12 +87,12 @@ struct NoticeBoardView: View {
                     }
                     
                     ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing: 16) {
+                        VStack(spacing: 16) {
                             if viewModel.notices.isEmpty {
                                 Text("No results found")
                             } else {
                                 ForEach(viewModel.notices, id: \.self) { notice in
-                                    if cardCategoryId.contains(notice.noticeCategoryId){
+                                    if cardCategoryId.isEmpty || cardCategoryId.contains(notice.noticeCategoryId) {
                                         NoticeBoardcardView(notice: notice)
                                             .padding(.horizontal)
                                     }
@@ -113,46 +115,60 @@ struct NoticeBoardView: View {
                     .navigationBarTitle("Settings", displayMode: .inline)
             }
         }
+        .onChange(of: offset, { oldValue, newValue in
+            offset += 10
+        })
         .onChange(of: searchText, { oldValue, newValue in
             Task{
                 await viewModel.filteredNotices(searchText: searchText)
             }
         })
         .onAppear {
-                Task{
-                    await viewModel.fetchNotices(jsonQuery: [
-                        "filter[order]": "updatedAt DESC",
-                        "filter[limit]": 1000,
-                        "filter[offset]": 0
-                    ])
-                }
+            Task{
+                await viewModel.fetchNotices(jsonQuery: [
+                    "filter[order]": "updatedAt DESC",
+                    "filter[limit]": 100,
+                    "filter[offset]": offset
+                ])
+            }
         }
     }
     
-    private func categoryButton(title: String, id: Int? = nil, ids: [Int]? = nil) -> some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(isSelected(id: id, ids: ids) ? Color.purple : Color.gray)
+    private func categoryButton(title: String, id: Int? = nil) -> some View {
+        let isSelected = Binding<Bool>(
+            get: { id == nil ? cardCategoryId.isEmpty : cardCategoryId == [id!] },
+            set: { _ in }
+        )
+        
+        return RoundedRectangle(cornerRadius: 10)
+            .fill(isSelected.wrappedValue ? Color.purple : Color.gray)
             .frame(width: CGFloat(title.count * 10 + 20), height: 30)
             .overlay(
                 Text(title)
                     .foregroundColor(.white)
             )
             .onTapGesture {
-                if let ids = ids {
-                    cardCategoryId = ids
-                } else if let id = id {
+                if let id = id {
                     cardCategoryId = [id]
+                    Task {
+                        await viewModel.fetchNotices(jsonQuery: [
+                            "filter[order]": "updatedAt DESC",
+                            "filter[limit]": 100,
+                            "filter[offset]": offset,
+                            "filter[where][noticeCategoryId]": id,
+                        ])
+                    }
+                } else {
+                    cardCategoryId = []
+                    Task {
+                        await viewModel.fetchNotices(jsonQuery: [
+                            "filter[order]": "updatedAt DESC",
+                            "filter[limit]": 100,
+                            "filter[offset]": offset
+                        ])
+                    }
                 }
             }
-    }
-    
-    private func isSelected(id: Int?, ids: [Int]?) -> Bool {
-        if let ids = ids {
-            return cardCategoryId == ids
-        } else if let id = id {
-            return cardCategoryId == [id]
-        }
-        return false
     }
 }
 

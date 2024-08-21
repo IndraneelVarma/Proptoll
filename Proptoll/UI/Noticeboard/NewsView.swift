@@ -29,13 +29,10 @@ struct NewsView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 300, height: 200)
                             case .failure:
-                                Image(systemName: "person.fill")
-                                    .foregroundColor(.gray)
-                                    .frame(width: 300, height: 200)
+                                ProgressView()
+                                    .frame(height: 200)
                             @unknown default:
-                                Image(systemName: "person")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
+                                ProgressView()
                                     .frame(height: 200)
                             }
                         }

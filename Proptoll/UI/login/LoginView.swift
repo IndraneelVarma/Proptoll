@@ -56,7 +56,7 @@ struct LoginView: View {
                                         isLoading = true
                                         let response = try await viewModel.login(phoneNumber: phoneNumber)
                                         key = response.message
-                                        mainPhoneNumber = phoneNumber
+                                        UserDefaults.standard.setValue(phoneNumber, forKey: "mainPhoneNumber")
                                         showOtpScreen = true
                                         errorMessage = nil
                                     } catch {
