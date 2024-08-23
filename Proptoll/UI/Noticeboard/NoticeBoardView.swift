@@ -29,7 +29,6 @@ struct NoticeBoardView: View {
                                     .onDisappear()
                                 {
                                     Task{
-                                        offset = 0
                                         await viewModel.fetchNotices(jsonQuery: [
                                             "filter[order]": "updatedAt DESC",
                                             "filter[limit]": 100,
@@ -102,6 +101,7 @@ struct NoticeBoardView: View {
                         .padding(.vertical)
                     }
                     
+                    
                     Spacer()
                 }
             }
@@ -115,15 +115,13 @@ struct NoticeBoardView: View {
                     .navigationBarTitle("Settings", displayMode: .inline)
             }
         }
-        .onChange(of: offset, { oldValue, newValue in
-            offset += 10
-        })
         .onChange(of: searchText, { oldValue, newValue in
             Task{
                 await viewModel.filteredNotices(searchText: searchText)
             }
         })
         .onAppear {
+            
             Task{
                 await viewModel.fetchNotices(jsonQuery: [
                     "filter[order]": "updatedAt DESC",

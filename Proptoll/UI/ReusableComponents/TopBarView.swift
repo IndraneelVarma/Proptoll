@@ -22,12 +22,14 @@ struct TopBarView: View {
                     .frame(width:330, alignment: .leading)
             )
             .onAppear(){
-                    viewModel.fetchProfile(authToken: jwtToken)
+                Task{
+                    await viewModel.fetchProfile(jsonQuery: [:])
+                }
+                
             }
             .padding(EdgeInsets(top: 15, leading: 10, bottom: 10, trailing: 10))
             .onTapGesture {
                 showSheet.toggle()
-                print(viewModel.profile.isEmpty)
             }
     }
     

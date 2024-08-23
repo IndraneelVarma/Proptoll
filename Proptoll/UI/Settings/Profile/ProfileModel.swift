@@ -13,4 +13,5 @@ struct Profile: Codable{
     let adfStatus: Bool
     let noOfFloors: Int
     let plotNumber: String
+    let id: String
 }

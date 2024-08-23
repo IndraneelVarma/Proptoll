@@ -40,7 +40,10 @@ struct SheetView: View {
                 }
         }
         .onAppear() {
-            viewModel.fetchProfile(authToken: jwtToken)
+            Task{
+                await viewModel.fetchProfile(jsonQuery: [:])
+            }
+            
         }
         Spacer()
     }

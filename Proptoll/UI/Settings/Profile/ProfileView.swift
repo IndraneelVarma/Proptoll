@@ -1,9 +1,3 @@
-//
-//  ProfileView.swift
-//  Proptoll
-//
-//  Created by Indraneel Varma on 16/08/24.
-//
 
 import SwiftUI
 
@@ -16,6 +10,7 @@ struct ProfileView: View {
             
             HStack{
                 Text(mainName)
+                    
                     .font(.title)
                     .bold()
                 Spacer()
@@ -108,7 +103,9 @@ struct ProfileView: View {
             SheetView().presentationDetents([.fraction(0.4)])
         })
         .onAppear(){
-                viewModel.fetchProfile(authToken: jwtToken)
+            Task{
+                await viewModel.fetchProfile(jsonQuery: [:])
+            }
         }
         
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        ZStack{
             let token = UserDefaults.standard.string(forKey: "jwtToken")
             if(token == nil)
             {
@@ -18,8 +19,15 @@ struct ContentView: View {
             {
                 HomePageView()
             }
+        }
+        .onAppear(){
+            print(jwtToken)
+        }
+        
+        
         
     }
+    
 }
 
 #Preview {

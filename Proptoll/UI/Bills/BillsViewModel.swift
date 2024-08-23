@@ -1,8 +1,8 @@
 import Foundation
 import Combine
 
-class NoticeViewModel: ObservableObject {
-    @Published var notices: [Notice] = []
+class BillsViewModel: ObservableObject {
+    @Published var bills: [Bill] = []
     @Published var error: String?
     
     private var cancellables = Set<AnyCancellable>()
@@ -13,8 +13,8 @@ class NoticeViewModel: ObservableObject {
     }
     
     
-    func fetchNotices(jsonQuery: [String: Any]) async {
-        await apiService.getData(endpoint: "notice-post", jsonQuery: jsonQuery)
+    func fetchBills(jsonQuery: [String: Any]) async {
+        await apiService.getData2(endpoint: "bills", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {
@@ -23,13 +23,13 @@ class NoticeViewModel: ObservableObject {
                 case .failure(let error):
                     self?.error = error.localizedDescription
                 }
-            } receiveValue: { [weak self] (notices: [Notice]) in
-                self?.notices = notices
+            } receiveValue: { [weak self] (bills: [Bill]) in
+                self?.bills = bills
                 
             }
             .store(in: &cancellables)
     }
-    func filteredNotices(searchText: String) async {
+    func filteredBills(searchText: String) async { //useless for now
         if !searchText.isEmpty {
             let jsonQuery: [String: Any]
             let check = searchText.allSatisfy{ $0.isNumber }
@@ -47,11 +47,10 @@ class NoticeViewModel: ObservableObject {
                     "filter[limit]": 50,
                     "filter[offset]": 0,
                     "filter[where][title][like]": searchText,
-                    
                 ]
             }
-            self.notices.removeAll()
-            await fetchNotices(jsonQuery: jsonQuery)
+            self.bills.removeAll()
+            await fetchBills(jsonQuery: jsonQuery)
            
         }
     }

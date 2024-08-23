@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomePageView: View{
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-    @StateObject var viewModel = ProfileViewModel()
+    @StateObject private var viewModel = ProfileViewModel()
     var body: some View {
         TabView {
             NoticeBoardView()
@@ -32,7 +32,9 @@ struct HomePageView: View{
         }
         .onAppear(){
             jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""
-                viewModel.fetchProfile(authToken: jwtToken)
+            Task{
+                await viewModel.fetchProfile(jsonQuery:[:])
+            }
         }
         .preferredColorScheme(userTheme.colorScheme)
         .navigationBarBackButtonHidden(true)

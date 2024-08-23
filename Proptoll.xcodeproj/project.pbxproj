@@ -29,6 +29,10 @@
 		F78053B52C73059400242BF8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B42C73059400242BF8 /* ProfileViewModel.swift */; };
 		F78053B72C73065200242BF8 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B62C73065200242BF8 /* ProfileModel.swift */; };
 		F799DE3C2C746832003D79E1 /* MainApiCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE3B2C746832003D79E1 /* MainApiCall.swift */; };
+		F799DE402C773C6F003D79E1 /* BillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE3F2C773C6F003D79E1 /* BillsViewModel.swift */; };
+		F799DE422C773CA6003D79E1 /* BillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE412C773CA6003D79E1 /* BillModel.swift */; };
+		F799DE482C78A2B7003D79E1 /* OwnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE472C78A2B7003D79E1 /* OwnerModel.swift */; };
+		F799DE4A2C78A323003D79E1 /* OwnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE492C78A323003D79E1 /* OwnerViewModel.swift */; };
 		F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */; };
 		F7C12AA62C733983003F4AF4 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA52C733983003F4AF4 /* CustomColors.swift */; };
 		F7C12AA82C7344C0003F4AF4 /* NoticeSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */; };
@@ -69,6 +73,10 @@
 		F78053B42C73059400242BF8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		F78053B62C73065200242BF8 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F799DE3B2C746832003D79E1 /* MainApiCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainApiCall.swift; sourceTree = "<group>"; };
+		F799DE3F2C773C6F003D79E1 /* BillsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsViewModel.swift; sourceTree = "<group>"; };
+		F799DE412C773CA6003D79E1 /* BillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillModel.swift; sourceTree = "<group>"; };
+		F799DE472C78A2B7003D79E1 /* OwnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerModel.swift; sourceTree = "<group>"; };
+		F799DE492C78A323003D79E1 /* OwnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerViewModel.swift; sourceTree = "<group>"; };
 		F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		F7C12AA52C733983003F4AF4 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSearchBar.swift; sourceTree = "<group>"; };
@@ -112,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				F7519A112C6A0D8300B02D92 /* WelcomeView.swift */,
+				F799DE472C78A2B7003D79E1 /* OwnerModel.swift */,
+				F799DE492C78A323003D79E1 /* OwnerViewModel.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -195,8 +205,8 @@
 				F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */,
 				F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */,
 				F753701F2C65CC09007BFE92 /* NewsView.swift */,
-				F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */,
 				F7519A1F2C6B5F5B00B02D92 /* NoticeViewModel.swift */,
+				F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */,
 			);
 			path = Noticeboard;
 			sourceTree = "<group>";
@@ -206,6 +216,8 @@
 			children = (
 				F751C1652C63969C00F6B5CE /* BillsView.swift */,
 				F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */,
+				F799DE3F2C773C6F003D79E1 /* BillsViewModel.swift */,
+				F799DE412C773CA6003D79E1 /* BillModel.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -344,8 +356,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F799DE4A2C78A323003D79E1 /* OwnerViewModel.swift in Sources */,
 				F7519A162C6A265100B02D92 /* LoginResponseModel.swift in Sources */,
 				F7E4D7A62C69E6A100405CFE /* OtpView.swift in Sources */,
+				F799DE422C773CA6003D79E1 /* BillModel.swift in Sources */,
 				F72A31772C6A052700B0328D /* ProfileCardView.swift in Sources */,
 				F7E4D7952C66154D00405CFE /* ThemeChangeView.swift in Sources */,
 				F799DE3C2C746832003D79E1 /* MainApiCall.swift in Sources */,
@@ -365,6 +379,7 @@
 				F7C12AA62C733983003F4AF4 /* CustomColors.swift in Sources */,
 				F7519A122C6A0D8300B02D92 /* WelcomeView.swift in Sources */,
 				F7FE62E72C633793004049A1 /* ProptollApp.swift in Sources */,
+				F799DE402C773C6F003D79E1 /* BillsViewModel.swift in Sources */,
 				F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */,
 				F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */,
 				F75370112C64D27D007BFE92 /* ReceiptsCardView.swift in Sources */,
@@ -375,6 +390,7 @@
 				F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */,
 				F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */,
 				F7FE62FA2C634E12004049A1 /* NoticeBoardView.swift in Sources */,
+				F799DE482C78A2B7003D79E1 /* OwnerModel.swift in Sources */,
 				F751C17D2C64C85D00F6B5CE /* BillsCardView.swift in Sources */,
 				F753700F2C64D230007BFE92 /* ReceiptsView.swift in Sources */,
 				F7E4D7A42C69D9F400405CFE /* LoginViewModel.swift in Sources */,

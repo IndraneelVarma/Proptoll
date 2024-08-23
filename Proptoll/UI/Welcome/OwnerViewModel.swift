@@ -1,8 +1,8 @@
 import Foundation
 import Combine
 
-class ProfileViewModel: ObservableObject {
-    @Published var profile: [Profile] = []
+class OwnerViewModel: ObservableObject {
+    @Published var owners: [Owner] = []
     @Published var error: String?
     
     private var cancellables = Set<AnyCancellable>()
@@ -12,8 +12,8 @@ class ProfileViewModel: ObservableObject {
         self.apiService = apiService
     }
     
-    func fetchProfile(jsonQuery: [String: Any]) async {
-        await apiService.getData2(endpoint: "plots", jsonQuery: jsonQuery)
+    func fetchBills(jsonQuery: [String: Any]) async {
+        await apiService.getData2(endpoint: "owners", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {
@@ -22,9 +22,8 @@ class ProfileViewModel: ObservableObject {
                 case .failure(let error):
                     self?.error = error.localizedDescription
                 }
-            } receiveValue: { [weak self] (profile: [Profile]) in
-                self?.profile = profile
-                UserDefaults.standard.setValue(profile.first?.id, forKey: "plotId")
+            } receiveValue: { [weak self] (owner: [Owner]) in
+                self?.owners = owner
                 
             }
             .store(in: &cancellables)
