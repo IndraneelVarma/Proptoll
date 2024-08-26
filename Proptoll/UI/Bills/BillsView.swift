@@ -9,10 +9,11 @@ import SwiftUI
 
 struct BillsView: View {
     @StateObject var viewModel = BillsViewModel()
+    @StateObject var viewModel2 = BillsViewModel()
     @State private var showSheet = false
     @State private var year: Int = 2024
     @State private var showingSettings = false
-    @State var totalDue = 0
+    @State private var showProgress = true
     var body: some View {
         NavigationStack{
             GeometryReader{ geometry in
@@ -56,7 +57,7 @@ struct BillsView: View {
                         Spacer()
                     }
                     HStack{
-                        Text("$ \(totalDue)")
+                        Text("₹ \(viewModel2.bills.first?.totalPayable ?? 404)")
                         Spacer()
                         Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                             RoundedRectangle(cornerRadius: 10)
@@ -109,18 +110,25 @@ struct BillsView: View {
                     ScrollView(showsIndicators: false){
                         if(viewModel.bills.isEmpty)
                         {
-                            Text("No results found")
+                            VStack {
+                                if showProgress {
+                                    ProgressView()
+                                } else {
+                                    Text("No results found")
+                                }
+                            }
+                            .onAppear {
+                                showProgress = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                                    showProgress = false
+                                }
+                            }
                         }
                         else
                         {
                             ForEach(viewModel.bills, id: \.self){ bill in
                                 BillsCardView(bill: bill)
-                                    .onAppear(){
-                                        if !(bill.isPaymentDone)
-                                        {
-                                            totalDue += bill.dueAmount
-                                        }
-                                    }
+                                
                             }
                         }
                     }
@@ -140,7 +148,15 @@ struct BillsView: View {
         .onChange(of: year, { oldValue, newValue in
             Task{
                 await viewModel.fetchBills(jsonQuery:[
-                    "filter[limit]": 12,
+                    "filter[order]": "bill_month DESC",
+                    "filter[limit]": 20,
+                    "filter[where][bill_year]": year,
+                    "filter[where][plot_id]": plotId,
+                    
+                ])
+                await viewModel2.fetchBills(jsonQuery:[
+                    "filter[order]": "bill_month DESC",
+                    "filter[limit]": 1,
                     "filter[where][bill_year]": year,
                     "filter[where][plot_id]": plotId,
                     
@@ -150,18 +166,39 @@ struct BillsView: View {
         .onAppear()
         {
             Task{
+                
                 await viewModel.fetchBills(jsonQuery:[
-                    "filter[limit]": 12,
+                    "filter[order]": "bill_month DESC",
+                    "filter[limit]": 20,
                     "filter[where][bill_year]": 2024,
                     "filter[where][plot_id]": plotId,
-                   
+                    
                 ])
+                await viewModel2.fetchBills(jsonQuery:[
+                    "filter[order]": "bill_month DESC",
+                    "filter[limit]": 1,
+                    "filter[where][bill_year]": 2024,
+                    "filter[where][plot_id]": plotId,
+                    
+                ])
+
             }
         }
         .sheet(isPresented: $showSheet, content: {
             SheetView().presentationDetents([.fraction(0.4)])
         })
     }
+}
+func convertToURLEncodedString(from dictionary: [String: Any]) -> String? {
+    do {
+        let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            return jsonString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        }
+    } catch {
+        print("Error converting dictionary to JSON: \(error)")
+    }
+    return nil
 }
 
 #Preview {

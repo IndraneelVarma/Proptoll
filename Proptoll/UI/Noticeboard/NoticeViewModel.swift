@@ -32,6 +32,7 @@ class NoticeViewModel: ObservableObject {
     func filteredNotices(searchText: String) async {
         if !searchText.isEmpty {
             let jsonQuery: [String: Any]
+            let jsonQuery2: [String: Any]
             let check = searchText.allSatisfy{ $0.isNumber }
             if check{
                 jsonQuery = [
@@ -40,6 +41,7 @@ class NoticeViewModel: ObservableObject {
                     "filter[offset]": 0,
                     "filter[where][postNumber]": searchText,
                 ]
+                jsonQuery2 = ["filter[limit]": 0]
             }
             else{
                 jsonQuery = [
@@ -49,9 +51,18 @@ class NoticeViewModel: ObservableObject {
                     "filter[where][title][like]": searchText,
                     
                 ]
+                jsonQuery2 = [
+                    "filter[order]": "id DESC",
+                    "filter[limit]": 50,
+                    "filter[offset]": 0,
+                    "filter[where][subTitle][like]": searchText,
+                    
+                ]
             }
             self.notices.removeAll()
             await fetchNotices(jsonQuery: jsonQuery)
+            await fetchNotices(jsonQuery: jsonQuery2)
+            
            
         }
     }

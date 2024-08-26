@@ -12,7 +12,6 @@ class BillsViewModel: ObservableObject {
         self.apiService = apiService
     }
     
-    
     func fetchBills(jsonQuery: [String: Any]) async {
         await apiService.getData2(endpoint: "bills", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
@@ -29,7 +28,7 @@ class BillsViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    func filteredBills(searchText: String) async { //useless for now
+    func filteredBills(searchText: String) async { //useless for now, might be of use when we add search
         if !searchText.isEmpty {
             let jsonQuery: [String: Any]
             let check = searchText.allSatisfy{ $0.isNumber }

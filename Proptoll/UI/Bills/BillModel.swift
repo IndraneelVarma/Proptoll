@@ -9,6 +9,7 @@ import Foundation
 
 struct Bill: Codable, Hashable {
     let dueAmount: Int
+    let totalPayable: Int
     let billMonth: String
     let isPaymentDone: Bool
     let billYear: Int
@@ -26,4 +27,11 @@ struct Bill: Codable, Hashable {
     let adfWater: Int
     let adfSecurity: Int
     let adfMaintenance: Int
+    let grossWaterCharges: Int
+    let grossMaintenanceCharges: Int
+    let grossSecurityCharges: Int
+    let totalWaterCharges: Int
+    let totalMaintenanceCharges: Int
+    let totalSecurityCharges: Int
+    let id: String
 }

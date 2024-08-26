@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ReceiptsView: View {
+    @StateObject var viewModel = BillsViewModel()
     @State private var showSheet = false
-    @State var x = 1
-    @State var y = 10
+    @State private var year: Int = 2024
+    @State private var showingSettings = false
+    @State var totalPaid = 0
+    @State private var showProgress = true
     var body: some View {
         NavigationStack{
             GeometryReader{ geometry in
@@ -54,7 +57,7 @@ struct ReceiptsView: View {
                         Spacer()
                     }
                     HStack{
-                        Text("$ \(100)")
+                        Text("₹ \(totalPaid)")
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
@@ -72,79 +75,20 @@ struct ReceiptsView: View {
                         Menu {
                             Button(action: {
                                 // Action for the first option
-                                x = 1
-                                y = 10
+                                year = 2024
                             }) {
-                                Text("1-10")
+                                Text("2024")
                             }
                             
                             Button(action: {
                                 // Action for the second option
-                                x = 11
-                                y = 20
+                                year = 2023
                             }) {
-                                Text("11-20")
-                            }
-                            
-                            Button(action: {
-                                // Action for the third option
-                                x = 21
-                                y = 30
-                            }) {
-                                Text("21-30")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 31
-                                y = 40
-                            }) {
-                                Text("31-40")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 41
-                                y = 50
-                            }) {
-                                Text("41-50")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 51
-                                y = 60
-                            }) {
-                                Text("51-60")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 61
-                                y = 70
-                            }) {
-                                Text("61-70")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 71
-                                y = 80
-                            }) {
-                                Text("71-80")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 81
-                                y = 90
-                            }) {
-                                Text("81-90")
-                            }
-                            Button(action: {
-                                // Action for the third option
-                                x = 91
-                                y = 100
-                            }) {
-                                Text("90-100")
+                                Text("2023")
                             }
                         } label: {
-                            Text("\(x)-\(y)")
-                                .foregroundColor(.white)
+                            Text("Year \(year)")
+                                .foregroundColor(.primary)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 8)
                                 .background(
@@ -155,14 +99,60 @@ struct ReceiptsView: View {
                     }
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
                     ScrollView(showsIndicators: false){
-                            ForEach(x...y, id: \.self){ index in
-                                ReceiptsCardView(x: index)
+                        if(viewModel.bills.isEmpty)
+                        {
+                            VStack {
+                                if showProgress {
+                                    ProgressView()
+                                } else {
+                                    Text("No results found")
+                                }
+                            }
+                            .onAppear {
+                                showProgress = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                                    showProgress = false
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ForEach(viewModel.bills, id: \.self){ bill in
+                                if(bill.dueAmount != 0){
+                                    ReceiptsCardViewMain(bill: bill)
+                                }
+                            }
                         }
                     }
                     
                 }
             }
-        }.sheet(isPresented: $showSheet, content: {
+        }
+        .onChange(of: year, { oldValue, newValue in
+            Task{
+                await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
+                                                      "filter[where][bill_year]": year,
+                                                      "filter[where][plot_id]": plotId,])
+            }
+        })
+        .fullScreenCover(isPresented: $showingSettings) {
+            NavigationStack {
+                SettingsView()
+                    .navigationBarItems(leading: Button("Back") {
+                        showingSettings = false
+                    })
+                    .navigationBarTitle("Settings", displayMode: .inline)
+            }
+        }
+        .onAppear()
+        {
+            Task{
+                await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
+                                                      "filter[where][bill_year]": 2024,
+                                                      "filter[where][plot_id]": plotId,])
+            }
+        }
+        .sheet(isPresented: $showSheet, content: {
             SheetView().presentationDetents([.fraction(0.4)])
         })
     }

@@ -88,7 +88,7 @@ struct NoticeBoardView: View {
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 16) {
                             if viewModel.notices.isEmpty {
-                                Text("No results found")
+                                ProgressView()
                             } else {
                                 ForEach(viewModel.notices, id: \.self) { notice in
                                     if cardCategoryId.isEmpty || cardCategoryId.contains(notice.noticeCategoryId) {

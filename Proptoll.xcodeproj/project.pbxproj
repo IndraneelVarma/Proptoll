@@ -20,10 +20,14 @@
 		F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751C1792C64BA2500F6B5CE /* HomePageView.swift */; };
 		F751C17D2C64C85D00F6B5CE /* BillsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */; };
 		F753700F2C64D230007BFE92 /* ReceiptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753700E2C64D230007BFE92 /* ReceiptsView.swift */; };
-		F75370112C64D27D007BFE92 /* ReceiptsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370102C64D27D007BFE92 /* ReceiptsCardView.swift */; };
+		F75370112C64D27D007BFE92 /* ReceiptsCardViewMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370102C64D27D007BFE92 /* ReceiptsCardViewMain.swift */; };
 		F75370162C64D6D4007BFE92 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370152C64D6D4007BFE92 /* SheetView.swift */; };
 		F75370202C65CC09007BFE92 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753701F2C65CC09007BFE92 /* NewsView.swift */; };
 		F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */; };
+		F7729EFC2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFB2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift */; };
+		F7729EFE2C7C4F4B00EE3D6C /* ReceiptsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFD2C7C4F4B00EE3D6C /* ReceiptsModel.swift */; };
+		F7729F002C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFF2C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift */; };
+		F7729F022C7C53D800EE3D6C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729F012C7C53D800EE3D6C /* TableView.swift */; };
 		F78053AF2C6F5A7100242BF8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053AE2C6F5A7100242BF8 /* ProfileView.swift */; };
 		F78053B12C6F5BBD00242BF8 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B02C6F5BBD00242BF8 /* TopBarView.swift */; };
 		F78053B52C73059400242BF8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78053B42C73059400242BF8 /* ProfileViewModel.swift */; };
@@ -64,10 +68,14 @@
 		F751C1792C64BA2500F6B5CE /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsCardView.swift; sourceTree = "<group>"; };
 		F753700E2C64D230007BFE92 /* ReceiptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsView.swift; sourceTree = "<group>"; };
-		F75370102C64D27D007BFE92 /* ReceiptsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsCardView.swift; sourceTree = "<group>"; };
+		F75370102C64D27D007BFE92 /* ReceiptsCardViewMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsCardViewMain.swift; sourceTree = "<group>"; };
 		F75370152C64D6D4007BFE92 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		F753701F2C65CC09007BFE92 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardcardView.swift; sourceTree = "<group>"; };
+		F7729EFB2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsViewModel.swift; sourceTree = "<group>"; };
+		F7729EFD2C7C4F4B00EE3D6C /* ReceiptsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsModel.swift; sourceTree = "<group>"; };
+		F7729EFF2C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsCardViewSecondary.swift; sourceTree = "<group>"; };
+		F7729F012C7C53D800EE3D6C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		F78053AE2C6F5A7100242BF8 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		F78053B02C6F5BBD00242BF8 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		F78053B42C73059400242BF8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -112,6 +120,7 @@
 				F75370152C64D6D4007BFE92 /* SheetView.swift */,
 				F72A31762C6A052700B0328D /* ProfileCardView.swift */,
 				F78053B02C6F5BBD00242BF8 /* TopBarView.swift */,
+				F7729F012C7C53D800EE3D6C /* TableView.swift */,
 			);
 			path = ReusableComponents;
 			sourceTree = "<group>";
@@ -225,8 +234,11 @@
 		F7C6DADC2C69FF0C00980E6A /* Receipts */ = {
 			isa = PBXGroup;
 			children = (
-				F75370102C64D27D007BFE92 /* ReceiptsCardView.swift */,
+				F75370102C64D27D007BFE92 /* ReceiptsCardViewMain.swift */,
 				F753700E2C64D230007BFE92 /* ReceiptsView.swift */,
+				F7729EFB2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift */,
+				F7729EFD2C7C4F4B00EE3D6C /* ReceiptsModel.swift */,
+				F7729EFF2C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift */,
 			);
 			path = Receipts;
 			sourceTree = "<group>";
@@ -382,9 +394,13 @@
 				F799DE402C773C6F003D79E1 /* BillsViewModel.swift in Sources */,
 				F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */,
 				F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */,
-				F75370112C64D27D007BFE92 /* ReceiptsCardView.swift in Sources */,
+				F7729F002C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift in Sources */,
+				F7729EFE2C7C4F4B00EE3D6C /* ReceiptsModel.swift in Sources */,
+				F75370112C64D27D007BFE92 /* ReceiptsCardViewMain.swift in Sources */,
 				F7519A202C6B5F5B00B02D92 /* NoticeViewModel.swift in Sources */,
 				F7C12AAA2C7362AC003F4AF4 /* jsonToUrl.swift in Sources */,
+				F7729EFC2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift in Sources */,
+				F7729F022C7C53D800EE3D6C /* TableView.swift in Sources */,
 				F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */,
 				F751C1662C63969C00F6B5CE /* BillsView.swift in Sources */,
 				F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */,
