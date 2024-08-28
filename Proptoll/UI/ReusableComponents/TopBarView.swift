@@ -17,7 +17,9 @@ struct TopBarView: View {
             .overlay(
                 HStack{
                     Image(systemName: "chevron.down")
+                        .foregroundStyle(.white)
                     Text("Plot No. \(viewModel.profile.first?.plotNumber ?? "xxxx")")
+                        .foregroundStyle(.white)
                 }
                     .frame(width:330, alignment: .leading)
             )

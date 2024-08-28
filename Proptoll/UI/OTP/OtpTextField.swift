@@ -16,7 +16,7 @@ struct OtpTextField: View {
                 // Centered placeholder text
                 if otp.isEmpty {
                     Text("Enter OTP here")
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(UIColor.systemGray4) )
                         .font(.system(size: 18))
                 }
 
@@ -25,7 +25,7 @@ struct OtpTextField: View {
                     .keyboardType(.numberPad) // Set keyboard type to number pad
                     .multilineTextAlignment(.center) // Center the text as it's entered
                     .padding()
-                    .background(Color.gray.opacity(0.2)) // Light gray background
+                    .background(Color(UIColor.systemGray4) .opacity(0.2)) // Light gray background
                     .cornerRadius(10) // Rounded corners
                     .onChange(of: otp) {
                         formatEnteredText()

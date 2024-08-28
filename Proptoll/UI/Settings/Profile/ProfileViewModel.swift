@@ -24,8 +24,6 @@ class ProfileViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (profile: [Profile]) in
                 self?.profile = profile
-                UserDefaults.standard.setValue(profile.first?.id, forKey: "plotId")
-                print("Plot Id: \(plotId)")
                 
             }
             .store(in: &cancellables)

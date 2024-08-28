@@ -33,7 +33,7 @@ struct LoginView: View {
                         
                         HStack {
                             Text("+91")
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(UIColor.systemGray4) )
                                 .padding(.leading, 10)
                             TextField("Enter phone number", text: $phoneNumber)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())

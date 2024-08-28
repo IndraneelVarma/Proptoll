@@ -3,6 +3,7 @@ import SwiftUI
 struct ReceiptsCardViewSecondary: View {
     @State private var isExpanded = false
     let receipt: Payments?
+    @Binding var paid: Int
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -30,9 +31,12 @@ struct ReceiptsCardViewSecondary: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .background(Color(UIColor.systemGray5))
+        .onAppear(){
+            paid += receipt?.amountPaid ?? 0
+        }
+        .background(Color(UIColor.systemGray4))
         .clipShape(RoundedRectangle(cornerRadius: 15))
-        .shadow(radius: 5)
+        //.shadow(radius: 5)
         .animation(.spring(), value: isExpanded)
     }
     
@@ -75,15 +79,16 @@ struct ReceiptsCardViewSecondary: View {
             "\(receipt?.receivedTowardsWater ?? 404)", "\(receipt?.receivedTowardsMaintenance ?? 404)", "\(receipt?.receivedTowardsSecurity ?? 404)", "-"
         ]
         
-        return ProfessionalTableView(items: items, rowCount: 2, columnCount: 4)
+        return ProfessionalTableView(items: items, rowCount: 3, columnCount: 4)
     }
     
     private var additionalInfoView: some View {
+        
         VStack(alignment: .leading, spacing: 8) {
             InfoRow(title: "Receipt No.", value: "\(receipt?.receiptNumber ?? 404)")
             InfoRow(title: "Bill No.", value: "\(receipt?.billId ?? "404")")
             InfoRow(title: "Due/Credit Amount", value: "-")
-            InfoRow(title: "Paid On", value: "\(receipt?.paymentDate ?? "No date")")
+            InfoRow(title: "Paid On", value: formattedDate)
             InfoRow(title: "Paid By", value: "\(receipt?.modeOfPayment ?? "no method")")
             
             
@@ -95,5 +100,8 @@ struct ReceiptsCardViewSecondary: View {
 }
 
 #Preview {
-    ReceiptsCardViewSecondary(receipt: nil)
+    ReceiptsCardViewSecondary(receipt: nil, paid: .constant(0))
 }
+
+
+

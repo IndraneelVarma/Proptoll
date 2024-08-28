@@ -12,5 +12,5 @@ struct Owner: Codable, Hashable{
     let plots: [Plots]?
 }
 struct Plots: Codable, Hashable{
-    let id: String
+    let id: String?
 }

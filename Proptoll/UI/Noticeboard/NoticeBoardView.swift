@@ -8,12 +8,13 @@ struct NoticeBoardView: View {
     @State private var showingSettings = false
     @State private var offset = 0
     
+
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 VStack(spacing: 0) {
                     ZStack {
-                        Color.gray
+                        Color(UIColor.systemGray4)
                             .frame(height: geometry.safeAreaInsets.top)
                             .ignoresSafeArea(.all)
                         HStack {
@@ -21,8 +22,8 @@ struct NoticeBoardView: View {
                                 .resizable()
                                 .frame(width: 25, height: 25)
                                 .padding()
-                                .foregroundStyle(.white)
-                            
+                                .foregroundStyle(.primary)
+
                             if isSearching {
                                 SearchBar(text: $searchText, isSearching: $isSearching)
                                     .transition(.move(edge: .trailing).combined(with: .opacity))
@@ -38,12 +39,12 @@ struct NoticeBoardView: View {
                                 }
                             } else {
                                 Text("Noticeboard")
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.primary)
                                     .transition(.move(edge: .leading).combined(with: .opacity))
                             }
-                            
+
                             Spacer()
-                            
+
                             if !isSearching {
                                 Button(action: {
                                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -53,38 +54,43 @@ struct NoticeBoardView: View {
                                     Image(systemName: "magnifyingglass")
                                         .resizable()
                                         .frame(width: 25, height: 25)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.primary)
                                 }
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
+                               
                             }
-                            
+
                             Button(action: {
                                 showingSettings = true
                             }) {
                                 Image(systemName: "person.crop.circle.fill")
                                     .resizable()
                                     .frame(width: 25, height: 25)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.primary)
                             }
+                            .padding(.horizontal)
                         }
                         .frame(width: 375, alignment: .leading)
                         .padding(.horizontal)
                     }
-                    .background(Color.gray)
+                    .background(Color(UIColor.systemGray4))
                     .animation(.easeInOut(duration: 0.3), value: isSearching)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            categoryButton(title: "All")
-                            categoryButton(title: "General", id: 1)
-                            categoryButton(title: "Information", id: 2)
-                            categoryButton(title: "Alert", id: 3)
-                            categoryButton(title: "Emergency", id: 4)
-                            categoryButton(title: "Event", id: 5)
+
+                    if !isSearching {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) {
+                                categoryButton(title: "All")
+                                categoryButton(title: "General", id: 1)
+                                categoryButton(title: "Information", id: 2)
+                                categoryButton(title: "Alert", id: 3)
+                                categoryButton(title: "Emergency", id: 4)
+                                categoryButton(title: "Event", id: 5)
+                            }
+                            .padding()
                         }
-                        .padding()
+                        .transition(.opacity)
                     }
-                    
+
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 16) {
                             if viewModel.notices.isEmpty {
@@ -100,8 +106,7 @@ struct NoticeBoardView: View {
                         }
                         .padding(.vertical)
                     }
-                    
-                    
+
                     Spacer()
                 }
             }
@@ -121,7 +126,6 @@ struct NoticeBoardView: View {
             }
         })
         .onAppear {
-            
             Task{
                 await viewModel.fetchNotices(jsonQuery: [
                     "filter[order]": "updatedAt DESC",
@@ -131,19 +135,19 @@ struct NoticeBoardView: View {
             }
         }
     }
-    
+
     private func categoryButton(title: String, id: Int? = nil) -> some View {
         let isSelected = Binding<Bool>(
             get: { id == nil ? cardCategoryId.isEmpty : cardCategoryId == [id!] },
             set: { _ in }
         )
-        
+
         return RoundedRectangle(cornerRadius: 10)
-            .fill(isSelected.wrappedValue ? Color.purple : Color.gray)
+            .fill(isSelected.wrappedValue ? Color.purple : Color(UIColor.systemGray4))
             .frame(width: CGFloat(title.count * 10 + 20), height: 30)
             .overlay(
                 Text(title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             )
             .onTapGesture {
                 if let id = id {

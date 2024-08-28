@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @StateObject private var viewModel = OwnerViewModel()
     var body: some View {
         NavigationStack{
             VStack{
@@ -33,6 +34,15 @@ struct WelcomeView: View {
             }
             .navigationBarBackButtonHidden(true)
         }
+        .onAppear(){
+            Task{
+                await viewModel.fetchOwner(jsonQuery:[
+                    "filter[where][name]":mainName,
+                    "filter[include][0][relation]": "plots"
+                ])
+            }
+        }
+        
     }
 }
 

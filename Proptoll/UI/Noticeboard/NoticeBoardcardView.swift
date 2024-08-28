@@ -66,7 +66,7 @@ struct NoticeBoardcardView: View {
                         .lineLimit(2)
                         .foregroundColor(.secondary)
                     
-                    NavigationLink(destination: NewsView(title: notice.title, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
+                    NavigationLink(destination: NewsView(title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
                         Text("view full")
                             .italic()
                             .font(.system(size: 12.5))
@@ -78,12 +78,12 @@ struct NoticeBoardcardView: View {
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color(.systemBackground))
+            .background(Color(UIColor.systemGray5))
             .cornerRadius(12)
-            .shadow(color: Color.gray.opacity(0.4), radius: 5, x: 0, y: 2)
+            //.shadow(color: Color(UIColor.systemGray4) .opacity(0.4), radius: 5, x: 0, y: 2)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                    .stroke(Color(UIColor.systemGray4) .opacity(0.2), lineWidth: 1)
             )
         }
     }
@@ -106,7 +106,7 @@ struct NoticeBoardcardView: View {
         case 3: return ("Alert", .orange)
         case 4: return ("Emergency", .red)
         case 5: return ("Event", .purple)
-        default: return ("Unknown", .gray)
+        default: return ("Unknown", Color(UIColor.systemGray4) )
         }
     }
 }

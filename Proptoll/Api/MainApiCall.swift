@@ -108,7 +108,9 @@ class MainApiCall {
                 }
             }
             .eraseToAnyPublisher()
+        
     }
+    
 
     // Create a JSONDecoder with snake case to camel case key decoding strategy
     let snakeCaseDecoder: JSONDecoder = {

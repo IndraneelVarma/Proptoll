@@ -13,7 +13,7 @@ class BillsViewModel: ObservableObject {
     }
     
     func fetchBills(jsonQuery: [String: Any]) async {
-        await apiService.getData2(endpoint: "bills", jsonQuery: jsonQuery)
+         await apiService.getData2(endpoint: "bills", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {

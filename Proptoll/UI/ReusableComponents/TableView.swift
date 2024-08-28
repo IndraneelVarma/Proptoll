@@ -1,10 +1,3 @@
-//
-//  TableView.swift
-//  Proptoll
-//
-//  Created by Indraneel Varma on 26/08/24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -17,9 +10,13 @@ struct InfoRow: View {
             Text(title)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
             Spacer()
             Text(value)
                 .font(.subheadline)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
     }
 }
@@ -47,7 +44,7 @@ struct ProfessionalTableView: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(Color(UIColor.systemGray4).opacity(0.3), lineWidth: 1)
         )
     }
 }
@@ -58,15 +55,17 @@ struct CellView: View {
     
     var body: some View {
         Text(text)
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 4)
             .padding(.vertical, 6)
             .frame(maxWidth: .infinity, minHeight: 30, alignment: .trailing)
-            .background(isHeader ? Color(UIColor.systemGray4) : Color(UIColor.systemBackground))
+            .background(isHeader ? Color(UIColor.systemGray5) : Color(UIColor.systemBackground))
             .foregroundColor(isHeader ? .primary : .secondary)
             .font(.system(size: 12, weight: isHeader ? .semibold : .regular))
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
             .overlay(
                 Rectangle()
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 0.5)
+                    .stroke(Color(UIColor.systemGray4).opacity(0.3), lineWidth: 0.5)
             )
     }
 }

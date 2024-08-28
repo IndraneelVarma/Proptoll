@@ -34,4 +34,10 @@ struct Bill: Codable, Hashable {
     let totalMaintenanceCharges: Int
     let totalSecurityCharges: Int
     let id: String
+    let billPaidOn: String?
+    let payments: [Payment]?
 }
+struct Payment: Codable, Hashable{
+    let amountPaid: Int?
+}
+

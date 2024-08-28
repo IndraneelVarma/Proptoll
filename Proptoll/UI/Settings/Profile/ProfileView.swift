@@ -26,8 +26,8 @@ struct ProfileView: View {
             .padding()
             
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.gray)
-                .shadow(radius: 5)
+                .fill(Color(UIColor.systemGray4) )
+                //.shadow(radius: 5)
                 .frame(width: 350, height: 300)
                 .overlay(
                     GeometryReader { geometry in

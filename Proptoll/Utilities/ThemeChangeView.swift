@@ -65,7 +65,7 @@ struct ThemeChangeView: View {
                 }
             }
             .padding(3)
-            .background(.white.opacity(0.6), in: .capsule)
+            .background(Color(UIColor.systemGray5), in: .capsule)
             .padding(.top, 20)
             
         }

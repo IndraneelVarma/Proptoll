@@ -14,12 +14,13 @@ struct BillsView: View {
     @State private var year: Int = 2024
     @State private var showingSettings = false
     @State private var showProgress = true
+    
     var body: some View {
         NavigationStack{
             GeometryReader{ geometry in
                 VStack(alignment: .center, spacing:0){
                     ZStack{
-                        Color.gray
+                        Color(UIColor.systemGray4) 
                             .frame(height: geometry.safeAreaInsets.top)
                             .ignoresSafeArea(.all)
                         
@@ -29,25 +30,28 @@ struct BillsView: View {
                                 .resizable()
                                 .frame(width: 25, height: 25)
                                 .padding()
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                             
                             Text("Bills")
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                             
                             Spacer()
                             
                             
-                            NavigationLink(destination: SettingsView()) {
+                            Button(action: {
+                                showingSettings = true
+                            }) {
                                 Image(systemName: "person.crop.circle.fill")
                                     .resizable()
                                     .frame(width: 25, height: 25)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.primary)
                             }
+                            .padding(.horizontal)
                             
                             
                         }.frame(width: 375, alignment: .leading)
                         
-                    }.background(Color.gray)
+                    }.background(Color(UIColor.systemGray4) )
                     
                     TopBarView(showSheet: $showSheet)
                     
@@ -57,7 +61,7 @@ struct BillsView: View {
                         Spacer()
                     }
                     HStack{
-                        Text("₹ \(viewModel2.bills.first?.totalPayable ?? 404)")
+                        Text("₹ \(viewModel2.bills.first?.dueAmount ?? 404)")
                         Spacer()
                         Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                             RoundedRectangle(cornerRadius: 10)
@@ -102,7 +106,7 @@ struct BillsView: View {
                                 .padding(.vertical, 8)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.gray.opacity(0.2))
+                                        .fill(Color(UIColor.systemGray) .opacity(0.2))
                                 )
                         }
                     }
@@ -128,6 +132,7 @@ struct BillsView: View {
                         {
                             ForEach(viewModel.bills, id: \.self){ bill in
                                 BillsCardView(bill: bill)
+                                    .padding(.horizontal)
                                 
                             }
                         }
@@ -148,6 +153,7 @@ struct BillsView: View {
         .onChange(of: year, { oldValue, newValue in
             Task{
                 await viewModel.fetchBills(jsonQuery:[
+                    
                     "filter[order]": "bill_month DESC",
                     "filter[limit]": 20,
                     "filter[where][bill_year]": year,
@@ -165,21 +171,21 @@ struct BillsView: View {
         })
         .onAppear()
         {
+            year = 2024
             Task{
                 
                 await viewModel.fetchBills(jsonQuery:[
-                    "filter[order]": "bill_month DESC",
+                    "filter[order]": "id DESC",
                     "filter[limit]": 20,
                     "filter[where][bill_year]": 2024,
                     "filter[where][plot_id]": plotId,
                     
                 ])
                 await viewModel2.fetchBills(jsonQuery:[
-                    "filter[order]": "bill_month DESC",
+                    "filter[order]": "id DESC",
                     "filter[limit]": 1,
                     "filter[where][bill_year]": 2024,
                     "filter[where][plot_id]": plotId,
-                    
                 ])
 
             }

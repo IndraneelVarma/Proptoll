@@ -9,17 +9,20 @@ import SwiftUI
 
 struct ReceiptsView: View {
     @StateObject var viewModel = BillsViewModel()
+    @StateObject var viewModel2 = ReceiptsViewModel()
     @State private var showSheet = false
     @State private var year: Int = 2024
     @State private var showingSettings = false
-    @State var totalPaid = 0
+    @State private var totalPaid = 0
     @State private var showProgress = true
+    
+    
     var body: some View {
         NavigationStack{
             GeometryReader{ geometry in
                 VStack(alignment: .center, spacing:0){
                     ZStack{
-                        Color.gray
+                        Color(UIColor.systemGray4) 
                             .frame(height: geometry.safeAreaInsets.top)
                             .ignoresSafeArea(.all)
                         
@@ -29,25 +32,28 @@ struct ReceiptsView: View {
                                 .resizable()
                                 .frame(width: 25, height: 25)
                                 .padding()
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                             
                             Text("Receipts")
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                             
                             Spacer()
                             
                             
-                            NavigationLink(destination: SettingsView()) {
+                            Button(action: {
+                                showingSettings = true
+                            }) {
                                 Image(systemName: "person.crop.circle.fill")
                                     .resizable()
                                     .frame(width: 25, height: 25)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.primary)
                             }
+                            .padding(.horizontal)
                             
                             
                         }.frame(width: 375, alignment: .leading)
                         
-                    }.background(Color.gray)
+                    }.background(Color(UIColor.systemGray4) )
                     
                     TopBarView(showSheet: $showSheet)
                     
@@ -93,7 +99,7 @@ struct ReceiptsView: View {
                                 .padding(.vertical, 8)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.gray.opacity(0.2))
+                                        .fill(Color(UIColor.systemGray) .opacity(0.2))
                                 )
                         }
                     }
@@ -118,9 +124,11 @@ struct ReceiptsView: View {
                         else
                         {
                             ForEach(viewModel.bills, id: \.self){ bill in
-                                if(bill.dueAmount != 0){
-                                    ReceiptsCardViewMain(bill: bill)
+                                if(bill.payments != nil){
+                                    ReceiptsCardViewMain(bill: bill, totalPaid: $totalPaid)
+                                        .padding(.horizontal)
                                 }
+                                
                             }
                         }
                     }
@@ -128,13 +136,6 @@ struct ReceiptsView: View {
                 }
             }
         }
-        .onChange(of: year, { oldValue, newValue in
-            Task{
-                await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
-                                                      "filter[where][bill_year]": year,
-                                                      "filter[where][plot_id]": plotId,])
-            }
-        })
         .fullScreenCover(isPresented: $showingSettings) {
             NavigationStack {
                 SettingsView()
@@ -146,12 +147,27 @@ struct ReceiptsView: View {
         }
         .onAppear()
         {
+            year = 2024
             Task{
+                totalPaid = 0
                 await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
+                                                      "filter[include][0][relation]": "payments",
+                                                      "filter[order]": "id DESC",
                                                       "filter[where][bill_year]": 2024,
                                                       "filter[where][plot_id]": plotId,])
             }
         }
+        .onChange(of: year, { oldValue, newValue in
+            
+            Task{
+                totalPaid = 0
+                await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
+                                                      "filter[include][0][relation]": "payments",
+                                                      "filter[order]": "id DESC",
+                                                      "filter[where][bill_year]": year,
+                                                      "filter[where][plot_id]": plotId,])
+            }
+        })
         .sheet(isPresented: $showSheet, content: {
             SheetView().presentationDetents([.fraction(0.4)])
         })

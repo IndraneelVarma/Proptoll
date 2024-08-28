@@ -12,7 +12,7 @@ class OwnerViewModel: ObservableObject {
         self.apiService = apiService
     }
     
-    func fetchBills(jsonQuery: [String: Any]) async {
+    func fetchOwner(jsonQuery: [String: Any]) async {
         await apiService.getData2(endpoint: "owners", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -24,7 +24,8 @@ class OwnerViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (owner: [Owner]) in
                 self?.owners = owner
-                
+                UserDefaults.standard.setValue(owner.first?.plots?.first?.id, forKey: "plotId")
+                print("Plot Id: \(plotId)")
             }
             .store(in: &cancellables)
     }

@@ -17,9 +17,9 @@ struct BillsCardView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .background(Color(UIColor.systemGray5))
+        .background(Color(UIColor.systemGray4))
         .clipShape(RoundedRectangle(cornerRadius: 15))
-        .shadow(radius: 5)
+        //.shadow(radius: 5)
         .animation(.spring(), value: isExpanded)
     }
     
@@ -54,13 +54,13 @@ struct BillsCardView: View {
     private var billDetailsTable: some View {
         let items = [
             "Type", "Water", "Maint.", "Security",
-            "Balance", "\((bill?.waterOpeningBalance ?? 202) + (bill?.waterClosingBalance ?? 202))",
-            "\((bill?.maintenanceOpeningBalance ?? 202) + (bill?.maintenanceClosingBalance ?? 202))",
-            "\((bill?.securityOpeningBalance ?? 202) + (bill?.securityClosingBalance ?? 202))",
-            "Gross", "\(bill?.grossWaterCharges ?? 404)", "\(bill?.grossMaintenanceCharges ?? 404)", "\(bill?.grossSecurityCharges ?? 404)",
-            "20KL", "\(bill?._20kl ?? 404)", "-", "-",
-            "ADF", "\(bill?.adfWater ?? 404)", "\(bill?.adfMaintenance ?? 404)", "\(bill?.adfSecurity ?? 404)",
-            "Total", "\(bill?.totalWaterCharges ?? 404)", "\(bill?.totalMaintenanceCharges ?? 404)", "\(bill?.totalSecurityCharges ?? 404)"
+            "Balance", "₹\((bill?.waterOpeningBalance ?? 202) + (bill?.waterClosingBalance ?? 202))",
+            "₹\((bill?.maintenanceOpeningBalance ?? 202) + (bill?.maintenanceClosingBalance ?? 202))",
+            "₹\((bill?.securityOpeningBalance ?? 202) + (bill?.securityClosingBalance ?? 202))",
+            "Gross", "₹\(bill?.grossWaterCharges ?? 404)", "₹\(bill?.grossMaintenanceCharges ?? 404)", "₹\(bill?.grossSecurityCharges ?? 404)",
+            "20KL", "₹\(bill?._20kl ?? 404)", "-", "-",
+            "ADF", "₹\(bill?.adfWater ?? 404)", "₹\(bill?.adfMaintenance ?? 404)", "₹\(bill?.adfSecurity ?? 404)",
+            "Total", "₹\(bill?.totalWaterCharges ?? 404)", "₹\(bill?.totalMaintenanceCharges ?? 404)", "₹\(bill?.totalSecurityCharges ?? 404)"
         ]
         
         return ProfessionalTableView(items: items, rowCount: 6, columnCount: 4)
@@ -70,11 +70,24 @@ struct BillsCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             InfoRow(title: "Bill Number", value: "\(bill?.billNumber ?? "404")")
             InfoRow(title: "Units Billed", value: "\(bill?.unitsConsumed ?? 404)")
-            InfoRow(title: "Late Charges", value: "\(bill?.lateCharges ?? 404)")
-            InfoRow(title: "Total Payable", value: "\(bill?.totalPayable ?? 404)")
+            InfoRow(title: "Late Charges", value: "₹\(bill?.lateCharges ?? 404)")
+            InfoRow(title: "Total Payable", value: "₹\(bill?.totalPayable ?? 404)")
             
             if !(bill?.isPaymentDone ?? false) {
-                InfoRow(title: "Due Date", value: bill?.dueDate ?? "404")
+                var formattedDate: String {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    
+                    if let date = dateFormatter.date(from: bill?.dueDate ?? "404") {
+                        dateFormatter.dateFormat = "d MMM yyyy, hh:mm a"
+                        dateFormatter.amSymbol = "AM"
+                        dateFormatter.pmSymbol = "PM"
+                        return dateFormatter.string(from: date)
+                    } else {
+                        return "Invalid date"
+                    }
+                }
+                InfoRow(title: "Due Date", value: formattedDate)
             }
         }
         .padding()

@@ -23,10 +23,10 @@ struct ProfileCardView: View {
                 Text(mainText)
                     .font(.title)
                     .bold()
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                 Text(subText)
                     .font(.system(size: 13))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                 HStack{
                     RoundedRectangle(cornerRadius: 10)
                 }
@@ -34,7 +34,7 @@ struct ProfileCardView: View {
             }
             Spacer()
         }
-        .background(.gray)
+        .background(Color(UIColor.systemGray4) )
     }
 }
 

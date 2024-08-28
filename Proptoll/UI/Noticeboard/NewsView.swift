@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct NewsView: View {
-    @StateObject var viewModel = NoticeViewModel()
     var title: String
+    var subTitle: String
     var content: String
     var image: String?
     var body: some View {
         VStack{
             Text(title.htmlToString())
                 .font(.title)
+                .multilineTextAlignment(.center)
+            
+            Text(subTitle.htmlToString())
+                .font(.title3)
+                .multilineTextAlignment(.center)
             
             if let imageUrl = URL(string: image ?? "https://picsum.photos/200") {
                 AsyncImage(url: imageUrl) { phase in
@@ -49,5 +54,5 @@ struct NewsView: View {
 
 
 #Preview {
-    NewsView(title: "Test", content: "akdhakfhkahfkjahfkjahfa akhfkjahfkahfkahfahf alfhlkahflkahflahfla ajkfgjyafhagfkag  jagfjhagfjagfh ajhgfhjafgkjagf ajfgjahfgjhagfjh", image: nil)
+    NewsView(title: "Test", subTitle: "subtitle ajdlajdafh", content: "akdhakfhkahfkjahfkjahfa akhfkjahfkahfkahfahf alfhlkahflkahflahfla ajkfgjyafhagfkag  jagfjhagfjagfh ajhgfhjafgkjagf ajfgjahfgjhagfjh", image: nil)
 }

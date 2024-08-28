@@ -16,7 +16,7 @@ struct SheetView: View {
             RoundedRectangle(cornerRadius: 15)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                 .frame(width: 200, height: 150)
-                .foregroundStyle(.gray)
+                .foregroundStyle(Color(UIColor.systemGray4) )
                 .overlay {
                     VStack(alignment: .leading) {
                         Text("Plot No. \(viewModel.profile.first?.plotNumber ?? "xxxx")")

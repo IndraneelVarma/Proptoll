@@ -32,9 +32,6 @@ struct HomePageView: View{
         }
         .onAppear(){
             jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""
-            Task{
-                await viewModel.fetchProfile(jsonQuery:[:])
-            }
         }
         .preferredColorScheme(userTheme.colorScheme)
         .navigationBarBackButtonHidden(true)

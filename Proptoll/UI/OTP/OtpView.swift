@@ -87,7 +87,7 @@ struct OTPView: View {
                     Text(resendButtonDisabled ? "Resend (\(timeRemaining)s)" : "Resend OTP")
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
-                        .background(resendButtonDisabled ? .gray : .purple)
+                        .background(resendButtonDisabled ? Color(UIColor.systemGray4)  : .purple)
                         .cornerRadius(20)
                         
                 }

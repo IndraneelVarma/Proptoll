@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var changeTheme = false
     @State private var isNotificationOn = false
     @Environment(\.colorScheme) private var scheme
+    
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
     var body: some View {
         NavigationStack{
@@ -21,14 +22,14 @@ struct SettingsView: View {
                         .scaledToFit()
                         .frame(height: 30)
                         .padding()
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                     Text(mainName)
                         .font(.title)
                         .bold()
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                     Spacer()
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 .offset(y:1)
                 
                 VStack{
@@ -36,7 +37,7 @@ struct SettingsView: View {
                         Text("General")
                             .font(.title)
                             .fontWeight(.medium)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10))
@@ -48,7 +49,7 @@ struct SettingsView: View {
                     NavigationLink(destination: ProfileView()){
                         ProfileCardView(image: "person.fill", mainText: "Profile", subText: "Account details")
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     
                     ProfileCardView(image: "person.2.circle.fill", mainText: "User Guide", subText: "View app features")
                     
@@ -56,14 +57,14 @@ struct SettingsView: View {
                     
                     
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 
                 VStack{
                     HStack{
                         Text("Settings")
                             .font(.title)
                             .fontWeight(.medium)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10))
@@ -76,16 +77,16 @@ struct SettingsView: View {
                             changeTheme.toggle()
                         })
                         .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
-                        .tint(.white)
+                        .tint(.primary)
                         Spacer()
                     }
                     Toggle("Notifications",systemImage: "bell.badge.fill" ,isOn: $isNotificationOn)
                         .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                         .tint(.orange)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                     
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                 
                 VStack(alignment: .leading){
@@ -93,7 +94,7 @@ struct SettingsView: View {
                         Text("Community Contact")
                             .font(.title)
                             .fontWeight(.medium)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10))
@@ -103,17 +104,17 @@ struct SettingsView: View {
                     .frame(maxWidth: .infinity, maxHeight: 2)
                     HStack{
                         Text("Krishna Mohan Choudary")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 10))
                     
                     HStack{
                         Text("9346833440")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Image(systemName: "paperclip")
                             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
@@ -127,20 +128,20 @@ struct SettingsView: View {
                                 .foregroundStyle(.orange)
                             Text("Call")
                                 .font(.headline)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(.white)
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.white))
+                            .fill(.primary))
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 21))
                     
                     Text("Available on all working days")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 0))
                     
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                
                 HStack(){
@@ -154,11 +155,11 @@ struct SettingsView: View {
                                 .foregroundStyle(.orange)
                             Text("Logout")
                                 .font(.headline)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(.white)
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.white))
+                            .fill(.primary))
                     }
                     .simultaneousGesture(TapGesture().onEnded {
                         UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
@@ -170,7 +171,7 @@ struct SettingsView: View {
                    Spacer()
                     
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                 
                 HStack(){
@@ -187,17 +188,17 @@ struct SettingsView: View {
                             Text("PropToll")
                                 .font(.title)
                                 .bold()
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.primary)
                         }
                         Text("Version X.X.X")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                     }
                     .padding()
                     
                    Spacer()
                     
                 }
-                .background(.gray)
+                .background(Color(UIColor.systemGray4) )
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                 
                 Spacer()
