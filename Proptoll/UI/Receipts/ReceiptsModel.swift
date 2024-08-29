@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Payments: Codable, Hashable{
+struct Receipts: Codable, Hashable{
     let receiptNumber: Int?
     let billId: String?
     let amountPaid: Int?

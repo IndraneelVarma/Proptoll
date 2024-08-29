@@ -96,7 +96,7 @@ struct NoticeBoardView: View {
                             if viewModel.notices.isEmpty {
                                 ProgressView()
                             } else {
-                                ForEach(viewModel.notices, id: \.self) { notice in
+                                ForEach(viewModel.notices, id: \.id) { notice in
                                     if cardCategoryId.isEmpty || cardCategoryId.contains(notice.noticeCategoryId) {
                                         NoticeBoardcardView(notice: notice)
                                             .padding(.horizontal)

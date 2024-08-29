@@ -8,7 +8,7 @@ class OwnerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let apiService: MainApiCall
     
-    init(apiService: MainApiCall = MainApiCall()) {
+    init(apiService: MainApiCall = MainApiCall(httpMethod: "GET")) {
         self.apiService = apiService
     }
     

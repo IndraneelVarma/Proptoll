@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+
+struct Pay: Codable, Hashable{
+    
+}

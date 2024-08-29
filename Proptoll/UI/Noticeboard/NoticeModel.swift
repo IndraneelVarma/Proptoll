@@ -1,7 +1,8 @@
 import Foundation
 
-struct Notice: Codable, Hashable {
+struct Notice: Codable, Hashable, Identifiable, Equatable {
     let title: String
+    let id: String
     let content: String
     let subTitle: String
     let noticeCategoryId: Int

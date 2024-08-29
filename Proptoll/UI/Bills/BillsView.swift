@@ -13,6 +13,7 @@ struct BillsView: View {
     @State private var showSheet = false
     @State private var year: Int = 2024
     @State private var showingSettings = false
+    @State private var showingPayScreen = false
     @State private var showProgress = true
     
     var body: some View {
@@ -61,9 +62,11 @@ struct BillsView: View {
                         Spacer()
                     }
                     HStack{
-                        Text("₹ \(viewModel2.bills.first?.dueAmount ?? 404)")
+                        Text("₹\(viewModel2.bills.first?.dueAmount ?? 404)")
                         Spacer()
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                        Button(action: {
+                            showingPayScreen = true
+                        }, label: {
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundStyle(.purple)
                                 .frame(width: 90,height: 40)
@@ -148,6 +151,15 @@ struct BillsView: View {
                         showingSettings = false
                     })
                     .navigationBarTitle("Settings", displayMode: .inline)
+            }
+        }
+        .fullScreenCover(isPresented: $showingPayScreen) {
+            NavigationStack {
+                PaymentsView(year: year)
+                    .navigationBarItems(leading: Button("Back") {
+                        showingPayScreen = false
+                    })
+                    .navigationBarTitle("Payment", displayMode: .inline)
             }
         }
         .onChange(of: year, { oldValue, newValue in

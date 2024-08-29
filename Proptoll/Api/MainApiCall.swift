@@ -30,9 +30,11 @@ enum APIError: Error {
 class MainApiCall {
     private let baseURL = URL(string: baseApiUrl)!
     private let session: URLSession
+    private let httpMethod: String
     
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, httpMethod: String) {
         self.session = session
+        self.httpMethod = httpMethod
     }
     
     func getData<T: Codable>(endpoint: String, jsonQuery: [String: Any]) async -> AnyPublisher<T, APIError> {
@@ -47,7 +49,7 @@ class MainApiCall {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = httpMethod
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
         
         return session.dataTaskPublisher(for: request)

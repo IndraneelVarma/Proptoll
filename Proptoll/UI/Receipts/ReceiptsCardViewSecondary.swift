@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReceiptsCardViewSecondary: View {
     @State private var isExpanded = false
-    let receipt: Payments?
+    let receipt: Receipts?
     @Binding var paid: Int
     var formattedDate: String {
         let dateFormatter = DateFormatter()

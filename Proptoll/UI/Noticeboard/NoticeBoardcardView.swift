@@ -111,5 +111,5 @@ struct NoticeBoardcardView: View {
     }
 }
 #Preview {
-    NoticeBoardcardView(notice: Notice(title: "Title", content: "Content", subTitle: "subTitle", noticeCategoryId: 0, createdAt: "Now", postNumber: 0,  attachments: [Attachment(s3ResourceUrl: "https://cdn.proptoll.com/OIP.jpg")]))
+    NoticeBoardcardView(notice: Notice(title: "Title", id: "", content: "Content", subTitle: "subTitle", noticeCategoryId: 0, createdAt: "Now", postNumber: 0,  attachments: [Attachment(s3ResourceUrl: "https://cdn.proptoll.com/OIP.jpg")]))
 }

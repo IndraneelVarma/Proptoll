@@ -2,13 +2,13 @@ import Foundation
 import Combine
 
 class ReceiptsViewModel: ObservableObject {
-    @Published var receipts: [Payments] = []
+    @Published var receipts: [Receipts] = []
     @Published var error: String?
     
     private var cancellables = Set<AnyCancellable>()
     private let apiService: MainApiCall
     
-    init(apiService: MainApiCall = MainApiCall()) {
+    init(apiService: MainApiCall = MainApiCall(httpMethod: "GET")) {
         self.apiService = apiService
     }
     
@@ -23,7 +23,7 @@ class ReceiptsViewModel: ObservableObject {
                 case .failure(let error):
                     self?.error = error.localizedDescription
                 }
-            } receiveValue: { [weak self] (receipts: [Payments]) in
+            } receiveValue: { [weak self] (receipts: [Receipts]) in
                 self?.receipts = receipts
                 
             }
