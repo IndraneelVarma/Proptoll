@@ -8,11 +8,14 @@ enum APIError: Error {
     case unknownError(Error)
     case invalidURL
     case invalidResponse
+    case encodingError
 
     var localizedDescription: String {
         switch self {
         case .networkError(let error):
             return "Network error: \(error.localizedDescription)"
+        case .encodingError:
+            return "Encoding error"
         case .decodingError(let error):
             return "Decoding error: \(error.localizedDescription)"
         case .invalidStatusCode(let statusCode):
@@ -112,6 +115,46 @@ class MainApiCall {
             .eraseToAnyPublisher()
         
     }
+    
+    func getData3(endpoint: String, body: [String: Any]) async -> AnyPublisher<Data, APIError> {
+        guard var components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
+            return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
+        }
+        guard let url = components.url else {
+            return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
+        }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = httpMethod
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: body)
+            } catch {
+                return Fail(error: APIError.encodingError).eraseToAnyPublisher()
+            }
+
+            return session.dataTaskPublisher(for: request)
+                .tryMap { data, response -> Data in
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                        throw APIError.invalidResponse
+                    }
+                    guard (200...299).contains(httpResponse.statusCode) else {
+                        throw APIError.invalidStatusCode(httpResponse.statusCode)
+                    }
+                    print("Received \(data.count) bytes")
+                    return data
+                }
+                .mapError { error -> APIError in
+                    if let apiError = error as? APIError {
+                        return apiError
+                    } else {
+                        return .networkError(error)
+                    }
+                }
+                .eraseToAnyPublisher()
+        }
     
 
     // Create a JSONDecoder with snake case to camel case key decoding strategy

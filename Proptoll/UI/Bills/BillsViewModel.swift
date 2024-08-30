@@ -24,7 +24,13 @@ class BillsViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (bills: [Bill]) in
                 self?.bills = bills
-                
+                if let limit = jsonQuery["filter[limit]"] as? Int{
+                    if limit == 1
+                    {
+                        UserDefaults.standard.setValue(bills.first?.id, forKey: "billId")
+                        print("Limit 1 and bill id \(billId)")
+                    }
+                }
             }
             .store(in: &cancellables)
     }

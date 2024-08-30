@@ -9,8 +9,11 @@ import SwiftUI
 
 struct PaymentsView: View {
     @StateObject private var viewModel = BillsViewModel()
+    @StateObject private var viewModel2 = PaymentsViewModel()
     @State private var selectedOption = 0
     @State private var text: String = ""
+    @State var amount: Int
+    @State private var webViewOpen = false
     var year: Int
     var body: some View {
         NavigationStack{
@@ -35,7 +38,7 @@ struct PaymentsView: View {
                     title: "Pay total due: ₹\(viewModel.bills.first?.dueAmount ?? 404)",
                     subTitle: "Clear your current dues in one go",
                     isSelected: selectedOption == 0,
-                    action: { selectedOption = 0 }
+                    action: {amount = viewModel.bills.first?.dueAmount ?? 0; selectedOption = 0}
                 )
                 .padding()
                 SelectableOption2(
@@ -44,6 +47,9 @@ struct PaymentsView: View {
                     isSelected: selectedOption == 1,
                     action: { selectedOption = 1 }, textInput: $text
                 )
+                .onTapGesture {
+                    print(amount)
+                }
                 .padding(.horizontal)
                 
                 Text("Payment Details")
@@ -61,7 +67,17 @@ struct PaymentsView: View {
                 HStack{
                     Spacer()
                     
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Button(action: {
+                        if selectedOption == 1{
+                            amount = Int(text) ?? 0
+                        }
+                        if(amount > 0){
+                            Task{
+                                await viewModel2.postPayRequest(jsonQuery:[:], amount: amount)
+                            }
+                            webViewOpen = true
+                        }
+                    }, label: {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundStyle(.purple)
                             .frame(maxWidth: 400,maxHeight: 40)
@@ -71,10 +87,20 @@ struct PaymentsView: View {
                                     .foregroundStyle(.white)
                             }
                     })
+                    
                     Spacer()
                 }
                 .padding()
                 
+            }
+        }
+        .fullScreenCover(isPresented: $webViewOpen) {
+            NavigationStack {
+                PaymentWebView(html: viewModel2.paymentHtml)
+                    .navigationBarItems(leading: Button("Back") {
+                        webViewOpen = false
+                    })
+                    .navigationBarTitle("Payment", displayMode: .inline)
             }
         }
         .onAppear(){
@@ -193,5 +219,5 @@ struct PaymentsView: View {
 }
 
 #Preview {
-    PaymentsView(year: 2024)
+    PaymentsView(amount: 0, year: 2024)
 }

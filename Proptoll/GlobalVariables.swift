@@ -14,5 +14,5 @@ var mainName = UserDefaults.standard.string(forKey: "mainName") ?? "Dummy Name"
 var jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""//this isnt the one being stored in internal storage. code for that is in OtpView
 var mainPhoneNumber = UserDefaults.standard.string(forKey: "mainPhoneNumber") ?? "9876543210"
 var plotId = UserDefaults.standard.string(forKey: "plotId") ?? ""
-
+var billId = UserDefaults.standard.string(forKey: "billId") ?? ""
 

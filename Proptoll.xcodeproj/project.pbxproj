@@ -45,6 +45,8 @@
 		F7AAEC2A2C806CD5009396E3 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F7AAEC292C806CD5009396E3 /* FirebaseAnalyticsOnDeviceConversion */; };
 		F7AAEC2C2C806CD5009396E3 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F7AAEC2B2C806CD5009396E3 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		F7AAEC2E2C806CD5009396E3 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F7AAEC2D2C806CD5009396E3 /* FirebaseMessaging */; };
+		F7AAEC302C8195CB009396E3 /* PaymentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AAEC2F2C8195CB009396E3 /* PaymentWebView.swift */; };
+		F7AAEC322C81C2E9009396E3 /* PaymentSuccessOrFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AAEC312C81C2E9009396E3 /* PaymentSuccessOrFailView.swift */; };
 		F7C12AA62C733983003F4AF4 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA52C733983003F4AF4 /* CustomColors.swift */; };
 		F7C12AA82C7344C0003F4AF4 /* NoticeSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */; };
 		F7C12AAA2C7362AC003F4AF4 /* jsonToUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */; };
@@ -96,6 +98,8 @@
 		F7AAEC202C8036A1009396E3 /* PaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsView.swift; sourceTree = "<group>"; };
 		F7AAEC222C806A24009396E3 /* PaymentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsModel.swift; sourceTree = "<group>"; };
 		F7AAEC242C806A33009396E3 /* PaymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsViewModel.swift; sourceTree = "<group>"; };
+		F7AAEC2F2C8195CB009396E3 /* PaymentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentWebView.swift; sourceTree = "<group>"; };
+		F7AAEC312C81C2E9009396E3 /* PaymentSuccessOrFailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSuccessOrFailView.swift; sourceTree = "<group>"; };
 		F7C12AA52C733983003F4AF4 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		F7C12AA72C7344C0003F4AF4 /* NoticeSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSearchBar.swift; sourceTree = "<group>"; };
 		F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonToUrl.swift; sourceTree = "<group>"; };
@@ -173,6 +177,8 @@
 				F7AAEC202C8036A1009396E3 /* PaymentsView.swift */,
 				F7AAEC242C806A33009396E3 /* PaymentsViewModel.swift */,
 				F7AAEC222C806A24009396E3 /* PaymentsModel.swift */,
+				F7AAEC2F2C8195CB009396E3 /* PaymentWebView.swift */,
+				F7AAEC312C81C2E9009396E3 /* PaymentSuccessOrFailView.swift */,
 			);
 			path = Payments;
 			sourceTree = "<group>";
@@ -406,6 +412,7 @@
 				F7E4D7952C66154D00405CFE /* ThemeChangeView.swift in Sources */,
 				F799DE3C2C746832003D79E1 /* MainApiCall.swift in Sources */,
 				F7AAEC232C806A24009396E3 /* PaymentsModel.swift in Sources */,
+				F7AAEC322C81C2E9009396E3 /* PaymentSuccessOrFailView.swift in Sources */,
 				F7519A1C2C6B52DD00B02D92 /* NoticeModel.swift in Sources */,
 				F7AAEC252C806A33009396E3 /* PaymentsViewModel.swift in Sources */,
 				F7519A142C6A262700B02D92 /* OtpResponseModel.swift in Sources */,
@@ -425,6 +432,7 @@
 				F7FE62E72C633793004049A1 /* ProptollApp.swift in Sources */,
 				F799DE402C773C6F003D79E1 /* BillsViewModel.swift in Sources */,
 				F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */,
+				F7AAEC302C8195CB009396E3 /* PaymentWebView.swift in Sources */,
 				F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */,
 				F7729F002C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift in Sources */,
 				F7729EFE2C7C4F4B00EE3D6C /* ReceiptsModel.swift in Sources */,

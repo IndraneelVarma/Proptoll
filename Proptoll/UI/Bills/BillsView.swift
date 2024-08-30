@@ -155,7 +155,7 @@ struct BillsView: View {
         }
         .fullScreenCover(isPresented: $showingPayScreen) {
             NavigationStack {
-                PaymentsView(year: year)
+                PaymentsView(amount: viewModel2.bills.first?.dueAmount ?? 0, year: year)
                     .navigationBarItems(leading: Button("Back") {
                         showingPayScreen = false
                     })

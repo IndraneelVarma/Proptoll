@@ -8,6 +8,11 @@
 import Foundation
 
 
-struct Pay: Codable, Hashable{
-    
+struct PaymentBody: Codable, Hashable{
+    var amount: Int
+    var billing_name: String
+    var billing_tel: String
+    var merchant_param1: String
+    var merchant_param2: String
+    var merchant_param5: String
 }
