@@ -16,4 +16,3 @@ var mainPhoneNumber = UserDefaults.standard.string(forKey: "mainPhoneNumber") ??
 var plotId = UserDefaults.standard.string(forKey: "plotId") ?? ""
 var billId = UserDefaults.standard.string(forKey: "billId") ?? ""
 
-
