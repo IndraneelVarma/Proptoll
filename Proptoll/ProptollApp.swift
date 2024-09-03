@@ -16,7 +16,7 @@ struct ProptollApp: App {
                     .fullScreenCover(isPresented: $showBills) {
                         NavigationStack {
                             BillsView2()
-                                .navigationBarItems(leading: Button("Back") {
+                                .navigationBarItems(leading: Button("Home") {
                                     showBills = false
                                     router.reset()
                                 })
@@ -25,7 +25,7 @@ struct ProptollApp: App {
                     .fullScreenCover(isPresented: $showReceipts) {
                         NavigationStack {
                             ReceiptsView2()
-                                .navigationBarItems(leading: Button("Back") {
+                                .navigationBarItems(leading: Button("Home") {
                                     showReceipts = false
                                     router.reset()
                                 })

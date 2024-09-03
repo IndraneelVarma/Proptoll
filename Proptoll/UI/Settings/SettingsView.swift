@@ -122,7 +122,7 @@ struct SettingsView: View {
                     Button{
                         
                     }
-                    label:
+                label:
                     {
                         HStack{
                             Image(systemName: "phone.fill")
@@ -144,18 +144,12 @@ struct SettingsView: View {
                 }
                 .background(Color(UIColor.systemGray4) )
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-               
+                
                 HStack(){
                     
                     Spacer()
                     
-                    Button{
-                        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
-                            UserDefaults.standard.removeObject(forKey: key)
-                        }
-                        router.reset()
-                    }
-                label:
+                    NavigationLink(destination: LoginView())
                     {
                         HStack{
                             Image(systemName: "arrow.backward.square")
@@ -168,10 +162,17 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 25)
                             .fill(.primary))
                     }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        router.reset()
+                        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
+                            UserDefaults.standard.removeObject(forKey: key)
+                        }
+                    })
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                     
                     
-                   Spacer()
+                    
+                    Spacer()
                     
                 }
                 .background(Color(UIColor.systemGray4) )
@@ -198,7 +199,7 @@ struct SettingsView: View {
                     }
                     .padding()
                     
-                   Spacer()
+                    Spacer()
                     
                 }
                 .background(Color(UIColor.systemGray4) )
