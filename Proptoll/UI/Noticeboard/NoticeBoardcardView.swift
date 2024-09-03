@@ -66,11 +66,12 @@ struct NoticeBoardcardView: View {
                         .lineLimit(2)
                         .foregroundColor(.secondary)
                     
-                    NavigationLink(destination: NewsView(title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
+                    NavigationLink(destination: NewsView(deepLink: "proptollStack://\(notice.postNumber)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
                         Text("view full")
                             .italic()
                             .font(.system(size: 12.5))
                     }
+                    
                         .padding(.top, 5)
                 } else {
                     Text("No notice available")
