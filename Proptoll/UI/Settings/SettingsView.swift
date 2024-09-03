@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var changeTheme = false
     @State private var isNotificationOn = false
     @Environment(\.colorScheme) private var scheme
+    @EnvironmentObject var router: Router
     
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
     var body: some View {
@@ -148,7 +149,13 @@ struct SettingsView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: LoginView())
+                    Button{
+                        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
+                            UserDefaults.standard.removeObject(forKey: key)
+                        }
+                        router.reset()
+                    }
+                label:
                     {
                         HStack{
                             Image(systemName: "arrow.backward.square")
@@ -161,12 +168,8 @@ struct SettingsView: View {
                         .background(RoundedRectangle(cornerRadius: 25)
                             .fill(.primary))
                     }
-                    .simultaneousGesture(TapGesture().onEnded {
-                        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
-                            UserDefaults.standard.removeObject(forKey: key)
-                        }
-                    })
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                    
                     
                    Spacer()
                     
@@ -216,5 +219,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(Router())
 }
 

@@ -8,20 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var router: Router
     var body: some View {
-        ZStack{
-            let token = UserDefaults.standard.string(forKey: "jwtToken")
-            if(token == nil)
-            {
-                LoginView()
+        NavigationStack(path: $router.path){
+            ZStack{
+                let token = UserDefaults.standard.string(forKey: "jwtToken")
+                if(token == nil)
+                {
+                    LoginView()
+                }
+                else
+                {
+                    HomePageView()
+                }
             }
-            else
-            {
-                HomePageView()
+            .onAppear(){
+                print(jwtToken)
             }
-        }
-        .onAppear(){
-            print(jwtToken)
         }
         
         
@@ -32,4 +35,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(Router())
 }

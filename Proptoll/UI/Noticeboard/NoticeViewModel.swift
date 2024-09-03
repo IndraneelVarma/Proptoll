@@ -12,7 +12,6 @@ class NoticeViewModel: ObservableObject {
         self.apiService = apiService
     }
     
-    
     func fetchNotices(jsonQuery: [String: Any]) async {
         await apiService.getData(endpoint: "notice-post", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
@@ -24,17 +23,20 @@ class NoticeViewModel: ObservableObject {
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] (notices: [Notice]) in
-                self?.notices = notices
-                
+                DispatchQueue.main.async {
+                    self?.notices = notices
+                }
             }
             .store(in: &cancellables)
     }
+    
+    
     func filteredNotices(searchText: String) async {
         if !searchText.isEmpty {
             let jsonQuery: [String: Any]
             let jsonQuery2: [String: Any]
             let check = searchText.allSatisfy{ $0.isNumber }
-            if check{
+            if check {
                 jsonQuery = [
                     "filter[order]": "id DESC",
                     "filter[limit]": 50,
@@ -42,28 +44,25 @@ class NoticeViewModel: ObservableObject {
                     "filter[where][postNumber]": searchText,
                 ]
                 jsonQuery2 = ["filter[limit]": 0]
-            }
-            else{
+            } else {
                 jsonQuery = [
                     "filter[order]": "id DESC",
                     "filter[limit]": 50,
                     "filter[offset]": 0,
                     "filter[where][title][like]": searchText,
-                    
                 ]
                 jsonQuery2 = [
                     "filter[order]": "id DESC",
                     "filter[limit]": 50,
                     "filter[offset]": 0,
                     "filter[where][subTitle][like]": searchText,
-                    
                 ]
             }
-            self.notices.removeAll()
+            DispatchQueue.main.async {
+                self.notices.removeAll()
+            }
             await fetchNotices(jsonQuery: jsonQuery)
             await fetchNotices(jsonQuery: jsonQuery2)
-            
-           
         }
     }
 }

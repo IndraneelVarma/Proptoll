@@ -90,12 +90,21 @@ struct NoticeBoardView: View {
                         }
                         .transition(.opacity)
                     }
-
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 16) {
-                            if viewModel.notices.isEmpty {
-                                ProgressView()
-                            } else {
+                    
+                    if viewModel.notices.isEmpty {
+                        VStack{
+                            Spacer()
+                            Text("Fetching Notices...")
+                                .font(.system(size: 20))
+                                .foregroundStyle(Color(UIColor.systemGray))
+                            ProgressView()
+                            Spacer()
+                        }
+                    }
+                    else
+                    {
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 16) {
                                 ForEach(viewModel.notices, id: \.id) { notice in
                                     if cardCategoryId.isEmpty || cardCategoryId.contains(notice.noticeCategoryId) {
                                         NoticeBoardcardView(notice: notice)
@@ -103,8 +112,8 @@ struct NoticeBoardView: View {
                                     }
                                 }
                             }
+                            .padding(.vertical)
                         }
-                        .padding(.vertical)
                     }
 
                     Spacer()

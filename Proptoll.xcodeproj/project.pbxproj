@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7110E1D2C860F6300844186 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7110E1C2C860F6300844186 /* Router.swift */; };
 		F72A31772C6A052700B0328D /* ProfileCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72A31762C6A052700B0328D /* ProfileCardView.swift */; };
 		F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73972392C65E74C00F3454A /* SettingsView.swift */; };
 		F7519A122C6A0D8300B02D92 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A112C6A0D8300B02D92 /* WelcomeView.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F7110E1C2C860F6300844186 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		F72A31762C6A052700B0328D /* ProfileCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardView.swift; sourceTree = "<group>"; };
 		F73972392C65E74C00F3454A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F7519A112C6A0D8300B02D92 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				F7519A262C6B89F500B02D92 /* HtmlToString.swift */,
 				F7C12AA52C733983003F4AF4 /* CustomColors.swift */,
 				F7C12AA92C7362AC003F4AF4 /* jsonToUrl.swift */,
+				F7110E1C2C860F6300844186 /* Router.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				F7729EFC2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift in Sources */,
 				F7729F022C7C53D800EE3D6C /* TableView.swift in Sources */,
 				F7AAEC212C8036A1009396E3 /* PaymentsView.swift in Sources */,
+				F7110E1D2C860F6300844186 /* Router.swift in Sources */,
 				F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */,
 				F751C1662C63969C00F6B5CE /* BillsView.swift in Sources */,
 				F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */,
@@ -588,6 +592,7 @@
 				DEVELOPMENT_TEAM = 5VK4WRRWLX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Proptoll/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -617,6 +622,7 @@
 				DEVELOPMENT_TEAM = 5VK4WRRWLX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Proptoll/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

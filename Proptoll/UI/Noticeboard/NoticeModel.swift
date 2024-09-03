@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct Notice: Codable, Hashable, Identifiable, Equatable {
     let title: String
