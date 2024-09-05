@@ -4,6 +4,7 @@ import Combine
 class BillsViewModel: ObservableObject {
     @Published var bills: [Bill] = []
     @Published var error: String?
+    @Published var billUrl: PDF?
     
     private var cancellables = Set<AnyCancellable>()
     private let apiService: MainApiCall
@@ -34,29 +35,22 @@ class BillsViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    func filteredBills(searchText: String) async { //useless for now, might be of use when we add search
-        if !searchText.isEmpty {
-            let jsonQuery: [String: Any]
-            let check = searchText.allSatisfy{ $0.isNumber }
-            if check{
-                jsonQuery = [
-                    "filter[order]": "id DESC",
-                    "filter[limit]": 50,
-                    "filter[offset]": 0,
-                    "filter[where][postNumber]": searchText,
-                ]
+    
+    func downloadBills(jsonQuery: [String: Any], billId2: String) async {
+        await apiService.getData(endpoint: "generate-pdf/bill/\(billId2)", jsonQuery: jsonQuery)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self?.error = error.localizedDescription
+                }
+            } receiveValue: { [weak self] (url: PDF) in
+                self?.billUrl = url
+                print(self?.billUrl?.URL)
             }
-            else{
-                jsonQuery = [
-                    "filter[order]": "id DESC",
-                    "filter[limit]": 50,
-                    "filter[offset]": 0,
-                    "filter[where][title][like]": searchText,
-                ]
-            }
-            self.bills.removeAll()
-            await fetchBills(jsonQuery: jsonQuery)
-           
-        }
+            .store(in: &cancellables)
     }
+    
 }

@@ -1,26 +1,64 @@
 import SwiftUI
+import PDFKit
 
 struct BillsCardView: View {
     @State private var isExpanded = false
     let bill: Bill?
-    
+    @StateObject var viewModel = BillsViewModel()
+    @State var showPdf = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            headerView
-            
-            if isExpanded {
-                VStack(spacing: 16) {
-                    billDetailsTable
-                    additionalInfoView
+        NavigationStack{
+            VStack(alignment: .leading, spacing: 0) {
+                headerView
+                
+                if isExpanded {
+                    VStack(spacing: 16) {
+                        billDetailsTable
+                        additionalInfoView
+                        Button(action: {
+                            if ((viewModel.billUrl?.URL.isEmpty) == false)
+                            {
+                                
+                                showPdf = true
+                            }
+                            print(showPdf)
+                        }, label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.purple)
+                                .frame(width: 300,height: 50)
+                                .overlay{
+                                    Text("Download PDF")
+                                        .foregroundStyle(.white)
+                                }
+                        })
+                        .navigationDestination(isPresented: $showPdf) {
+                            PdfView(urlString: viewModel.billUrl?.URL ?? "")
+                                .navigationBarItems(trailing:
+                                 Button(action: {
+                                    if let url = URL(string:viewModel.billUrl?.URL ?? "") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                }) {
+                                    Image(systemName: "square.and.arrow.up")
+                                }
+                                )
+                        }
+                    }
+                    .onAppear(){
+                        Task{
+                            await viewModel.downloadBills(jsonQuery:[:], billId2:bill?.id ?? "")
+                        }
+                    }
+                    
+                    .padding()
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                .padding()
-                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
+            .background(Color(UIColor.systemGray4))
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            //.shadow(radius: 5)
+            .animation(.spring(), value: isExpanded)
         }
-        .background(Color(UIColor.systemGray4))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        //.shadow(radius: 5)
-        .animation(.spring(), value: isExpanded)
     }
     
     private var headerView: some View {
@@ -76,12 +114,10 @@ struct BillsCardView: View {
             if !(bill?.isPaymentDone ?? false) {
                 var formattedDate: String {
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
                     
                     if let date = dateFormatter.date(from: bill?.dueDate ?? "404") {
-                        dateFormatter.dateFormat = "d MMM yyyy, hh:mm a"
-                        dateFormatter.amSymbol = "AM"
-                        dateFormatter.pmSymbol = "PM"
+                        dateFormatter.dateFormat = "d MMM yyyy"
                         return dateFormatter.string(from: date)
                     } else {
                         return "Invalid date"

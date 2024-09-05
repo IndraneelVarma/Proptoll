@@ -1,4 +1,64 @@
 import SwiftUI
+import Firebase
+import FirebaseCore
+import UserNotifications
+import FirebaseMessaging
+
+
+final class AppDelegate: NSObject, UIApplicationDelegate{
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool{
+        FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in})
+        
+        application.registerForRemoteNotifications()
+        
+        Messaging.messaging().token { token, error in
+            if let error{
+                print("error fetching fcm token: \(error)")
+            }
+            else if let token{
+                print("fcm token is: \(token)")
+            }
+        }
+        
+        return true
+    }
+    
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error){
+        print("failed to register for remote notis: \(error)")
+    }
+    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
+        var readableToken = ""
+        for index in 0 ..< deviceToken.count {
+            readableToken += String(format: "%02.2hhx", deviceToken[index] as CVarArg)
+        }
+        print("Received an APNs devie token: \(readableToken)")
+    }
+}
+
+extension AppDelegate: MessagingDelegate{
+    func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebasetoken: \(fcmToken)")
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([[.banner, .list, .sound]])
+    }
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping ()->Void)  {
+        let userInfo = response.notification.request.content.userInfo
+        NotificationCenter.default.post(name: Notification.Name("didReceiveRemoteNotification"), object: nil, userInfo: userInfo)
+        completionHandler()
+    }
+}
 
 @main
 struct ProptollApp: App {
@@ -44,7 +104,7 @@ struct ProptollApp: App {
         print(url.host ?? "empty url host")
         print(url.lastPathComponent)
         
-        guard url.scheme == "proptoll.com",
+        guard url.scheme == "consumer.proptoll.com",
               let host = url.host else {
             print("Unhandled deep link")
             return
@@ -85,7 +145,7 @@ struct NoticeView: View {
                 ProgressView("Loading...")
             } else {
                 ForEach(viewModel.notices, id: \.id) { notice in
-                    NewsView(deepLink: "proptoll.com://\(notice.postNumber)",
+                    NewsView(deepLink: "consumer.proptoll.com://\(notice.postNumber)",
                              title: notice.title,
                              subTitle: notice.subTitle,
                              content: notice.content,
@@ -117,7 +177,7 @@ struct ReceiptsView2: View {
     var body: some View {
         ZStack{
             ReceiptsView()
-
+            
         }
         .navigationBarBackButtonHidden()
         

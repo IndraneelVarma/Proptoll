@@ -37,7 +37,11 @@ struct Bill: Codable, Hashable {
     let billPaidOn: String?
     let payments: [Payment]?
 }
+
 struct Payment: Codable, Hashable{
     let amountPaid: Int?
 }
 
+struct PDF: Codable{
+    let URL: String
+}

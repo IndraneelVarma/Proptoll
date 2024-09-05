@@ -17,4 +17,5 @@ struct Receipts: Codable, Hashable{
     let receivedTowardsWater: Int?
     let receivedTowardsMaintenance: Int?
     let receivedTowardsSecurity: Int?
+    let id: String?
 }

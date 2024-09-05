@@ -3,7 +3,10 @@ import SwiftUI
 struct ReceiptsCardViewSecondary: View {
     @State private var isExpanded = false
     let receipt: Receipts?
+    let bill: Bill?
     @Binding var paid: Int
+    @State var showPdf = false
+    @StateObject var viewModel = ReceiptsViewModel()
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -19,25 +22,60 @@ struct ReceiptsCardViewSecondary: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            headerView
-            
-            if isExpanded {
-                VStack(spacing: 16) {
-                    billDetailsTable
-                    additionalInfoView
+        NavigationStack{
+            VStack(alignment: .leading, spacing: 0) {
+                headerView
+                
+                if isExpanded {
+                    VStack(spacing: 16) {
+                        billDetailsTable
+                        additionalInfoView
+                        Button(action: {
+                            if ((viewModel.receiptUrl?.URL.isEmpty) == false)
+                            {
+                                
+                                showPdf = true
+                            }
+                            print(showPdf)
+                        }, label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.purple)
+                                .frame(width: 300,height: 50)
+                                .overlay{
+                                    Text("Download PDF")
+                                        .foregroundStyle(.white)
+                                }
+                        })
+                        .navigationDestination(isPresented: $showPdf) {
+                            PdfView(urlString: viewModel.receiptUrl?.URL ?? "")
+                                .navigationBarItems(trailing:
+                                    Button(action: {
+                                    if let url = URL(string:viewModel.receiptUrl?.URL ?? "") {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }) {
+                                    Image(systemName: "square.and.arrow.up")
+                                }
+                                )
+                        }
+                    }
+                    .onAppear(){
+                        Task{
+                            await viewModel.downloadReceipts(jsonQuery:[:], receiptId: receipt?.id ?? "")
+                        }
+                    }
+                    .padding()
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                .padding()
-                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
+            .onAppear(){
+                paid += receipt?.amountPaid ?? 0
+            }
+            .background(Color(UIColor.systemGray4))
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            //.shadow(radius: 5)
+            .animation(.spring(), value: isExpanded)
         }
-        .onAppear(){
-            paid += receipt?.amountPaid ?? 0
-        }
-        .background(Color(UIColor.systemGray4))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        //.shadow(radius: 5)
-        .animation(.spring(), value: isExpanded)
     }
     
     private var headerView: some View {
@@ -87,7 +125,7 @@ struct ReceiptsCardViewSecondary: View {
         VStack(alignment: .leading, spacing: 8) {
             InfoRow(title: "Receipt No.", value: "\(receipt?.receiptNumber ?? 404)")
             InfoRow(title: "Bill No.", value: "\(receipt?.billId ?? "404")")
-            InfoRow(title: "Due/Credit Amount", value: "-")
+            InfoRow(title: "Due/Credit Amount", value: "\(bill?.dueAmount ?? 404)") //do post lunch
             InfoRow(title: "Paid On", value: formattedDate)
             InfoRow(title: "Paid By", value: "\(receipt?.modeOfPayment ?? "no method")")
             
@@ -100,7 +138,7 @@ struct ReceiptsCardViewSecondary: View {
 }
 
 #Preview {
-    ReceiptsCardViewSecondary(receipt: nil, paid: .constant(0))
+    ReceiptsCardViewSecondary(receipt: nil, bill: nil, paid: .constant(0))
 }
 
 

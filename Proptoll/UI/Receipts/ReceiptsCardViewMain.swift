@@ -36,7 +36,7 @@ struct ReceiptsCardViewMain: View {
                         else
                         {
                             ForEach(viewModel.receipts, id: \.self){ receipt in
-                                ReceiptsCardViewSecondary(receipt: receipt, paid: $decoyPaid)
+                                ReceiptsCardViewSecondary(receipt: receipt, bill: bill, paid: $decoyPaid)
                             }
                         }
                     }
@@ -48,7 +48,7 @@ struct ReceiptsCardViewMain: View {
                     if(!viewModel.receipts.isEmpty)
                     {//we shall render an empty card to calculate paid amt before expanding
                         ForEach(viewModel.receipts, id: \.self){ receipt in
-                            ReceiptsCardViewSecondary(receipt: receipt, paid: $paid)
+                            ReceiptsCardViewSecondary(receipt: receipt, bill: bill, paid: $paid)
                                 .frame(width: 0, height: 0)
                                 .hidden()
                                 .accessibility(hidden: true)

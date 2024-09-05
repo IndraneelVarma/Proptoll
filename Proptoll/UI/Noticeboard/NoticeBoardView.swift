@@ -48,6 +48,7 @@ struct NoticeBoardView: View {
                             if !isSearching {
                                 Button(action: {
                                     withAnimation(.easeInOut(duration: 0.3)) {
+                                        cardCategoryId = []
                                         isSearching = true
                                     }
                                 }) {

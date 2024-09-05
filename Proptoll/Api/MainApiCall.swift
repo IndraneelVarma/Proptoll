@@ -44,13 +44,14 @@ class MainApiCall {
         guard var components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
-        
-        components.queryItems = jsonQuery.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+        if !endpoint.contains("pdf"){
+            components.queryItems = jsonQuery.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+        }
         
         guard let url = components.url else {
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
-        
+        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
@@ -63,6 +64,7 @@ class MainApiCall {
                 guard (200...299).contains(httpResponse.statusCode) else {
                     throw APIError.invalidStatusCode(httpResponse.statusCode)
                 }
+                print(data)
                 return data
             }
             .decode(type: T.self, decoder: JSONDecoder())
@@ -117,10 +119,10 @@ class MainApiCall {
     }
     
     func getData3(endpoint: String, body: [String: Any]) async -> AnyPublisher<Data, APIError> {
-        guard var components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
+        guard let components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
-        guard let url = components.url else {
+        guard let url = components.url else { //change let to var if any api issue
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
 

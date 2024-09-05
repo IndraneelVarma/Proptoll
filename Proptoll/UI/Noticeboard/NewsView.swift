@@ -43,11 +43,7 @@ struct NewsView: View {
                         }
                     }
                 } else {
-                    Image(systemName: "photo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 300, height: 200)
-                        .foregroundColor(.gray)
+                    //fallback if no image
                 }
                 
                 Text(content.htmlToString())

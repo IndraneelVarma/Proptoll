@@ -39,6 +39,9 @@
 		F799DE482C78A2B7003D79E1 /* OwnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE472C78A2B7003D79E1 /* OwnerModel.swift */; };
 		F799DE4A2C78A323003D79E1 /* OwnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F799DE492C78A323003D79E1 /* OwnerViewModel.swift */; };
 		F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */; };
+		F7A6AC532C882FFC0019A14F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7A6AC522C882FFC0019A14F /* GoogleService-Info.plist */; };
+		F7A6AC552C8879AE0019A14F /* PdfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A6AC542C8879AE0019A14F /* PdfView.swift */; };
+		F7A735032C88188E00361759 /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A735022C88188E00361759 /* UserGuideView.swift */; };
 		F7AAEC212C8036A1009396E3 /* PaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AAEC202C8036A1009396E3 /* PaymentsView.swift */; };
 		F7AAEC232C806A24009396E3 /* PaymentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AAEC222C806A24009396E3 /* PaymentsModel.swift */; };
 		F7AAEC252C806A33009396E3 /* PaymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AAEC242C806A33009396E3 /* PaymentsViewModel.swift */; };
@@ -97,6 +100,9 @@
 		F799DE472C78A2B7003D79E1 /* OwnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerModel.swift; sourceTree = "<group>"; };
 		F799DE492C78A323003D79E1 /* OwnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerViewModel.swift; sourceTree = "<group>"; };
 		F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		F7A6AC522C882FFC0019A14F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F7A6AC542C8879AE0019A14F /* PdfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfView.swift; sourceTree = "<group>"; };
+		F7A735022C88188E00361759 /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
 		F7AAEC202C8036A1009396E3 /* PaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsView.swift; sourceTree = "<group>"; };
 		F7AAEC222C806A24009396E3 /* PaymentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsModel.swift; sourceTree = "<group>"; };
 		F7AAEC242C806A33009396E3 /* PaymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsViewModel.swift; sourceTree = "<group>"; };
@@ -173,6 +179,14 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
+		F7A734FC2C88147900361759 /* UserGuide */ = {
+			isa = PBXGroup;
+			children = (
+				F7A735022C88188E00361759 /* UserGuideView.swift */,
+			);
+			path = UserGuide;
+			sourceTree = "<group>";
+		};
 		F7AAEC1F2C803689009396E3 /* Payments */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +250,7 @@
 			children = (
 				F73972392C65E74C00F3454A /* SettingsView.swift */,
 				F78053B82C731E7600242BF8 /* Profile */,
+				F7A734FC2C88147900361759 /* UserGuide */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -260,6 +275,7 @@
 				F799DE3F2C773C6F003D79E1 /* BillsViewModel.swift */,
 				F751C17C2C64C85D00F6B5CE /* BillsCardView.swift */,
 				F799DE412C773CA6003D79E1 /* BillModel.swift */,
+				F7A6AC542C8879AE0019A14F /* PdfView.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -295,6 +311,7 @@
 		F7FE62E52C633793004049A1 /* Proptoll */ = {
 			isa = PBXGroup;
 			children = (
+				F7A6AC522C882FFC0019A14F /* GoogleService-Info.plist */,
 				F7FE62E62C633793004049A1 /* ProptollApp.swift */,
 				F79D5E092C6F4F4C008EEABE /* GlobalVariables.swift */,
 				F7FE62E82C633793004049A1 /* ContentView.swift */,
@@ -397,6 +414,7 @@
 			files = (
 				F7FE62EE2C633794004049A1 /* Preview Assets.xcassets in Resources */,
 				F7FE62EB2C633794004049A1 /* Assets.xcassets in Resources */,
+				F7A6AC532C882FFC0019A14F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +454,7 @@
 				F799DE402C773C6F003D79E1 /* BillsViewModel.swift in Sources */,
 				F7C6DAD12C69EEE400980E6A /* OtpViewModel.swift in Sources */,
 				F7AAEC302C8195CB009396E3 /* PaymentWebView.swift in Sources */,
+				F7A6AC552C8879AE0019A14F /* PdfView.swift in Sources */,
 				F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */,
 				F7729F002C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift in Sources */,
 				F7729EFE2C7C4F4B00EE3D6C /* ReceiptsModel.swift in Sources */,
@@ -455,6 +474,7 @@
 				F751C17D2C64C85D00F6B5CE /* BillsCardView.swift in Sources */,
 				F753700F2C64D230007BFE92 /* ReceiptsView.swift in Sources */,
 				F7E4D7A42C69D9F400405CFE /* LoginViewModel.swift in Sources */,
+				F7A735032C88188E00361759 /* UserGuideView.swift in Sources */,
 				F7519A182C6B319400B02D92 /* OtpTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
