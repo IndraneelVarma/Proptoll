@@ -5,6 +5,7 @@ struct BillsCardView: View {
     @State private var isExpanded = false
     let bill: Bill?
     @StateObject var viewModel = BillsViewModel()
+    @State var pdfLoading = false
     @State var showPdf = false
     var body: some View {
         NavigationStack{
@@ -16,19 +17,29 @@ struct BillsCardView: View {
                         billDetailsTable
                         additionalInfoView
                         Button(action: {
-                            if ((viewModel.billUrl?.URL.isEmpty) == false)
-                            {
-                                
-                                showPdf = true
+                            Task{
+                                await viewModel.downloadBills(jsonQuery:[:], billId2:bill?.id ?? "")
+                                pdfLoading = true
                             }
-                            print(showPdf)
+
                         }, label: {
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.purple)
+                                .foregroundStyle(pdfLoading ? .gray : .purple)
                                 .frame(width: 300,height: 50)
                                 .overlay{
-                                    Text("Download PDF")
-                                        .foregroundStyle(.white)
+                                    if pdfLoading
+                                    {
+                                        HStack{
+                                            Text("Loading...")
+                                                .foregroundStyle(.white)
+                                            ProgressView()
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Text("Download Bill")
+                                            .foregroundStyle(.white)
+                                    }
                                 }
                         })
                         .navigationDestination(isPresented: $showPdf) {
@@ -44,12 +55,10 @@ struct BillsCardView: View {
                                 )
                         }
                     }
-                    .onAppear(){
-                        Task{
-                            await viewModel.downloadBills(jsonQuery:[:], billId2:bill?.id ?? "")
-                        }
-                    }
-                    
+                    .onChange(of: viewModel.billUrl, { oldValue, newValue in
+                        showPdf = true
+                        pdfLoading = false
+                    })
                     .padding()
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }

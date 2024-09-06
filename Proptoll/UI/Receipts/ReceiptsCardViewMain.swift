@@ -73,7 +73,7 @@ struct ReceiptsCardViewMain: View {
                 }
             })
             .onAppear(){
-                paid = 0
+                
                 Task{
                     await viewModel.fetchReceipts(jsonQuery:["filter[where][bill_id]": "\(bill?.id ?? "")"])
                 }

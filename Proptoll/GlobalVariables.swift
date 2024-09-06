@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+ 
 let baseApiUrl = "https://api.staging.proptoll.com/api"
 var mainSociety = "I.D.P.L. Employees Co-op. Housing Building Society"
 var mainName = UserDefaults.standard.string(forKey: "mainName") ?? "Dummy Name"
@@ -15,4 +16,5 @@ var jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""//this isnt
 var mainPhoneNumber = UserDefaults.standard.string(forKey: "mainPhoneNumber") ?? "9876543210"
 var plotId = UserDefaults.standard.string(forKey: "plotId") ?? ""
 var billId = UserDefaults.standard.string(forKey: "billId") ?? ""
+
 

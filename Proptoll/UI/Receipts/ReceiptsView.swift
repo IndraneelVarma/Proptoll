@@ -149,11 +149,11 @@ struct ReceiptsView: View {
         {
             year = 2024
             Task{
-                totalPaid = 0
+                
                 await viewModel.fetchBills(jsonQuery:["filter[limit]": 12,
                                                       "filter[include][0][relation]": "payments",
                                                       "filter[order]": "id DESC",
-                                                      "filter[where][bill_year]": 2024,
+                                                      "filter[where][bill_year]": year,
                                                       "filter[where][plot_id]": plotId,])
             }
         }

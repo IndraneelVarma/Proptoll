@@ -1,6 +1,7 @@
 //line 1
 
 import SwiftUI
+import MatomoTracker
 
 struct OTPView: View {
     @State var phoneNumber: String
@@ -112,6 +113,7 @@ struct OTPView: View {
                 }
                 
             }
+            
         }
         .preferredColorScheme(userTheme.colorScheme)
         .onReceive(timer) { _ in

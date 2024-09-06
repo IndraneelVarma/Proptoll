@@ -31,6 +31,9 @@ struct ReceiptsCardViewSecondary: View {
                         billDetailsTable
                         additionalInfoView
                         Button(action: {
+                            Task{
+                                await viewModel.downloadReceipts(jsonQuery:[:], receiptId: receipt?.id ?? "")
+                            }
                             if ((viewModel.receiptUrl?.URL.isEmpty) == false)
                             {
                                 
@@ -42,7 +45,7 @@ struct ReceiptsCardViewSecondary: View {
                                 .foregroundStyle(.purple)
                                 .frame(width: 300,height: 50)
                                 .overlay{
-                                    Text("Download PDF")
+                                    Text("Download Receipt")
                                         .foregroundStyle(.white)
                                 }
                         })
@@ -59,11 +62,7 @@ struct ReceiptsCardViewSecondary: View {
                                 )
                         }
                     }
-                    .onAppear(){
-                        Task{
-                            await viewModel.downloadReceipts(jsonQuery:[:], receiptId: receipt?.id ?? "")
-                        }
-                    }
+                    
                     .padding()
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }

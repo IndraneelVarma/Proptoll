@@ -1,5 +1,6 @@
 import SwiftUI
 import Foundation
+import MatomoTracker
 
 struct LoginView: View {
     @State private var phoneNumber: String = ""

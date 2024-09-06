@@ -42,6 +42,6 @@ struct Payment: Codable, Hashable{
     let amountPaid: Int?
 }
 
-struct PDF: Codable{
+struct PDF: Codable, Equatable{
     let URL: String
 }

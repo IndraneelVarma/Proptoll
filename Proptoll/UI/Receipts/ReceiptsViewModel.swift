@@ -25,8 +25,9 @@ class ReceiptsViewModel: ObservableObject {
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] (receipts: [Receipts]) in
-                self?.receipts = receipts
-                
+                DispatchQueue.main.async{
+                    self?.receipts = receipts
+                }
             }
             .store(in: &cancellables)
     }
@@ -41,8 +42,9 @@ class ReceiptsViewModel: ObservableObject {
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] (url: PDF) in
-                self?.receiptUrl = url
-                
+                DispatchQueue.main.async{
+                    self?.receiptUrl = url
+                }
             }
             .store(in: &cancellables)
     }

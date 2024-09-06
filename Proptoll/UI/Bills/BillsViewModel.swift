@@ -14,6 +14,7 @@ class BillsViewModel: ObservableObject {
     }
     
     func fetchBills(jsonQuery: [String: Any]) async {
+        print("fetchBills Called")
          await apiService.getData2(endpoint: "bills", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -24,7 +25,9 @@ class BillsViewModel: ObservableObject {
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] (bills: [Bill]) in
-                self?.bills = bills
+                DispatchQueue.main.async{
+                    self?.bills = bills
+                }
                 if let limit = jsonQuery["filter[limit]"] as? Int{
                     if limit == 1
                     {
@@ -36,7 +39,7 @@ class BillsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func downloadBills(jsonQuery: [String: Any], billId2: String) async {
+    func downloadBills(jsonQuery: [String: Any], billId2: String) async{
         await apiService.getData(endpoint: "generate-pdf/bill/\(billId2)", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -47,10 +50,14 @@ class BillsViewModel: ObservableObject {
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] (url: PDF) in
-                self?.billUrl = url
-                print(self?.billUrl?.URL)
+                DispatchQueue.main.async{
+                    self?.billUrl = url
+                }
+                print(self?.billUrl?.URL ?? "")
+                
             }
             .store(in: &cancellables)
+        
     }
     
 }

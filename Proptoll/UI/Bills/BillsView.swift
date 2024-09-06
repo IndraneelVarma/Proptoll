@@ -185,7 +185,6 @@ struct BillsView: View {
         {
             year = 2024
             Task{
-                
                 await viewModel.fetchBills(jsonQuery:[
                     "filter[order]": "id DESC",
                     "filter[limit]": 20,
