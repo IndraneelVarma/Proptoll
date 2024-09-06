@@ -4,7 +4,7 @@
 //
 //  Created by Indraneel Varma on 29/08/24.
 //
-
+import MatomoTracker
 import SwiftUI
 
 struct PaymentsView: View {
@@ -104,6 +104,7 @@ struct PaymentsView: View {
             }
         }
         .onAppear(){
+            matomoTracker.track(view: ["Payment Initial Page"])
             Task{
                 await viewModel.fetchBills(jsonQuery:[
                     "filter[order]": "bill_month DESC",

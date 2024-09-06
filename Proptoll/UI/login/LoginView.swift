@@ -108,6 +108,9 @@ struct LoginView: View {
                 }
                 .padding()
             }
+            .onAppear(){
+                matomoTracker.track(view: ["Login Page"])
+            }
         }
         .navigationBarBackButtonHidden(true)
         .preferredColorScheme(userTheme.colorScheme)

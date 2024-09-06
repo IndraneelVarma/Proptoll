@@ -7,11 +7,15 @@
 
 import SwiftUI
 import WebKit
+import MatomoTracker
 
 struct PaymentWebView: View {
     var html: String
     var body: some View {
         WebView(htmlString: html)
+            .onAppear(){
+                matomoTracker.track(view: ["Payments Web Page"])
+            }
     }
 }
 

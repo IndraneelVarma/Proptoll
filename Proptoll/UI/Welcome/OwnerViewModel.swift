@@ -13,7 +13,7 @@ class OwnerViewModel: ObservableObject {
     }
     
     func fetchOwner(jsonQuery: [String: Any]) async {
-        await apiService.getData(endpoint: "owners", jsonQuery: jsonQuery)
+        await apiService.getData2(endpoint: "owners", jsonQuery: jsonQuery)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F7110E1D2C860F6300844186 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7110E1C2C860F6300844186 /* Router.swift */; };
 		F71391F12C8B15390078C48A /* MatomoTracker in Frameworks */ = {isa = PBXBuildFile; productRef = F71391F02C8B15390078C48A /* MatomoTracker */; };
-		F71391F42C8B154C0078C48A /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F71391F32C8B154C0078C48A /* SentrySwiftUI */; };
 		F72A31772C6A052700B0328D /* ProfileCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72A31762C6A052700B0328D /* ProfileCardView.swift */; };
 		F739723A2C65E74C00F3454A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73972392C65E74C00F3454A /* SettingsView.swift */; };
 		F7519A122C6A0D8300B02D92 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7519A112C6A0D8300B02D92 /* WelcomeView.swift */; };
@@ -127,7 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F71391F12C8B15390078C48A /* MatomoTracker in Frameworks */,
-				F71391F42C8B154C0078C48A /* SentrySwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,7 +354,6 @@
 			name = Proptoll;
 			packageProductDependencies = (
 				F71391F02C8B15390078C48A /* MatomoTracker */,
-				F71391F32C8B154C0078C48A /* SentrySwiftUI */,
 			);
 			productName = Proptoll;
 			productReference = F7FE62E32C633793004049A1 /* Proptoll.app */;
@@ -388,7 +385,6 @@
 			mainGroup = F7FE62DA2C633793004049A1;
 			packageReferences = (
 				F71391EF2C8B15390078C48A /* XCRemoteSwiftPackageReference "matomo-sdk-ios" */,
-				F71391F22C8B154C0078C48A /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = F7FE62E42C633793004049A1 /* Products */;
 			projectDirPath = "";
@@ -684,14 +680,6 @@
 				kind = branch;
 			};
 		};
-		F71391F22C8B154C0078C48A /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.36.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -699,11 +687,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F71391EF2C8B15390078C48A /* XCRemoteSwiftPackageReference "matomo-sdk-ios" */;
 			productName = MatomoTracker;
-		};
-		F71391F32C8B154C0078C48A /* SentrySwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F71391F22C8B154C0078C48A /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = SentrySwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

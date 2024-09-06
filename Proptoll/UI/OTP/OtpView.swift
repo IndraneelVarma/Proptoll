@@ -113,6 +113,9 @@ struct OTPView: View {
                 }
                 
             }
+            .onAppear(){
+                matomoTracker.track(view: ["OTP Page"])
+            }
             
         }
         .preferredColorScheme(userTheme.colorScheme)

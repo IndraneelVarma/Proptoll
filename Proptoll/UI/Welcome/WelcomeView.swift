@@ -35,6 +35,7 @@ struct WelcomeView: View {
             .navigationBarBackButtonHidden(true)
         }
         .onAppear(){
+            matomoTracker.track(view: ["Welcome Page"])
             Task{
                 await viewModel.fetchOwner(jsonQuery:[
                     "filter[where][name]":mainName,

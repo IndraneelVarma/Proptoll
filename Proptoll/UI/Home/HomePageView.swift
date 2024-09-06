@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MatomoTracker
 
 struct HomePageView: View{
     @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
@@ -31,7 +32,7 @@ struct HomePageView: View{
                 }
         }
         .onAppear(){
-            
+            matomoTracker.track(view: ["Home Page"])
             jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""
         }
         .preferredColorScheme(userTheme.colorScheme)

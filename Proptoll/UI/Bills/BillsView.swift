@@ -10,6 +10,7 @@ import SwiftUI
 struct BillsView: View {
     @StateObject var viewModel = BillsViewModel()
     @StateObject var viewModel2 = BillsViewModel()
+    @StateObject var viewModel3 = OwnerViewModel()
     @State private var showSheet = false
     @State private var year: Int = 2024
     @State private var showingSettings = false
@@ -183,6 +184,16 @@ struct BillsView: View {
         })
         .onAppear()
         {
+            matomoTracker.track(view: ["Bills Page"])
+            if plotId == ""
+            {
+                Task{
+                    await viewModel3.fetchOwner(jsonQuery:[
+                        "filter[where][name]":mainName,
+                        "filter[include][0][relation]": "plots"
+                    ])
+                }
+            }
             year = 2024
             Task{
                 await viewModel.fetchBills(jsonQuery:[

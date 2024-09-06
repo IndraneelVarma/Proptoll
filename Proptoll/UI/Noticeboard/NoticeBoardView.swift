@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 struct NoticeBoardView: View {
     @StateObject var viewModel = NoticeViewModel()
     @State private var cardCategoryId: [Int] = []
@@ -136,6 +137,7 @@ struct NoticeBoardView: View {
             }
         })
         .onAppear {
+            matomoTracker.track(view: ["NoticeBoard Page"])
             Task{
                 await viewModel.fetchNotices(jsonQuery: [
                     "filter[order]": "updatedAt DESC",

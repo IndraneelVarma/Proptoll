@@ -1,5 +1,5 @@
 {
-  "originHash" : "b3785b398b7b3126aac6d964eaabfd92b69a1f6515e19525fbec4f9553623006",
+  "originHash" : "303f84d3c0ca076890174ca8b301ae4ba61562ef87db0557adecfb78d40500e2",
   "pins" : [
     {
       "identity" : "matomo-sdk-ios",
@@ -8,15 +8,6 @@
       "state" : {
         "branch" : "develop",
         "revision" : "6b86f844a3adc118161d674807d8e125365060fc"
-      }
-    },
-    {
-      "identity" : "sentry-cocoa",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/getsentry/sentry-cocoa.git",
-      "state" : {
-        "revision" : "5575af93efb776414f243e93d6af9f6258dc539a",
-        "version" : "8.36.0"
       }
     }
   ],

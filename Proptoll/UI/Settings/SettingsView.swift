@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct SettingsView: View {
     @State private var changeTheme = false
     @State private var isNotificationOn = false
@@ -236,6 +237,9 @@ struct SettingsView: View {
                     .animation(.easeInOut, value: showCookie)
                     .opacity(0.85)
                 }
+            }
+            .onAppear(){
+                matomoTracker.track(view: ["Settings Page"])
             }
             .preferredColorScheme(userTheme.colorScheme)
             .sheet(isPresented: $changeTheme, content: {

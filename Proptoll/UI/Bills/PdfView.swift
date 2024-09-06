@@ -1,14 +1,20 @@
 import SwiftUI
 import PDFKit
 
+
 struct PdfView: View {
     let urlString: String
     @State private var isSharePresented = false
     var body: some View {
-        if let url = URL(string: urlString) {
-            PDFKitView(url: url)
-        } else {
-            ProgressView()
+        ZStack{
+            if let url = URL(string: urlString) {
+                PDFKitView(url: url)
+            } else {
+                ProgressView()
+            }
+        }
+        .onAppear(){
+            matomoTracker.track(view: ["PDF Viewer Page"])
         }
     }
 }

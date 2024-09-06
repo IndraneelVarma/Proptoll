@@ -50,15 +50,16 @@ struct NoticeBoardcardView: View {
                                 image
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 200)
+                                    .frame(maxHeight: .infinity)
                                     .clipped()
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
                             case .failure:
                                 ProgressView()
                             @unknown default:
                                 EmptyView()
                             }
                         }
-                        .frame(height: 200)
+                        .frame(maxWidth: .infinity)
                     }
                     
                     Text(notice.content.htmlToString())

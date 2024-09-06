@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import MatomoTracker
  
 let baseApiUrl = "https://api.staging.proptoll.com/api"
 var mainSociety = "I.D.P.L. Employees Co-op. Housing Building Society"
@@ -16,5 +16,6 @@ var jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""//this isnt
 var mainPhoneNumber = UserDefaults.standard.string(forKey: "mainPhoneNumber") ?? "9876543210"
 var plotId = UserDefaults.standard.string(forKey: "plotId") ?? ""
 var billId = UserDefaults.standard.string(forKey: "billId") ?? ""
+let matomoTracker = MatomoTracker(siteId: "1", baseURL: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
 
 
