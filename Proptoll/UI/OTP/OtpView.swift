@@ -1,7 +1,6 @@
 //line 1
 
 import SwiftUI
-import MatomoTracker
 
 struct OTPView: View {
     @State var phoneNumber: String
@@ -35,7 +34,8 @@ struct OTPView: View {
                     .padding()
                 
                 Button {
-                    if(otp.count == 26)
+                    matomoTracker.track(eventWithCategory: "Verify Otp", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                    if(otp.count == 26) //6 digit otp with spaces in textfield auto added
                     {
                         Task {
                             do {
@@ -45,8 +45,12 @@ struct OTPView: View {
                                 UserDefaults.standard.set(response.name, forKey: "mainName")
                                 errorMessage = nil
                                 showHomePage = true
+                                if showHomePage{
+                                    matomoTracker.track(eventWithCategory: "Verify Otp", action: "Success", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                }
                             } catch {
                                 errorMessage = error.localizedDescription
+                                matomoTracker.track(eventWithCategory: "Verify Otp", action: "error", name: "Error Message: \(String(describing: errorMessage))", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                                 jwtToken = ""
                             }
                             isLoading = false
@@ -55,6 +59,7 @@ struct OTPView: View {
                     else
                     {
                         errorMessage = "Please enter 6 digits"
+                        matomoTracker.track(eventWithCategory: "Verify Otp", action: "error", name: "Error Message: \(String(describing: errorMessage))", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                     }
                 } label: {
                     Text("Verify OTP")
@@ -70,6 +75,7 @@ struct OTPView: View {
                 .disabled(isLoading)
                 
                 Button {
+                    matomoTracker.track(eventWithCategory: "Resend Otp", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                     Task {
                         do {
                             isLoading = true

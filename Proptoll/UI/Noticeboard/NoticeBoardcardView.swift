@@ -2,6 +2,8 @@ import SwiftUI
 
 struct NoticeBoardcardView: View {
     let notice: Notice?
+    @State private var isImagePresented = false
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
@@ -23,20 +25,7 @@ struct NoticeBoardcardView: View {
                         .foregroundColor(.secondary)
                         .lineLimit(2)
                     
-                    var formattedDate: String {
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                        
-                        if let date = dateFormatter.date(from: notice.createdAt) {
-                            dateFormatter.dateFormat = "d MMM yyyy, hh:mm a"
-                            dateFormatter.amSymbol = "AM"
-                            dateFormatter.pmSymbol = "PM"
-                            return dateFormatter.string(from: date)
-                        } else {
-                            return "Invalid date"
-                        }
-                    }
-                    Text("Posted on \(formattedDate)")
+                    Text("Posted on \(formattedDate(notice.createdAt))")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
@@ -53,6 +42,9 @@ struct NoticeBoardcardView: View {
                                     .frame(maxHeight: .infinity)
                                     .clipped()
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .onTapGesture {
+                                        isImagePresented = true
+                                    }
                             case .failure:
                                 ProgressView()
                             @unknown default:
@@ -60,6 +52,11 @@ struct NoticeBoardcardView: View {
                             }
                         }
                         .frame(maxWidth: .infinity)
+                        .sheet(isPresented: $isImagePresented) {
+                            NavigationView {
+                                ZoomableImageView(imageURL: url, isPresented: $isImagePresented)
+                            }
+                        }
                     }
                     
                     Text(notice.content.htmlToString())
@@ -67,13 +64,17 @@ struct NoticeBoardcardView: View {
                         .lineLimit(2)
                         .foregroundColor(.secondary)
                     
-                    NavigationLink(destination: NewsView(deepLink: "proptollStack://\(notice.postNumber)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "")){
+                    NavigationLink(destination: NewsView(deepLink: "proptollStack://\(notice.postNumber)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "", notice: notice)) {
                         Text("view full")
                             .italic()
                             .font(.system(size: 12.5))
                     }
-                    
-                        .padding(.top, 5)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        print(notice.content)
+                        matomoTracker.track(eventWithCategory: "view full", action: "tapped", name: "on notice number \(notice.postNumber)", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                    })
+                    .padding(.top, 5)
+                        
                 } else {
                     Text("No notice available")
                 }
@@ -82,10 +83,9 @@ struct NoticeBoardcardView: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGray5))
             .cornerRadius(12)
-            //.shadow(color: Color(UIColor.systemGray4) .opacity(0.4), radius: 5, x: 0, y: 2)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(UIColor.systemGray4) .opacity(0.2), lineWidth: 1)
+                    .stroke(Color(UIColor.systemGray4).opacity(0.2), lineWidth: 1)
             )
         }
     }
@@ -103,15 +103,30 @@ struct NoticeBoardcardView: View {
     
     private func categoryInfo(for id: Int) -> (String, Color) {
         switch id {
-        case 1: return ("General", .blue)
-        case 2: return ("Information", .green)
+        case 1: return ("General", .cyan)
+        case 2: return ("Information", .blue)
         case 3: return ("Alert", .orange)
         case 4: return ("Emergency", .red)
-        case 5: return ("Event", .purple)
-        default: return ("Unknown", Color(UIColor.systemGray4) )
+        case 5: return ("Event", .green)
+        default: return ("Unknown", Color(UIColor.systemGray4))
+        }
+    }
+    
+    private func formattedDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "d MMM yyyy, hh:mm a"
+            dateFormatter.amSymbol = "AM"
+            dateFormatter.pmSymbol = "PM"
+            return dateFormatter.string(from: date)
+        } else {
+            return "Invalid date"
         }
     }
 }
+
 #Preview {
-    NoticeBoardcardView(notice: Notice(title: "Title", id: "", content: "Content", subTitle: "subTitle", noticeCategoryId: 0, createdAt: "Now", postNumber: 0,  attachments: [Attachment(s3ResourceUrl: "https://cdn.proptoll.com/OIP.jpg")]))
+    NoticeBoardcardView(notice: Notice(title: "Sample Title", id: "1", content: "Sample Content", subTitle: "Sample Subtitle", noticeCategoryId: 1, createdAt: "2024-03-10T12:00:00.000Z", postNumber: 1, attachments: [Attachment(s3ResourceUrl: "https://example.com/sample-image.jpg")]))
 }

@@ -6,6 +6,7 @@
 //
 import MatomoTracker
 import SwiftUI
+import Sentry
 
 struct PaymentsView: View {
     @StateObject private var viewModel = BillsViewModel()

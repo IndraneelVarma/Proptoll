@@ -23,6 +23,7 @@ class BillsViewModel: ObservableObject {
                     break
                 case .failure(let error):
                     self?.error = error.localizedDescription
+                    matomoTracker.track(eventWithCategory: "bills api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                 }
             } receiveValue: { [weak self] (bills: [Bill]) in
                 DispatchQueue.main.async{

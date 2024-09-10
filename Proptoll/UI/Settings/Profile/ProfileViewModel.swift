@@ -21,6 +21,7 @@ class ProfileViewModel: ObservableObject {
                     break
                 case .failure(let error):
                     self?.error = error.localizedDescription
+                    matomoTracker.track(eventWithCategory: "profile api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                 }
             } receiveValue: { [weak self] (profile: [Profile]) in
                 self?.profile = profile

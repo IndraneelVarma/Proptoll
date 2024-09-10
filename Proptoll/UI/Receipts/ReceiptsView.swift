@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Sentry
 
 struct ReceiptsView: View {
     @StateObject var viewModel = BillsViewModel()
@@ -149,15 +150,7 @@ struct ReceiptsView: View {
         .onAppear()
         {
             matomoTracker.track(view: ["Receipts Page"])
-            if plotId == ""
-            {
-                Task{
-                    await viewModel3.fetchOwner(jsonQuery:[
-                        "filter[where][name]":mainName,
-                        "filter[include][0][relation]": "plots"
-                    ])
-                }
-            }
+            
             year = 2024
             Task{
                 

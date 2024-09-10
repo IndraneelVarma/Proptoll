@@ -21,6 +21,7 @@ class NoticeViewModel: ObservableObject {
                     break
                 case .failure(let error):
                     self?.error = error.localizedDescription
+                    matomoTracker.track(eventWithCategory: "notice api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                 }
             } receiveValue: { [weak self] (notices: [Notice]) in
                 DispatchQueue.main.async {

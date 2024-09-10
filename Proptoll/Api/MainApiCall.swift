@@ -41,54 +41,54 @@ class MainApiCall {
     }
     
     func getData<T: Codable>(endpoint: String, jsonQuery: [String: Any]) async -> AnyPublisher<T, APIError> {
-        print("Debug: getData called with endpoint: \(endpoint)")
-        print("Debug: jsonQuery: \(jsonQuery)")
+        //print("Debug: getData called with endpoint: \(endpoint)")
+        //print("Debug: jsonQuery: \(jsonQuery)")
 
         guard var components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
-            print("Error: Invalid URL components")
+            //print("Error: Invalid URL components")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
 
         if !endpoint.contains("pdf") {
             components.queryItems = jsonQuery.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-            print("Debug: Query items: \(components.queryItems ?? [])")
+            //print("Debug: Query items: \(components.queryItems ?? [])")
         } else {
-            print("Debug: PDF endpoint detected, not adding query items")
+            //print("Debug: PDF endpoint detected, not adding query items")
         }
 
         guard let url = components.url else {
-            print("Error: Unable to create URL from components")
+            //print("Error: Unable to create URL from components")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
-        print("Debug: Constructed URL: \(url.absoluteString)")
+        //print("Debug: Constructed URL: \(url.absoluteString)")
 
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
         
-        print("Debug: Request method: \(httpMethod)")
-        print("Debug: Request headers: \(request.allHTTPHeaderFields ?? [:])")
+        //print("Debug: Request method: \(httpMethod)")
+        //print("Debug: Request headers: \(request.allHTTPHeaderFields ?? [:])")
 
         return session.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
-                print("Debug: Received response")
+                //print("Debug: Received response")
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error: Invalid response type")
+                    //print("Error: Invalid response type")
                     throw APIError.invalidResponse
                 }
-                print("Debug: Response status code: \(httpResponse.statusCode)")
-                print("Debug: Response headers: \(httpResponse.allHeaderFields)")
+                //print("Debug: Response status code: \(httpResponse.statusCode)")
+                //print("Debug: Response headers: \(httpResponse.allHeaderFields)")
 
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    print("Error: Invalid status code \(httpResponse.statusCode)")
+                    //print("Error: Invalid status code \(httpResponse.statusCode)")
                     throw APIError.invalidStatusCode(httpResponse.statusCode)
                 }
 
-                print("Debug: Received \(data.count) bytes")
+                //print("Debug: Received \(data.count) bytes")
                 if let responseString = String(data: data, encoding: .utf8) {
-                    print("Debug: Response body: \(responseString.prefix(1000))...") // Print first 1000 characters to avoid overwhelming logs
+                    //print("Debug: Response body: \(responseString.prefix(1000))...") // Print first 1000 characters to avoid overwhelming logs
                 } else {
-                    print("Debug: Unable to convert response data to string")
+                    //print("Debug: Unable to convert response data to string")
                 }
 
                 return data
@@ -96,13 +96,13 @@ class MainApiCall {
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError { error -> APIError in
                 if let apiError = error as? APIError {
-                    print("Debug: APIError occurred: \(apiError)")
+                    //print("Debug: APIError occurred: \(apiError)")
                     return apiError
                 } else if let decodingError = error as? DecodingError {
-                    print("Debug: Decoding error occurred: \(decodingError)")
+                    //print("Debug: Decoding error occurred: \(decodingError)")
                     return .decodingError(decodingError)
                 } else {
-                    print("Debug: Network error occurred: \(error.localizedDescription)")
+                    //print("Debug: Network error occurred: \(error.localizedDescription)")
                     return .networkError(error)
                 }
             }
@@ -110,49 +110,49 @@ class MainApiCall {
     }
     func getData2<T: Codable>(endpoint: String, jsonQuery: [String: Any]) async -> AnyPublisher<T, APIError> {
         guard var components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
-            print("Error: Invalid base URL or endpoint")
+            //print("Error: Invalid base URL or endpoint")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
         
         components.queryItems = jsonQuery.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
         
         guard let url = components.url else {
-            print("Error: Failed to create URL from components")
+            //print("Error: Failed to create URL from components")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
         
-        print("Request URL: \(url.absoluteString)")
+        //print("Request URL: \(url.absoluteString)")
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
         
-        print("Request Headers: \(request.allHTTPHeaderFields ?? [:])")
+        //print("Request Headers: \(request.allHTTPHeaderFields ?? [:])")
         
         return session.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
-                print("Received response for endpoint: \(endpoint)")
+                //print("Received response for endpoint: \(endpoint)")
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error: Invalid response type")
+                    //print("Error: Invalid response type")
                     throw APIError.invalidResponse
                 }
-                print("Response Status Code: \(httpResponse.statusCode)")
-                print("Response Headers: \(httpResponse.allHeaderFields)")
+                //print("Response Status Code: \(httpResponse.statusCode)")
+                //print("Response Headers: \(httpResponse.allHeaderFields)")
                 
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    print("Error: Invalid status code \(httpResponse.statusCode)")
+                    //print("Error: Invalid status code \(httpResponse.statusCode)")
                     if let responseString = String(data: data, encoding: .utf8) {
-                        print("Response Body: \(responseString)")
+                        //print("Response Body: \(responseString)")
                     }
                     throw APIError.invalidStatusCode(httpResponse.statusCode)
                 }
                 
-                print("Received Data Size: \(data.count) bytes")
+                //print("Received Data Size: \(data.count) bytes")
                 if endpoint == "bills" {
                     if let responseString = String(data: data, encoding: .utf8) {
-                        print("Bills Response: \(responseString)")
+                        //print("Bills Response: \(responseString)")
                     } else {
-                        print("Unable to convert bills response to string")
+                        //print("Unable to convert bills response to string")
                     }
                 }
                 
@@ -160,11 +160,11 @@ class MainApiCall {
             }
             .decode(type: T.self, decoder: snakeCaseDecoder)
             .mapError { error -> APIError in
-                print("Error occurred: \(error.localizedDescription)")
+                //print("Error occurred: \(error.localizedDescription)")
                 if let apiError = error as? APIError {
                     return apiError
                 } else if let decodingError = error as? DecodingError {
-                    print("Decoding Error: \(decodingError)")
+                    //print("Decoding Error: \(decodingError)")
                     return .decodingError(decodingError)
                 } else {
                     return .networkError(error)
@@ -174,67 +174,67 @@ class MainApiCall {
     }
     
     func getData3(endpoint: String, body: [String: Any]) async -> AnyPublisher<Data, APIError> {
-        print("Debug: getData3 called with endpoint: \(endpoint)")
-        print("Debug: Request body: \(body)")
+        //print("Debug: getData3 called with endpoint: \(endpoint)")
+        //print("Debug: Request body: \(body)")
         
         guard let components = URLComponents(url: baseURL.appendingPathComponent(endpoint), resolvingAgainstBaseURL: true) else {
-            print("Error: Invalid URL components")
+            //print("Error: Invalid URL components")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
         
         guard let url = components.url else {
-            print("Error: Unable to create URL from components")
+            //print("Error: Unable to create URL from components")
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
         
-        print("Debug: Constructed URL: \(url.absoluteString)")
+        //print("Debug: Constructed URL: \(url.absoluteString)")
         
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
         
-        print("Debug: Request headers: \(request.allHTTPHeaderFields ?? [:])")
+        //print("Debug: Request headers: \(request.allHTTPHeaderFields ?? [:])")
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: body)
             request.httpBody = jsonData
-            print("Debug: Request body serialized successfully. Size: \(jsonData.count) bytes")
+            //print("Debug: Request body serialized successfully. Size: \(jsonData.count) bytes")
         } catch {
-            print("Error: Failed to serialize request body. Error: \(error.localizedDescription)")
+            //print("Error: Failed to serialize request body. Error: \(error.localizedDescription)")
             return Fail(error: APIError.encodingError).eraseToAnyPublisher()
         }
         
         return session.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
-                print("Debug: Received response")
+                //print("Debug: Received response")
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error: Invalid response type")
+                    //print("Error: Invalid response type")
                     throw APIError.invalidResponse
                 }
-                print("Debug: Response status code: \(httpResponse.statusCode)")
-                print("Debug: Response headers: \(httpResponse.allHeaderFields)")
+                //print("Debug: Response status code: \(httpResponse.statusCode)")
+                //print("Debug: Response headers: \(httpResponse.allHeaderFields)")
                 
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    print("Error: Invalid status code \(httpResponse.statusCode)")
+                    //print("Error: Invalid status code \(httpResponse.statusCode)")
                     throw APIError.invalidStatusCode(httpResponse.statusCode)
                 }
                 
-                print("Debug: Received \(data.count) bytes")
+                //print("Debug: Received \(data.count) bytes")
                 if let responseString = String(data: data, encoding: .utf8) {
-                    print("Debug: Response body: \(responseString)")
+                    //print("Debug: Response body: \(responseString)")
                 } else {
-                    print("Debug: Unable to convert response data to string")
+                    //print("Debug: Unable to convert response data to string")
                 }
                 
                 return data
             }
             .mapError { error -> APIError in
                 if let apiError = error as? APIError {
-                    print("Debug: APIError occurred: \(apiError)")
+                    //print("Debug: APIError occurred: \(apiError)")
                     return apiError
                 } else {
-                    print("Debug: Network error occurred: \(error.localizedDescription)")
+                    //print("Debug: Network error occurred: \(error.localizedDescription)")
                     return .networkError(error)
                 }
             }

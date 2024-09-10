@@ -1,19 +1,121 @@
 import SwiftUI
+import Sentry
+import FirebaseCore
+import UserNotifications
+import FirebaseMessaging
 
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        // Configure Firebase
+        FirebaseApp.configure()
+        
+        // Set messaging delegate
+        Messaging.messaging().delegate = self
+        
+        // Request notification permissions
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { granted, error in
+                print("✅ Notification authorization granted: \(granted)")
+                if let error = error {
+                    print("❌ Notification authorization error: \(error.localizedDescription)")
+                }
+            }
+        )
+        
+        // Register for remote notifications
+        application.registerForRemoteNotifications()
+        
+        // Attempt to fetch FCM token
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("❌ Error fetching FCM token: \(error.localizedDescription)")
+            } else if let token = token {
+                print("✅ FCM token successfully retrieved:")
+                print("📱 FCM TOKEN: \(token)")
+            } else {
+                print("⚠️ No FCM token retrieved and no error reported")
+            }
+        }
+        
+        return true
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+        let tokenParts = deviceToken.map { String(format: "%02.2hhx", $0) }
+        let token = tokenParts.joined()
+        print("✅ Successfully registered for remote notifications with token: \(token)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("❌ Failed to register for remote notifications: \(error.localizedDescription)")
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("📱 Firebase registration token: \(fcmToken ?? "nil")")
+        // Here you can send the token to your server if needed
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print("📬 Received notification while app in foreground: \(userInfo)")
+        completionHandler([[.banner, .list, .sound]])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print("👆 User tapped on notification: \(userInfo)")
+        NotificationCenter.default.post(name: Notification.Name("didReceiveRemoteNotification"), object: nil, userInfo: userInfo)
+        completionHandler()
+    }
+}
 
 @main
 struct ProptollApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var router = Router()
     @StateObject private var viewModel = NoticeViewModel()
     @State private var showBills = false
     @State private var showReceipts = false
+    @State private var showNotice = false
+    
+    /*
+    init() {
+        SentrySDK.start { options in
+            options.dsn = "https://a3170e9cb82d1760d56d3aa9910f5ac8@o4505566808571904.ingest.us.sentry.io/4507905563164672"
+            options.debug = false
+            options.environment = "dev"
+            options.tracesSampleRate = 1.0
+        }
+    }
+    */
     
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.path) {
                 ContentView()
-                    .navigationDestination(for: Int.self) { postNumber in
-                        NoticeView(postNumber: postNumber, viewModel: viewModel)
+                    .fullScreenCover(isPresented: $showNotice) {
+                        NavigationStack {
+                            NoticeView(viewModel: viewModel)
+                                .navigationBarItems(leading: Button("Home") {
+                                    showNotice = false
+                                    router.reset()
+                                })
+                        }
                     }
                     .fullScreenCover(isPresented: $showBills) {
                         NavigationStack {
@@ -42,13 +144,14 @@ struct ProptollApp: App {
     }
     
     private func handleDeepLink(_ url: URL) {
-        print(url.scheme ?? "empty url scheme")
-        print(url.host ?? "empty url host")
-        print(url.lastPathComponent)
+        print("🔗 Received deep link: \(url)")
+        print("Scheme: \(url.scheme ?? "empty url scheme")")
+        print("Host: \(url.host ?? "empty url host")")
+        print("Last path component: \(url.lastPathComponent)")
         
         guard url.scheme == "consumer.proptoll.com",
               let host = url.host else {
-            print("Unhandled deep link")
+            print("❌ Unhandled deep link")
             return
         }
         
@@ -68,9 +171,9 @@ struct ProptollApp: App {
                 showBills = false
                 if let postNumber = Int(host) {
                     await viewModel.fetchNotices(jsonQuery: ["filter[where][postNumber]": "\(postNumber)"])
-                    router.path.append(postNumber)
+                    showNotice = true
                 } else {
-                    print("Unhandled deep link host")
+                    print("❌ Unhandled deep link host")
                 }
             }
         }
@@ -78,9 +181,9 @@ struct ProptollApp: App {
 }
 
 struct NoticeView: View {
-    let postNumber: Int
     @ObservedObject var viewModel: NoticeViewModel
     @EnvironmentObject private var router: Router
+    
     var body: some View {
         ZStack {
             if viewModel.notices.isEmpty {
@@ -91,23 +194,19 @@ struct NoticeView: View {
                              title: notice.title,
                              subTitle: notice.subTitle,
                              content: notice.content,
-                             image: notice.attachments?.first?.s3ResourceUrl ?? "")
+                             image: notice.attachments?.first?.s3ResourceUrl ?? "",
+                             notice: notice)
                 }
             }
         }
-        .navigationBarTitle("Notice", displayMode: .inline)
-        .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: Button("Back") {
-            router.path.removeLast()
-        })
     }
 }
 
-// Placeholder views for Bills and Receipts
 struct BillsView2: View {
     @EnvironmentObject private var router: Router
+    
     var body: some View {
-        ZStack{
+        ZStack {
             BillsView()
         }
         .navigationBarBackButtonHidden()
@@ -116,12 +215,14 @@ struct BillsView2: View {
 
 struct ReceiptsView2: View {
     @EnvironmentObject private var router: Router
+    
     var body: some View {
-        ZStack{
+        ZStack {
             ReceiptsView()
-            
         }
         .navigationBarBackButtonHidden()
-        
     }
 }
+
+// Note: You'll need to implement ContentView, Router, NoticeViewModel, NewsView, BillsView, and ReceiptsView
+// as they are referenced in this code but not defined here.

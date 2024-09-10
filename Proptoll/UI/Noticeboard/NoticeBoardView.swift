@@ -3,12 +3,14 @@ import SwiftUI
 
 struct NoticeBoardView: View {
     @StateObject var viewModel = NoticeViewModel()
+    @StateObject var viewModel2 = OwnerViewModel()
     @State private var cardCategoryId: [Int] = []
+    @StateObject private var router = Router()
     @State private var searchText = ""
     @State private var isSearching = false
     @State private var showingSettings = false
     @State private var offset = 0
-    
+    @State private var json: [String: Any] = [:]
 
     var body: some View {
         NavigationStack {
@@ -36,6 +38,11 @@ struct NoticeBoardView: View {
                                             "filter[limit]": 100,
                                             "filter[offset]": offset
                                         ])
+                                        json = [
+                                            "filter[order]": "updatedAt DESC",
+                                            "filter[limit]": 100,
+                                            "filter[offset]": offset
+                                        ]
                                     }
                                 }
                             } else {
@@ -51,6 +58,7 @@ struct NoticeBoardView: View {
                                     withAnimation(.easeInOut(duration: 0.3)) {
                                         cardCategoryId = []
                                         isSearching = true
+                                        matomoTracker.track(eventWithCategory: "search button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                                     }
                                 }) {
                                     Image(systemName: "magnifyingglass")
@@ -82,11 +90,29 @@ struct NoticeBoardView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 categoryButton(title: "All")
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "All button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                                 categoryButton(title: "General", id: 1)
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "General button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                                 categoryButton(title: "Information", id: 2)
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "Information button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                                 categoryButton(title: "Alert", id: 3)
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "Alert button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                                 categoryButton(title: "Emergency", id: 4)
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "Emergency button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                                 categoryButton(title: "Event", id: 5)
+                                    .onTapGesture {
+                                        matomoTracker.track(eventWithCategory: "Event button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                    }
                             }
                             .padding()
                         }
@@ -116,6 +142,12 @@ struct NoticeBoardView: View {
                             }
                             .padding(.vertical)
                         }
+                        .refreshable {
+                            Task
+                            {
+                                await viewModel.fetchNotices(jsonQuery:json)
+                            }
+                        }
                     }
 
                     Spacer()
@@ -138,12 +170,18 @@ struct NoticeBoardView: View {
         })
         .onAppear {
             matomoTracker.track(view: ["NoticeBoard Page"])
+            router.reset()
             Task{
                 await viewModel.fetchNotices(jsonQuery: [
                     "filter[order]": "updatedAt DESC",
                     "filter[limit]": 100,
                     "filter[offset]": offset
                 ])
+                json = [
+                    "filter[order]": "updatedAt DESC",
+                    "filter[limit]": 100,
+                    "filter[offset]": offset
+                ]
             }
         }
     }
@@ -171,6 +209,12 @@ struct NoticeBoardView: View {
                             "filter[offset]": offset,
                             "filter[where][noticeCategoryId]": id,
                         ])
+                        json = [
+                            "filter[order]": "updatedAt DESC",
+                            "filter[limit]": 100,
+                            "filter[offset]": offset,
+                            "filter[where][noticeCategoryId]": id,
+                        ]
                     }
                 } else {
                     cardCategoryId = []
@@ -180,6 +224,11 @@ struct NoticeBoardView: View {
                             "filter[limit]": 100,
                             "filter[offset]": offset
                         ])
+                        json = [
+                            "filter[order]": "updatedAt DESC",
+                            "filter[limit]": 100,
+                            "filter[offset]": offset
+                        ]
                     }
                 }
             }

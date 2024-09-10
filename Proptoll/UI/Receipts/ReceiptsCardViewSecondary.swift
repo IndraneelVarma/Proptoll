@@ -4,6 +4,7 @@ struct ReceiptsCardViewSecondary: View {
     @State private var isExpanded = false
     let receipt: Receipts?
     let bill: Bill?
+    @State private var pdfLoading = false
     @Binding var paid: Int
     @State var showPdf = false
     @StateObject var viewModel = ReceiptsViewModel()
@@ -22,49 +23,70 @@ struct ReceiptsCardViewSecondary: View {
     }
     
     var body: some View {
-        NavigationStack{
             VStack(alignment: .leading, spacing: 0) {
                 headerView
                 
                 if isExpanded {
                     VStack(spacing: 16) {
                         billDetailsTable
+                        
                         additionalInfoView
+                        
                         Button(action: {
                             Task{
                                 await viewModel.downloadReceipts(jsonQuery:[:], receiptId: receipt?.id ?? "")
+                                pdfLoading = true
                             }
-                            if ((viewModel.receiptUrl?.URL.isEmpty) == false)
-                            {
-                                
-                                showPdf = true
-                            }
-                            print(showPdf)
                         }, label: {
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.purple)
+                                .foregroundStyle(pdfLoading ? .gray : .purple)
                                 .frame(width: 300,height: 50)
                                 .overlay{
-                                    Text("Download Receipt")
-                                        .foregroundStyle(.white)
+                                    if pdfLoading
+                                    {
+                                        HStack{
+                                            Text("Loading...")
+                                                .foregroundStyle(.white)
+                                            ProgressView()
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Text("Download Receipt")
+                                            .foregroundStyle(.white)
+                                    }
                                 }
                         })
-                        .navigationDestination(isPresented: $showPdf) {
-                            PdfView(urlString: viewModel.receiptUrl?.URL ?? "")
-                                .navigationBarItems(trailing:
-                                    Button(action: {
-                                    if let url = URL(string:viewModel.receiptUrl?.URL ?? "") {
-                                        UIApplication.shared.open(url)
+                        .fullScreenCover(isPresented: $showPdf) {
+                            NavigationStack{
+                                PdfView(urlString: viewModel.receiptUrl?.URL ?? "")
+                                    .toolbar {
+                                        ToolbarItem(placement: .navigationBarTrailing) {
+                                            Button(action: {
+                                                if let url = URL(string: viewModel.receiptUrl?.URL ?? "") {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                            }) {
+                                                Image(systemName: "square.and.arrow.up")
+                                            }
+                                        }
+                                        ToolbarItem(placement: .navigationBarLeading){
+                                            Button("Back") {
+                                                showPdf = false
+                                            }
+                                        }
                                     }
-                                }) {
-                                    Image(systemName: "square.and.arrow.up")
-                                }
-                                )
+                            }
                         }
                     }
+                    .onChange(of: viewModel.receiptUrl, { oldValue, newValue in
+                        showPdf = true
+                        pdfLoading = false
+                    })
                     
                     .padding()
                     .transition(.move(edge: .bottom).combined(with: .opacity))
+                    
                 }
             }
             .onAppear(){
@@ -75,7 +97,7 @@ struct ReceiptsCardViewSecondary: View {
             //.shadow(radius: 5)
             .animation(.spring(), value: isExpanded)
         }
-    }
+    
     
     private var headerView: some View {
         HStack {

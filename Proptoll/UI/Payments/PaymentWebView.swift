@@ -15,7 +15,7 @@ struct PaymentWebView: View {
         WebView(htmlString: html)
             .onAppear(){
                 matomoTracker.track(view: ["Payments Web Page"])
-            }
+            }  
     }
 }
 

@@ -28,6 +28,7 @@ class PaymentsViewModel: ObservableObject {
                 break
             case .failure(let error):
                 self?.error = error.localizedDescription
+                matomoTracker.track(eventWithCategory: "payments api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
             }
         } receiveValue: { [weak self] data in
             if let htmlString = String(data: data, encoding: .utf8) {

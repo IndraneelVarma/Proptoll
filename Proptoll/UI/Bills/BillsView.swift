@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Sentry
 
 struct BillsView: View {
     @StateObject var viewModel = BillsViewModel()
     @StateObject var viewModel2 = BillsViewModel()
     @StateObject var viewModel3 = OwnerViewModel()
     @State private var showSheet = false
-    @State private var year: Int = 2024
+    @State private var year: String = "2024"
     @State private var showingSettings = false
     @State private var showingPayScreen = false
     @State private var showProgress = true
@@ -66,6 +67,7 @@ struct BillsView: View {
                         Text("₹\(viewModel2.bills.first?.dueAmount ?? 404)")
                         Spacer()
                         Button(action: {
+                            matomoTracker.track(eventWithCategory: "pay now", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                             showingPayScreen = true
                         }, label: {
                             RoundedRectangle(cornerRadius: 10)
@@ -92,14 +94,14 @@ struct BillsView: View {
                         Menu {
                             Button(action: {
                                 // Action for the first option
-                                year = 2024
+                                year = "2024"
                             }) {
                                 Text("2024")
                             }
                             
                             Button(action: {
                                 // Action for the second option
-                                year = 2023
+                                year = "2023"
                             }) {
                                 Text("2023")
                             }
@@ -156,7 +158,7 @@ struct BillsView: View {
         }
         .fullScreenCover(isPresented: $showingPayScreen) {
             NavigationStack {
-                PaymentsView(amount: viewModel2.bills.first?.dueAmount ?? 0, year: year)
+                PaymentsView(amount: viewModel2.bills.first?.dueAmount ?? 0, year: Int(year) ?? 0)
                     .navigationBarItems(leading: Button("Back") {
                         showingPayScreen = false
                     })
@@ -185,16 +187,7 @@ struct BillsView: View {
         .onAppear()
         {
             matomoTracker.track(view: ["Bills Page"])
-            if plotId == ""
-            {
-                Task{
-                    await viewModel3.fetchOwner(jsonQuery:[
-                        "filter[where][name]":mainName,
-                        "filter[include][0][relation]": "plots"
-                    ])
-                }
-            }
-            year = 2024
+            year = "2024"
             Task{
                 await viewModel.fetchBills(jsonQuery:[
                     "filter[order]": "id DESC",

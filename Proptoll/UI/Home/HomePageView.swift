@@ -32,7 +32,6 @@ struct HomePageView: View{
                 }
         }
         .onAppear(){
-            matomoTracker.track(view: ["Home Page"])
             jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""
         }
         .preferredColorScheme(userTheme.colorScheme)

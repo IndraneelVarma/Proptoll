@@ -40,6 +40,7 @@ class ReceiptsViewModel: ObservableObject {
                     break
                 case .failure(let error):
                     self?.error = error.localizedDescription
+                    matomoTracker.track(eventWithCategory: "receipts api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                 }
             } receiveValue: { [weak self] (url: PDF) in
                 DispatchQueue.main.async{

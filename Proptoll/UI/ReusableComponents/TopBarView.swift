@@ -20,6 +20,9 @@ struct TopBarView: View {
                         .foregroundStyle(.white)
                     Text("Plot No. \(viewModel.profile.first?.plotNumber ?? "xxxx")")
                         .foregroundStyle(.white)
+                        .fontWeight(.bold)
+                    Text("I.D.P.L. Employees Co-op. ")
+                        .foregroundStyle(.white)
                 }
                     .frame(width:330, alignment: .leading)
             )

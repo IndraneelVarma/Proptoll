@@ -21,11 +21,14 @@ class OwnerViewModel: ObservableObject {
                     break
                 case .failure(let error):
                     self?.error = error.localizedDescription
+                    matomoTracker.track(eventWithCategory: "owners/welcome api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                 }
             } receiveValue: { [weak self] (owner: [Owner]) in
-                self?.owners = owner
+                DispatchQueue.main.async{
+                    self?.owners = owner
+                }
                 UserDefaults.standard.setValue(owner.first?.plots?.first?.id, forKey: "plotId")
-                print("Plot Id: \(plotId)")
+                print("ViewModel Plot Id: \(plotId)")
             }
             .store(in: &cancellables)
     }

@@ -1,6 +1,5 @@
 import SwiftUI
 import Foundation
-import MatomoTracker
 
 struct LoginView: View {
     @State private var phoneNumber: String = ""
@@ -47,9 +46,11 @@ struct LoginView: View {
                         .padding(EdgeInsets(top: 10, leading: 45, bottom: 0, trailing: 45))
                         
                         Button {
+                            matomoTracker.track(eventWithCategory: "login button", action: "tapped", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                             if(phoneNumber.count != 10)
                             {
                                 errorMessage = "Please Enter 10 digits"
+                                matomoTracker.track(eventWithCategory: "short phone number", action: "displayed error \(errorMessage ?? "")", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                             }
                             else{
                                 Task {
@@ -59,9 +60,13 @@ struct LoginView: View {
                                         key = response.message
                                         UserDefaults.standard.setValue(phoneNumber, forKey: "mainPhoneNumber")
                                         showOtpScreen = true
+                                        if showOtpScreen {
+                                            matomoTracker.track(eventWithCategory: "logged in", action: "success", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                        }
                                         errorMessage = nil
                                     } catch {
                                         errorMessage = error.localizedDescription
+                                        matomoTracker.track(eventWithCategory: "login error", action: "failed to login", name: "Error: \(errorMessage ?? "")", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                                         key = ""
                                     }
                                     isLoading = false
