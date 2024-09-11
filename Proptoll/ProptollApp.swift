@@ -11,7 +11,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         // Configure Firebase
         FirebaseApp.configure()
-        
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
         // Set messaging delegate
         Messaging.messaging().delegate = self
         
@@ -30,18 +30,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         
         // Register for remote notifications
         application.registerForRemoteNotifications()
-        
-        // Attempt to fetch FCM token
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("❌ Error fetching FCM token: \(error.localizedDescription)")
-            } else if let token = token {
-                print("✅ FCM token successfully retrieved:")
-                print("📱 FCM TOKEN: \(token)")
-            } else {
-                print("⚠️ No FCM token retrieved and no error reported")
-            }
-        }
         
         return true
     }
@@ -69,18 +57,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        print("📬 Received notification while app in foreground: \(userInfo)")
-        completionHandler([[.banner, .list, .sound]])
+        if UserDefaults.standard.bool(forKey: "notis"){
+            let userInfo = notification.request.content.userInfo
+            print("📬 Received notification while app in foreground: \(userInfo)")
+            completionHandler([[.banner, .list, .sound]])
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        print("👆 User tapped on notification: \(userInfo)")
-        NotificationCenter.default.post(name: Notification.Name("didReceiveRemoteNotification"), object: nil, userInfo: userInfo)
-        completionHandler()
+        if UserDefaults.standard.bool(forKey: "notis"){
+            let userInfo = response.notification.request.content.userInfo
+            print("👆 User tapped on notification: \(userInfo)")
+            NotificationCenter.default.post(name: Notification.Name("didReceiveRemoteNotification"), object: nil, userInfo: userInfo)
+            completionHandler()
+        }
     }
 }
 
@@ -117,24 +109,12 @@ struct ProptollApp: App {
                                 })
                         }
                     }
-                    .fullScreenCover(isPresented: $showBills) {
-                        NavigationStack {
-                            BillsView2()
-                                .navigationBarItems(leading: Button("Home") {
-                                    showBills = false
-                                    router.reset()
-                                })
-                        }
-                    }
-                    .fullScreenCover(isPresented: $showReceipts) {
-                        NavigationStack {
-                            ReceiptsView2()
-                                .navigationBarItems(leading: Button("Home") {
-                                    showReceipts = false
-                                    router.reset()
-                                })
-                        }
-                    }
+                    .navigationDestination(isPresented: $showBills, destination: {
+                            HomePageView(tabItem: 2)
+                    })
+                    .navigationDestination(isPresented: $showReceipts, destination: {
+                            HomePageView(tabItem: 3)
+                    })
             }
             .environmentObject(router)
             .onOpenURL { url in
@@ -145,36 +125,35 @@ struct ProptollApp: App {
     
     private func handleDeepLink(_ url: URL) {
         print("🔗 Received deep link: \(url)")
-        print("Scheme: \(url.scheme ?? "empty url scheme")")
-        print("Host: \(url.host ?? "empty url host")")
-        print("Last path component: \(url.lastPathComponent)")
         
-        guard url.scheme == "consumer.proptoll.com",
-              let host = url.host else {
+        guard url.scheme == "https",
+              url.host == "consumer.proptoll.com" else {
             print("❌ Unhandled deep link")
             return
         }
         
         Task {
-            // Reset the path before pushing the new destination
             router.reset()
             
-            switch host {
-            case "bills":
+            switch url.path {
+            case "/bills":
                 showReceipts = false
                 showBills = true
-            case "receipts":
+            case "/receipts":
                 showBills = false
                 showReceipts = true
-            default:
+            case let path where path.hasPrefix("/notice/post/"):
                 showReceipts = false
                 showBills = false
-                if let postNumber = Int(host) {
-                    await viewModel.fetchNotices(jsonQuery: ["filter[where][postNumber]": "\(postNumber)"])
+                let postId = url.lastPathComponent
+                if !postId.isEmpty {
+                    await viewModel.fetchNotices(jsonQuery: ["filter[where][id]": postId])
                     showNotice = true
                 } else {
-                    print("❌ Unhandled deep link host")
+                    print("❌ Invalid post ID in deep link")
                 }
+            default:
+                print("❌ Unhandled deep link path")
             }
         }
     }
@@ -190,7 +169,7 @@ struct NoticeView: View {
                 ProgressView("Loading...")
             } else {
                 ForEach(viewModel.notices, id: \.id) { notice in
-                    NewsView(deepLink: "consumer.proptoll.com://\(notice.postNumber)",
+                    NewsView(deepLink: "https://consumer.proptoll.com/notice/post/\(notice.id)",
                              title: notice.title,
                              subTitle: notice.subTitle,
                              content: notice.content,

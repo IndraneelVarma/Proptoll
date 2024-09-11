@@ -27,7 +27,6 @@
 		F75370162C64D6D4007BFE92 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370152C64D6D4007BFE92 /* SheetView.swift */; };
 		F75370202C65CC09007BFE92 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F753701F2C65CC09007BFE92 /* NewsView.swift */; };
 		F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */; };
-		F765DFA32C8EF19300408698 /* NoticeScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F765DFA22C8EF19300408698 /* NoticeScrollView.swift */; };
 		F765DFA72C8FFF5E00408698 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F765DFA62C8FFF5E00408698 /* GoogleService-Info.plist */; };
 		F765DFAA2C9002E700408698 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F765DFA92C9002E700408698 /* FirebaseAnalytics */; };
 		F765DFAC2C9002E700408698 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F765DFAB2C9002E700408698 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -53,6 +52,7 @@
 		F765DFD42C9002E700408698 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F765DFD32C9002E700408698 /* FirebaseStorageCombine-Community */; };
 		F765DFD62C9002E700408698 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = F765DFD52C9002E700408698 /* FirebaseVertexAI-Preview */; };
 		F765DFDB2C90372C00408698 /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F765DFDA2C90372C00408698 /* ZoomableImageView.swift */; };
+		F765DFDE2C9041A500408698 /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = F765DFDD2C9041A500408698 /* Zoomable */; };
 		F7729EFC2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFB2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift */; };
 		F7729EFE2C7C4F4B00EE3D6C /* ReceiptsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFD2C7C4F4B00EE3D6C /* ReceiptsModel.swift */; };
 		F7729F002C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7729EFF2C7C52AF00EE3D6C /* ReceiptsCardViewSecondary.swift */; };
@@ -110,7 +110,6 @@
 		F75370152C64D6D4007BFE92 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		F753701F2C65CC09007BFE92 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		F75370222C65D086007BFE92 /* NoticeBoardcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardcardView.swift; sourceTree = "<group>"; };
-		F765DFA22C8EF19300408698 /* NoticeScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeScrollView.swift; sourceTree = "<group>"; };
 		F765DFA62C8FFF5E00408698 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F765DFDA2C90372C00408698 /* ZoomableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageView.swift; sourceTree = "<group>"; };
 		F7729EFB2C7C4F2D00EE3D6C /* ReceiptsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsViewModel.swift; sourceTree = "<group>"; };
@@ -157,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F765DFB22C9002E700408698 /* FirebaseAppDistribution-Beta in Frameworks */,
+				F765DFDE2C9041A500408698 /* Zoomable in Frameworks */,
 				F765DFBE2C9002E700408698 /* FirebaseFirestore in Frameworks */,
 				F765DFB62C9002E700408698 /* FirebaseAuthCombine-Community in Frameworks */,
 				F765DFC82C9002E700408698 /* FirebaseInstallations in Frameworks */,
@@ -311,7 +311,6 @@
 				F753701F2C65CC09007BFE92 /* NewsView.swift */,
 				F7519A1F2C6B5F5B00B02D92 /* NoticeViewModel.swift */,
 				F7519A1B2C6B52DD00B02D92 /* NoticeModel.swift */,
-				F765DFA22C8EF19300408698 /* NoticeScrollView.swift */,
 				F765DFDA2C90372C00408698 /* ZoomableImageView.swift */,
 			);
 			path = Noticeboard;
@@ -437,6 +436,7 @@
 				F765DFD12C9002E700408698 /* FirebaseStorage */,
 				F765DFD32C9002E700408698 /* FirebaseStorageCombine-Community */,
 				F765DFD52C9002E700408698 /* FirebaseVertexAI-Preview */,
+				F765DFDD2C9041A500408698 /* Zoomable */,
 			);
 			productName = Proptoll;
 			productReference = F7FE62E32C633793004049A1 /* Proptoll.app */;
@@ -470,6 +470,7 @@
 				F71391EF2C8B15390078C48A /* XCRemoteSwiftPackageReference "matomo-sdk-ios" */,
 				F71391F52C8B533C0078C48A /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				F765DFA82C9002E700408698 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F765DFDC2C9041A500408698 /* XCRemoteSwiftPackageReference "Zoomable" */,
 			);
 			productRefGroup = F7FE62E42C633793004049A1 /* Products */;
 			projectDirPath = "";
@@ -540,7 +541,6 @@
 				F7AAEC212C8036A1009396E3 /* PaymentsView.swift in Sources */,
 				F7110E1D2C860F6300844186 /* Router.swift in Sources */,
 				F79D5E0A2C6F4F4C008EEABE /* GlobalVariables.swift in Sources */,
-				F765DFA32C8EF19300408698 /* NoticeScrollView.swift in Sources */,
 				F751C1662C63969C00F6B5CE /* BillsView.swift in Sources */,
 				F751C17A2C64BA2500F6B5CE /* HomePageView.swift in Sources */,
 				F75370232C65D086007BFE92 /* NoticeBoardcardView.swift in Sources */,
@@ -786,6 +786,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		F765DFDC2C9041A500408698 /* XCRemoteSwiftPackageReference "Zoomable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryohey/Zoomable.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -913,6 +921,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F765DFA82C9002E700408698 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseVertexAI-Preview";
+		};
+		F765DFDD2C9041A500408698 /* Zoomable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F765DFDC2C9041A500408698 /* XCRemoteSwiftPackageReference "Zoomable" */;
+			productName = Zoomable;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

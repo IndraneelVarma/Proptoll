@@ -31,6 +31,7 @@ extension String {
             attributedString.foregroundColor = .primary
             
             attributedString.runs.forEach { run in
+                
                 if let strokeColor = run.uiKit.strokeColor {
                     if strokeColor.cgColor.colorSpace?.model == .rgb,
                        strokeColor.cgColor.components == [0, 0, 0, 1] {
@@ -45,6 +46,9 @@ extension String {
                     let newFont = font.withSize(15)
                     attributedString[run.range].uiKit.font = newFont
                 }
+                
+                
+                
             }
             
             return attributedString

@@ -19,6 +19,7 @@ struct NoticeBoardcardView: View {
                     Text(notice.title)
                         .font(.headline)
                         .lineLimit(2)
+                        .foregroundColor(.primary)
                     
                     Text(notice.subTitle)
                         .font(.subheadline)
@@ -52,7 +53,7 @@ struct NoticeBoardcardView: View {
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .sheet(isPresented: $isImagePresented) {
+                        .fullScreenCover(isPresented: $isImagePresented) {
                             NavigationView {
                                 ZoomableImageView(imageURL: url, isPresented: $isImagePresented)
                             }
@@ -64,13 +65,12 @@ struct NoticeBoardcardView: View {
                         .lineLimit(2)
                         .foregroundColor(.secondary)
                     
-                    NavigationLink(destination: NewsView(deepLink: "proptollStack://\(notice.postNumber)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "", notice: notice)) {
+                    NavigationLink(destination: NewsView(deepLink: "https://consumer.proptoll.com/notice/post/\(notice.id)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "", notice: notice)) {
                         Text("view full")
                             .italic()
                             .font(.system(size: 12.5))
                     }
                     .simultaneousGesture(TapGesture().onEnded {
-                        print(notice.content)
                         matomoTracker.track(eventWithCategory: "view full", action: "tapped", name: "on notice number \(notice.postNumber)", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
                     })
                     .padding(.top, 5)

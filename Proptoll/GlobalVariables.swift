@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import MatomoTracker
  
-let baseApiUrl = "https://api.proptoll.com/api"
+let baseApiUrl = "https://api.staging.proptoll.com/api"
 var mainSociety = "I.D.P.L. Employees Co-op. Housing Building Society"
 var mainName = UserDefaults.standard.string(forKey: "mainName") ?? "Dummy Name"
 var jwtToken = UserDefaults.standard.string(forKey: "jwtToken") ?? ""//this isnt the one being stored in internal storage. code for that is in OtpView

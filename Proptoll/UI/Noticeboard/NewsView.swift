@@ -7,6 +7,7 @@ struct NewsView: View {
     var content: String
     var image: String?
     let notice: Notice?
+    @State var isImagePresented = false
     @State private var isSharePresented = false
     
     var body: some View {
@@ -57,6 +58,9 @@ struct NewsView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .onTapGesture {
+                                        isImagePresented = true
+                                    }
                             case .failure:
                                 Image(systemName: "photo")
                                     .resizable()
@@ -68,11 +72,20 @@ struct NewsView: View {
                                     .frame(height: 200)
                             }
                         }
+                        .fullScreenCover(isPresented: $isImagePresented) {
+                            NavigationView {
+                                ZoomableImageView(imageURL: imageUrl, isPresented: $isImagePresented)
+                            }
+                        }
                     } else {
                         //fallback if no image
                     }
+                    
+                    
                     Text(classToStyle(content).htmlToAttributedString() ?? "")
                         .padding()
+                    
+                    
                 }
                 .padding()
             }

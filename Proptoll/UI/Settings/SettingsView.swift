@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var changeTheme = false
-    @State private var isNotificationOn = false
+    @State private var isNotificationOn = UserDefaults.standard.bool(forKey: "notis")
     @Environment(\.colorScheme) private var scheme
     @EnvironmentObject var router: Router
     @State private var showCookie = false
@@ -90,6 +90,9 @@ struct SettingsView: View {
                             .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                             .tint(.orange)
                             .foregroundStyle(.primary)
+                            .onChange(of: isNotificationOn) { oldValue, newValue in
+                                UserDefaults.standard.set(isNotificationOn, forKey: "notis")
+                            }
                         
                     }
                     .background(Color(UIColor.systemGray4) )

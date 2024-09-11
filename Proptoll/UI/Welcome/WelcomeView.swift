@@ -56,6 +56,7 @@ struct WelcomeView: View {
         })
         .onAppear(){
             matomoTracker.track(view: ["Welcome Page"])
+            UserDefaults.standard.set(true, forKey: "notis")
             DispatchQueue.main.asyncAfter(deadline: .now() + 5){
                 fetching = false
             }

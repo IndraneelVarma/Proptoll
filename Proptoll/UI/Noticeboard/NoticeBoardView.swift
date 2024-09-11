@@ -135,8 +135,14 @@ struct NoticeBoardView: View {
                             VStack(spacing: 16) {
                                 ForEach(viewModel.notices, id: \.id) { notice in
                                     if cardCategoryId.isEmpty || cardCategoryId.contains(notice.noticeCategoryId) {
-                                        NoticeBoardcardView(notice: notice)
-                                            .padding(.horizontal)
+                                        NavigationLink(destination: NewsView(deepLink: "https://consumer.proptoll.com/notice/post/\(notice.id)", title: notice.title, subTitle: notice.subTitle, content: notice.content, image: notice.attachments?.first?.s3ResourceUrl ?? "", notice: notice))
+                                        {
+                                            NoticeBoardcardView(notice: notice)
+                                                .padding(.horizontal)
+                                        }
+                                        .simultaneousGesture(TapGesture().onEnded {
+                                            matomoTracker.track(eventWithCategory: "view full", action: "tapped", name: "on notice number \(notice.postNumber)", url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
+                                        })
                                     }
                                 }
                             }
