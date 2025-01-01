@@ -12,32 +12,40 @@ struct ProfileCardView: View {
     var mainText: String
     var subText: String
     var body: some View {
-        HStack{
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 30)
-                .padding()
-                .foregroundStyle(.orange)
-            VStack(alignment: .leading){
+        VStack{
+            HStack{
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 22.5)
+                    .padding()
+                    .foregroundStyle(.primary)
+                    
+                
                 Text(mainText)
-                    .font(.title)
-                    .bold()
+                    .font(.custom("Montserrat-Regular", size: 16))
                     .foregroundStyle(.primary)
-                Text(subText)
-                    .font(.system(size: 13))
+                
+                Spacer()
+                
+                Circle()
+                    .frame(width: 1, height: 1)
+                    .foregroundStyle(.green)
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 22.5)
+                    .padding()
                     .foregroundStyle(.primary)
-                HStack{
-                    RoundedRectangle(cornerRadius: 10)
-                }
-                .frame(maxWidth: .infinity, maxHeight: 2)
             }
-            Spacer()
+            
+            Divider()
+                .padding(.horizontal, 20)
         }
-        .background(Color(UIColor.systemGray4) )
     }
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(showSettings: .constant(true))
 }

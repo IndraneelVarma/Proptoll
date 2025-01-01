@@ -11,6 +11,7 @@ struct OTPResponse: Codable {
     let message: String
     let name: String
     let token: String
+    let id: String
 }
 struct ResendResponse: Codable
 {

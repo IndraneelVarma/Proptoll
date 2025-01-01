@@ -6,30 +6,36 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct ContentView: View {
     @EnvironmentObject var router: Router
+    @StateObject private var userDefaultsMonitor = UserDefaultsMonitor()
+
     var body: some View {
         NavigationStack(path: $router.path){
             ZStack{
-                let token = UserDefaults.standard.string(forKey: "jwtToken")
-                if(token == nil)
+                if !userDefaultsMonitor.loggedIn
                 {
                     LoginView()
                 }
                 else
                 {
-                    HomePageView()
+                    if UserDefaults.standard.string(forKey: "appVersion") != Bundle.main.releaseVersionNumber || RealmManager.shared.realm.isEmpty {
+                        WelcomeView()
+                    } // to maintain data consistency.
+                    else {
+                        HomePageView()
+                    }
                 }
             }
-            .onAppear(){
-                print(jwtToken)
-            }
+            
         }
         
         
         
     }
+
     
 }
 

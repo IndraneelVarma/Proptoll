@@ -1,45 +1,57 @@
-//
-//  TopBar.swift
-//  Proptoll
-//
-//  Created by Indraneel Varma on 16/08/24.
-//
-
 import SwiftUI
 
 struct TopBarView: View {
-    @Binding var showSheet: Bool
-    @StateObject var viewModel = ProfileViewModel()
+    @State private var unitNumber = UserDefaults.standard.string(forKey: "selectedUnitNumber") ?? "0"
+    @State private var unitName = ""
+    @State private var showSheet = false
+    
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(Color.purple)
-            .frame(width: 370, height: 30)
+      //  if UserDefaults.standard.integer(forKey: "ownerCount") > 1 //activate this condition if want to show switcher for only multiple units users
+        RoundedRectangle(cornerRadius: 50)
+            .fill(.plotBar)
+            .frame(width: UIScreen.main.bounds.width * 0.925, height: 30)
             .overlay(
-                HStack{
+                HStack {
+                    Spacer()
+                    Text("Plot \(unitNumber)")
+                        .foregroundStyle(.specialText)
+                        .font(.custom("Montserrat-Medium", size: 16))
+                    Text(UserDefaults.standard.string(forKey: "organization") ?? "")
+                        .foregroundStyle(.specialText)
+                        .font(.custom("Montserrat-Regular", size: 16))
                     Image(systemName: "chevron.down")
-                        .foregroundStyle(.white)
-                    Text("Plot No. \(viewModel.profile.first?.plotNumber ?? "xxxx")")
-                        .foregroundStyle(.white)
-                        .fontWeight(.bold)
-                    Text("I.D.P.L. Employees Co-op. ")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.specialText)
+                    Spacer()
                 }
-                    .frame(width:330, alignment: .leading)
+                    .frame(width: 330, alignment: .leading)
             )
-            .onAppear(){
-                Task{
-                    await viewModel.fetchProfile(jsonQuery: [:])
-                }
-                
+            .sheet(isPresented: $showSheet) {
+                UnitsView(unitNumber: $unitNumber)
+                    .presentationDetents([.fraction(0.5)])
             }
             .padding(EdgeInsets(top: 15, leading: 10, bottom: 10, trailing: 10))
             .onTapGesture {
-                showSheet.toggle()
+                showSheet = true
             }
+            .onAppear {
+                updateUnitInfo()
+            }
+            .onChange(of: UserDefaults.standard.string(forKey: "selectedUnitNumber")) { _ in
+                updateUnitInfo()
+            }
+    
     }
     
-}
-
-#Preview {
-    TopBarView(showSheet: .constant(false))
+    private func updateUnitInfo() {
+        unitNumber = UserDefaults.standard.string(forKey: "selectedUnitNumber") ?? ""
+        
+      /*  // Alternatively, you could fetch the unit name from Realm if needed
+        if let unitId = UserDefaults.standard.string(forKey: "selectedUnitId"),
+           let owner = RealmManager.shared.getAllOwners().first(where: { owner in
+               return RealmManager.shared.getUnit(forOwnerId: owner.id)?.id == unitId
+           }),
+           let unit = RealmManager.shared.getUnit(forOwnerId: owner.id) {
+            unitName = unit.unitName
+        } */
+    }
 }

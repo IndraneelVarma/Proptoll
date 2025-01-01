@@ -10,14 +10,15 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var text: String
     @Binding var isSearching: Bool
-    @State private var isEditing = false
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         HStack {
             TextField("Search...", text: $text)
+                .focused($isTextFieldFocused)
                 .padding(7)
                 .padding(.horizontal, 25)
-                .background(Color(.systemGray6))
+                .background(.mainTheme)
                 .cornerRadius(8)
                 .overlay(
                     HStack {
@@ -37,18 +38,13 @@ struct SearchBar: View {
                         }
                     }
                 )
-                .onTapGesture {
-                    withAnimation {
-                        self.isEditing = true
-                    }
-                }
+                
             
-            if isEditing {
+            
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         self.isSearching = false
                         self.text = ""
-                        self.isEditing = false
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     }
                 }) {
@@ -56,9 +52,11 @@ struct SearchBar: View {
                 }
                 .padding(.trailing, 10)
                 .transition(.move(edge: .trailing).combined(with: .opacity))
-            }
+            
         }
-        .animation(.easeInOut(duration: 0.2), value: isEditing)
+        .onAppear(){
+            isTextFieldFocused = true
+        }
     }
 }
 

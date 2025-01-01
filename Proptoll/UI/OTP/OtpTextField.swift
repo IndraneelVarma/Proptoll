@@ -25,9 +25,9 @@ struct OtpTextField: View {
                     .keyboardType(.numberPad) // Set keyboard type to number pad
                     .multilineTextAlignment(.center) // Center the text as it's entered
                     .padding()
-                    .background(Color(UIColor.systemGray4) .opacity(0.2)) // Light gray background
+                    .background(Color(UIColor.systemGray) .opacity(0.2)) // Light gray background
                     .cornerRadius(10) // Rounded corners
-                    .onChange(of: otp) {
+                    .onChange(of: otp) { _ in
                         formatEnteredText()
                     }
             }

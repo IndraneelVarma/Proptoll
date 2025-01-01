@@ -1,43 +1,49 @@
 import Foundation
-import Combine
 
+@MainActor
 class PaymentsViewModel: ObservableObject {
     @Published var paymentHtml: String = "empty"
     @Published var error: String?
     
-    private var cancellables = Set<AnyCancellable>()
     private let apiService: MainApiCall
     
     init(apiService: MainApiCall = MainApiCall(httpMethod: "POST")) {
         self.apiService = apiService
     }
     
-    func postPayRequest(jsonQuery: [String: Any], amount: Int) async{
-        await apiService.getData3(endpoint: "initiateTransaction", body: [
-            "amount": amount,
-            "billing_name": mainName,
-            "billing_tel": mainPhoneNumber,
-            "merchant_param1": billId,
-            "merchant_param2": "2001",
-            "merchant_param5": "Native"
-        ])
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] completion in
-            switch completion {
-            case .finished:
-                break
-            case .failure(let error):
-                self?.error = error.localizedDescription
-                matomoTracker.track(eventWithCategory: "payments api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
-            }
-        } receiveValue: { [weak self] data in
+    func postPayRequest(jsonQuery: [String: Any], amount: Int, accountId: String) async {
+        // Clear previous errors
+        error = nil
+        
+        do {
+            let requestBody: [String: Any] = [
+                "amount": amount,
+                "billing_name": UserDefaults.standard.string(forKey: "mainName") ?? "",
+                "billing_tel": UserDefaults.standard.string(forKey: "mainPhoneNumber") ?? "",
+                "merchant_param1": accountId,
+                "merchant_param2": UserDefaults.standard.string(forKey: "selectedUnitNumber") ?? "xxx",
+                "merchant_param5": "IOS"
+            ]
+            
+            let data = try await apiService.getData3(
+                endpoint: "initiateTransaction",
+                body: requestBody
+            )
+            
             if let htmlString = String(data: data, encoding: .utf8) {
-                self?.paymentHtml = htmlString
-                print("Received HTML: \(htmlString.prefix(100))...") // Print first 100 characters
+                self.paymentHtml = htmlString
             } else {
-                self?.error = "Failed to decode HTML response"
+                self.error = "Failed to decode HTML response"
             }
+            
+        } catch {
+            self.error = error.localizedDescription
+            matomoTracker.track(
+                eventWithCategory: "payments api",
+                action: "error",
+                name: "Error: \(self.error ?? "")",
+                url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!
+            )
         }
-        .store(in: &cancellables)
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import WebKit
+@preconcurrency import WebKit
 import UIKit
 
 struct HTMLView: UIViewRepresentable {

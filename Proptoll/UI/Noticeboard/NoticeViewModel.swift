@@ -1,11 +1,10 @@
 import Foundation
-import Combine
 
+@MainActor
 class NoticeViewModel: ObservableObject {
     @Published var notices: [Notice] = []
     @Published var error: String?
     
-    private var cancellables = Set<AnyCancellable>()
     private let apiService: MainApiCall
     
     init(apiService: MainApiCall = MainApiCall(httpMethod: "GET")) {
@@ -13,57 +12,86 @@ class NoticeViewModel: ObservableObject {
     }
     
     func fetchNotices(jsonQuery: [String: Any]) async {
-        await apiService.getData(endpoint: "notice-post", jsonQuery: jsonQuery)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.error = error.localizedDescription
-                    matomoTracker.track(eventWithCategory: "notice api", action: "error", name: "Error: \(self?.error ?? "")" ,url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!)
-                }
-            } receiveValue: { [weak self] (notices: [Notice]) in
-                DispatchQueue.main.async {
-                    self?.notices = notices
-                }
+        error = nil
+        
+        do {
+            let fetchedNotices: [Notice] = try await apiService.getData(
+                endpoint: "notice-post",
+                jsonQuery: jsonQuery
+            )
+            
+            self.notices = fetchedNotices
+            if self.notices.isEmpty {
+                self.error = "empty"
             }
-            .store(in: &cancellables)
+            
+        } catch {
+            self.error = error.localizedDescription
+            matomoTracker.track(
+                eventWithCategory: "notice api",
+                action: "error",
+                name: "Error: \(self.error ?? "")",
+                url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!
+            )
+        }
     }
     
+    func fetchMoreNotices(jsonQuery: [String: Any]) async {
+        do {
+            let newNotices: [Notice] = try await apiService.getData(
+                endpoint: "notice-post",
+                jsonQuery: jsonQuery
+            )
+            
+            self.notices.append(contentsOf: newNotices)
+            
+        } catch {
+            self.error = error.localizedDescription
+            matomoTracker.track(
+                eventWithCategory: "notice api",
+                action: "error",
+                name: "Error: \(self.error ?? "")",
+                url: URL(string: "https://metapointer.matomo.cloud/matomo.php")!
+            )
+        }
+    }
     
     func filteredNotices(searchText: String) async {
-        if !searchText.isEmpty {
-            let jsonQuery: [String: Any]
-            let jsonQuery2: [String: Any]
-            let check = searchText.allSatisfy{ $0.isNumber }
-            if check {
-                jsonQuery = [
-                    "filter[order]": "id DESC",
-                    "filter[limit]": 50,
-                    "filter[offset]": 0,
-                    "filter[where][postNumber]": searchText,
-                ]
-                jsonQuery2 = ["filter[limit]": 0]
-            } else {
-                jsonQuery = [
-                    "filter[order]": "id DESC",
-                    "filter[limit]": 50,
-                    "filter[offset]": 0,
-                    "filter[where][title][like]": searchText,
-                ]
-                jsonQuery2 = [
-                    "filter[order]": "id DESC",
-                    "filter[limit]": 50,
-                    "filter[offset]": 0,
-                    "filter[where][subTitle][like]": searchText,
-                ]
-            }
-            DispatchQueue.main.async {
-                self.notices.removeAll()
-            }
-            await fetchNotices(jsonQuery: jsonQuery)
-            await fetchNotices(jsonQuery: jsonQuery2)
+        guard !searchText.isEmpty else { return }
+        
+        let jsonQuery: [String: Any]
+        let check = searchText.allSatisfy { $0.isNumber }
+        
+        if check {
+            jsonQuery = [
+                "filter[order]": "id DESC",
+                "filter[limit]": 20,
+                "filter[offset]": 0,
+                "filter[where][postNumber]": searchText,
+                "filter[include][0][relation]": "noticeActivityLogs",
+                "filter[where][noticeStatus]": 2
+            ]
+        } else {
+            let searchText2 = searchText.trimmingCharacters(in: .whitespaces)
+            let searchText3 = searchText2.capitalized
+            jsonQuery = [
+                "filter[order]": "id DESC",
+                "filter[limit]": 20,
+                "filter[offset]": 0,
+                "filter[where][or][0][title][like]": searchText2,
+                "filter[where][or][1][subTitle][like]": searchText2,
+                "filter[where][or][2][title][like]": searchText3,
+                "filter[where][or][3][subTitle][like]": searchText3,
+                "filter[include][0][relation]": "noticeActivityLogs",
+                "filter[where][noticeStatus]": 2
+            ]
         }
+        
+        clearNotices()
+        await fetchNotices(jsonQuery: jsonQuery)
+    }
+    
+    func clearNotices() {
+        self.notices.removeAll()
     }
 }

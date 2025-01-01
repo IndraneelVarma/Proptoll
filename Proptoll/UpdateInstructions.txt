@@ -1,0 +1,10 @@
+
+1  Change App version and Build version
+
+2  If database schema changed then increment both owner and unit realm schemaVersion
+
+3  Change all api environments to production (mainUrl, sentry, etc...)
+
+4 Force Update Enforcement or not
+
+5 comment out all //prints

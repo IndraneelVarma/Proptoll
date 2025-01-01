@@ -8,13 +8,13 @@ struct InfoRow: View {
     var body: some View {
         HStack {
             Text(title)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                .font(.custom("Montserrat-Regular", size: 13))
+                .foregroundColor(.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             Spacer()
             Text(value)
-                .font(.subheadline)
+                .font(.custom("Montserrat-Regular", size: 13))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
         }
@@ -44,7 +44,7 @@ struct ProfessionalTableView: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color(UIColor.systemGray4).opacity(0.3), lineWidth: 1)
+                .stroke(.primary, lineWidth: 0.5)
         )
     }
 }
@@ -57,15 +57,15 @@ struct CellView: View {
         Text(text)
             .padding(.horizontal, 4)
             .padding(.vertical, 6)
-            .frame(maxWidth: .infinity, minHeight: 30, alignment: .trailing)
-            .background(isHeader ? Color(UIColor.systemGray5) : Color(UIColor.systemBackground))
-            .foregroundColor(isHeader ? .primary : .secondary)
-            .font(.system(size: 12, weight: isHeader ? .semibold : .regular))
+            .frame(maxWidth: .infinity, minHeight: 30, alignment: isHeader ? .center : .trailing)
+            .background(isHeader ? .lavender500 : .clear)
+            .foregroundColor(.primary)
+            .font(.custom(isHeader ? "Montserrat-Medium" :"Montserrat-Regular", size: 12))
             .lineLimit(1)
             .minimumScaleFactor(0.5)
             .overlay(
                 Rectangle()
-                    .stroke(Color(UIColor.systemGray4).opacity(0.3), lineWidth: 0.5)
+                    .stroke(.bluePurple, lineWidth: 0.5)
             )
     }
 }

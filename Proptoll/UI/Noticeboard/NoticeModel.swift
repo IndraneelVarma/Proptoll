@@ -8,6 +8,7 @@ struct Notice: Codable, Hashable, Identifiable, Equatable {
     let subTitle: String
     let noticeCategoryId: Int
     let createdAt: String
+    let updatedAt: String
     let postNumber: Int
     let attachments: [Attachment]?
 }
